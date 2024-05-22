@@ -1,0 +1,94 @@
+name: Feature Drop
+description: Removal of a whole feature (or its remains)
+title: "[Feature Drop] kebap-cased-feature-name"
+labels: ["Type: Feature Drop"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### How to use this issue form
+
+        Look for the **original issue** that introduced the feature you want to remove and use its feature name as the issue title.
+
+        <details>
+          <summary><b>
+            Click here if you followed the instructions for a drastic feature change
+          </b></summary>
+          
+          Please ensure you have followed **all** instructions for creating the new *feature request*.
+          Here is what you must do inside this *feature drop request*:<br/>
+          1. Choose the *feature drop request* title as usual.
+          2. State and explain your **replacement** plans instead of only writing about a *pure* drop.
+          3. Link the *original issue* as well as your new *feature request* inside the *"Related Issues"* section.
+
+        </details>
+
+        All text areas support markdown syntax unless explicitly noted otherwise.
+
+        <details>
+          <summary><b>
+            Click here for: Information for contributors about label usage
+          </b></summary>
+          
+          - select *any number* of fitting labels that have a `Flag: ` prefix
+          - select *any number* of fitting labels that have a `For: ` prefix
+          - **never** add, remove, or change any associations (or the lack thereof) between an issue and label that has a `Type: ` prefix
+          - there are no priority and size labels, they get set via GitHub project issue attributes instead
+
+          Look at the label descriptions to grasp their proper usage and pick the most fitting.
+          If more than one `Type: ` label fits the issue, it is a good indicator that the issue mixes concerns.
+          You should then split this issue into multiple issues so that each new issue falls **exactly into one** category.
+
+        </details>
+
+        ---
+  - type: textarea
+    id: problem-motivation
+    attributes:
+      label: Problem/Motivation
+      description: Describe your problem or motivation that caused your feature drop request as detailed as possible.
+      placeholder: Why should the feature be dropped? Is it too complicated? Is it not needed? Is its functionality already covered by another feature? Is it going to be replaced by another feature?
+    validations:
+      required: true
+  - type: textarea
+    id: solution-proposal
+    attributes:
+      label: Solution Proposal
+      description: Describe the solution that you have in mind as detailed as possible.
+      placeholder: What needs to be removed to drop the whole feature (or its remains)? Should it be replaced by another feature, and if yes, which one?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Describe potential side effects of your solution proposal, which could cause follow-up issues (in particular feature changes or feature drops), to the best of your knowledge.
+      placeholder: Could my solution proposal cause other problems?
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Specify the acceptance criteria as a task list that contains one or more entries.
+      placeholder: |
+        - [ ] Do this
+        - [ ] Do that
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: further-information
+    attributes:
+      label: Further Information
+      description: Add additional helpful, issue-related information, such as, links, screenshots, sketches, considerations, thoughts, etc.
+      placeholder: Helpful information
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related Issues
+      description: Add a bullet point list of related issues that contains one or more entries. It has to contain, at least, the original issue that introduced the feature you want to remove.
+      placeholder: |
+        - #42
+        - #73
+        ...
+    validations:
+      required: true
