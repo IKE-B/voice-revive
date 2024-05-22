@@ -1,0 +1,96 @@
+name: Documentation
+description: Improvements to the documentation suite, as well as documentation pages and code comments
+title: "[Documentation] kebap-cased-issue-name"
+labels: ["Type: Documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### How to use this issue form
+
+        <details>
+          <summary><b>
+            Click here for: How to handle multiple little documentation improvement suggestions in a single issue
+          </b></summary>
+          
+          If there are *multiple little improvement suggestions*, you can mention them bundled within a *single issue* because the effort of writing issues should not drastically surpass the effort of resolving them.<br/>
+          Make sure to present each improvement **distinctly** from the rest and to use the **same order** of refinements in each section when bundling multiple improvements inside one issue.<br/>
+          However, create a **separate issue** for each issue that is concerned with the *documentation suite* itself.
+
+        </details>
+
+        All text areas support markdown syntax unless explicitly noted otherwise.
+
+        <details>
+          <summary><b>
+            Click here for: Information for contributors about label usage
+          </b></summary> 
+          
+          - select *any number* of fitting labels that have a `Flag: ` prefix
+          - select *any number* of fitting labels that have a `For: ` prefix
+          - **never** add, remove, or change any associations (or the lack thereof) between an issue and label that has a `Type: ` prefix
+          - there are no priority and size labels, they get set via GitHub project issue attributes instead
+
+          Look at the label descriptions to grasp their proper usage and pick the most fitting.
+          If more than one `Type: ` label fits the issue, it is a good indicator that the issue mixes concerns.
+          You should then split this issue into multiple issues so that each new issue falls **exactly into one** category.
+
+        </details>
+
+        ---
+  - type: textarea
+    id: object-of-interest
+    attributes:
+      label: Object of Interest
+      description: Describe the documentation (suite) parts that require overwork as specifical as possible.
+      placeholder: Where is the documentation, or where are code comments wrong/missing? Where could the documentation suite be improved?
+    validations:
+      required: true
+  - type: textarea
+    id: problem-motivation
+    attributes:
+      label: Problem/Motivation
+      description: Describe your problem or motivation that caused your documentation request as detailed as possible.
+      placeholder: Why does the documentation, or why do code comments seem wrong/incomplete? Why does the documentation suite need improvement?
+    validations:
+      required: true
+  - type: textarea
+    id: solution-proposal
+    attributes:
+      label: Solution Proposal
+      description: If it is about the documentation suite, describe the solution that you have in mind as detailed as possible. Otherwise, write how you would update the documentation/code comments or at least name the essential points.
+      placeholder: How would you formulate the documentation/code comments? How could the documentation suite be improved?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Describe potential side effects of your solution proposal, which could cause follow-up issues (usually only relevant when suggesting changes to the documentation suite), to the best of your knowledge.
+      placeholder: Could my solution proposal cause other problems?
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Specify the acceptance criteria as a task list that contains one or more entries.
+      placeholder: |
+        - [ ] Do this
+        - [ ] Do that
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: further-information
+    attributes:
+      label: Further Information
+      description: Add additional helpful, issue-related information, such as, links, screenshots, sketches, considerations, thoughts, etc.
+      placeholder: Helpful information
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related Issues
+      description: Add a bullet point list of other related issues, in case there are any. In particular, the issue(s) (if you can narrow it/them down) that introduced the need for a documentation request would be helpful.
+      placeholder: |
+        - #42
+        - #73
+        ...

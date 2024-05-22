@@ -1,0 +1,83 @@
+name: Maintenance
+description: Refactor specifically concerning adaption to updates of dependencies, target platforms, etc.
+title: "[Maintenance] kebap-cased-issue-name"
+labels: ["Type: Maintenance"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### How to use this issue form
+
+        All text areas support markdown syntax unless explicitly noted otherwise.
+
+        <details>
+          <summary><b>
+            Click here for: Information for contributors about label usage
+          </b></summary>
+          
+          - select *any number* of fitting labels that have a `Flag: ` prefix
+          - select *any number* of fitting labels that have a `For: ` prefix
+          - **never** add, remove, or change any associations (or the lack thereof) between an issue and label that has a `Type: ` prefix
+          - there are no priority and size labels, they get set via GitHub project issue attributes instead
+
+          Look at the label descriptions to grasp their proper usage and pick the most fitting.
+          If more than one `Type: ` label fits the issue, it is a good indicator that the issue mixes concerns.
+          You should then split this issue into multiple issues so that each new issue falls **exactly into one** category.
+
+        </details>
+
+        ---
+  - type: textarea
+    id: object-of-interest
+    attributes:
+      label: Object of Interest
+      description: Describe the parts that require maintenance as specifical as possible.
+      placeholder: Which packages/libraries/tools/etc. are outdated/need updates/have to be reconfigured/etc.?
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason
+      description: Describe why the mentioned parts require maintenance as detailed as possible.
+      placeholder: What released a new version/update (with breaking changes)? Did they release new, useful, project-relevant features? Was it a security update?
+    validations:
+      required: true
+  - type: textarea
+    id: solution-proposal
+    attributes:
+      label: Solution Proposal
+      description: Describe the solution that you have in mind as detailed as possible.
+      placeholder: To which version should which parts be upgraded? How should which parts be reconfigured?
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Describe potential side effects of your solution proposal, which could cause follow-up issues (in particular maintenance requests), to the best of your knowledge.
+      placeholder: Could my solution proposal cause other problems?
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Specify the acceptance criteria as a task list that contains one or more entries.
+      placeholder: |
+        - [ ] Do this
+        - [ ] Do that
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: further-information
+    attributes:
+      label: Further Information
+      description: Add additional helpful, issue-related information, such as, links, screenshots, sketches, considerations, thoughts, etc.
+      placeholder: Helpful information
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related Issues
+      description: Add a bullet point list of other related issues, in case there are any.
+      placeholder: |
+        - #42
+        - #73
+        ...
