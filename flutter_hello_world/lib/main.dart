@@ -35,11 +35,14 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
 
     return Scaffold(
-      body: Column(
-        children: [
-          Text('HELLO WORLD!'),
-          Text(appState.current.asLowerCase),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('HELLO WORLD!'),
+            Text(appState.current.asLowerCase),
+          ],
+        ),
       ),
     );
   }
