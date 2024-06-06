@@ -3,6 +3,15 @@
         android:label="revoiceme"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- #############################################################-->
+        <!-- This section grants permission for audio recording, modifying audio settings and write to external storage-->
+        <!-- TODO: this should later be prompted to user to ask for permissions!-->
+        <uses-permission android:name="android.permission.RECORD_AUDIO" />
+        <!-- Optional: Add this permission if you want to use bluetooth telephony device like headset/earbuds -->
+        <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+        <!-- Optional: Add this permission if you want to save your recordings in public folders -->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <!-- #############################################################-->
         <activity
             android:name=".MainActivity"
             android:exported="true"
