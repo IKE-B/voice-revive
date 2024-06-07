@@ -1,4 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:record/record.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,21 +17,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -55,36 +44,74 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  late AudioPlayer audioPlayer;
+  late AudioRecorder audioRecorder;
+  bool isRecording = false;
+  String audioPath = '';
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    audioRecorder = AudioRecorder();
+    audioPlayer = AudioPlayer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    audioRecorder.dispose();
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  Future<void> startRecording() async{
+    try{
+      if(await audioRecorder.hasPermission()){
+        final tempDir = await getTemporaryDirectory();
+        await audioRecorder.start(const RecordConfig(), path: '${tempDir.path}/temp-audio.m4a');
+        setState(() {
+          isRecording = true;
+        });
+      }
+    }
+    catch(e){
+      if (kDebugMode) {
+        print('Error Start Recording: $e');
+      }
+    }
+  }
+
+  Future<void> stopRecording() async{
+    try{
+      String? path = await audioRecorder.stop();
+      setState(() {
+        isRecording = false;
+        audioPath = path!;
+      });
+    }
+    catch(e){
+      if (kDebugMode) {
+        print('Error Stopping Recording: $e');
+      }
+    }
+  }
+
+  Future<void> playRecording() async{
+    try{
+      Source urlSource = UrlSource(audioPath);
+      await audioPlayer.play(urlSource);
+    }
+    catch(e){
+      if (kDebugMode) {
+        print('Error playing Recording: $e');
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: const Text('ReVoiceMe')
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -105,21 +132,30 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            if(isRecording)
+              const Text(
+                'Recording in Progress',
+                style: TextStyle(
+                  fontSize: 20
+                )
+              ),
+            ElevatedButton(
+              onPressed: isRecording ? stopRecording : startRecording,
+              child: isRecording ? const Text('Stop Recording') : const Text('Start Recording')
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+
+            const SizedBox(
+              height: 25,
             ),
-          ],
+
+            if(!isRecording && audioPath != '')
+            ElevatedButton(
+              onPressed: playRecording,
+              child: const Text('Play Recording')
+            ),
+          ]
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
