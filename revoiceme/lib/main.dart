@@ -1,160 +1,113 @@
-import 'package:flutter/foundation.dart';
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:record/record.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Real-time Voice Amplifier'),
+        ),
+        body: VoiceAmplifier(),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class VoiceAmplifier extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _VoiceAmplifierState createState() => _VoiceAmplifierState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  late AudioPlayer audioPlayer;
-  late AudioRecorder audioRecorder;
-  bool isRecording = false;
-  String audioPath = '';
+class _VoiceAmplifierState extends State<VoiceAmplifier> {
+  final FlutterSoundPlayer _player = FlutterSoundPlayer();
+  final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  bool _isRecording = false;
 
   @override
   void initState() {
-    audioRecorder = AudioRecorder();
-    audioPlayer = AudioPlayer();
     super.initState();
+    _initializeAudioSessions();
+  }
+
+  Future<void> _initializeAudioSessions() async {
+    // Request microphone permission
+    var status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      throw RecordingPermissionException("Microphone permission not granted");
+    }
+
+    await _player.openPlayer();
+    await _recorder.openRecorder();
   }
 
   @override
   void dispose() {
-    audioRecorder.dispose();
-    audioPlayer.dispose();
+    _player.closePlayer();
+    _recorder.closeRecorder();
     super.dispose();
   }
 
-  Future<void> startRecording() async{
-    try{
-      if(await audioRecorder.hasPermission()){
-        final tempDir = await getTemporaryDirectory();
-        await audioRecorder.start(const RecordConfig(), path: '${tempDir.path}/temp-audio.m4a');
-        setState(() {
-          isRecording = true;
-        });
+  Future<void> _startAmplifying() async {
+    if (_isRecording) return;
+
+    final _streamController = StreamController<Food>.broadcast();
+
+    _streamController.stream.listen((food) {
+      if (_player.isPlaying) {
+        _player.foodSink!.add(food);
       }
-    }
-    catch(e){
-      if (kDebugMode) {
-        print('Error Start Recording: $e');
-      }
-    }
+    });
+
+    await _player.startPlayerFromStream(
+      codec: Codec.pcm16,
+      numChannels: 1,
+      sampleRate: 44100,
+    );
+
+    await _recorder.startRecorder(
+      toStream: _streamController,
+      codec: Codec.pcm16,
+      sampleRate: 44100,
+      numChannels: 1,
+    );
+
+    setState(() {
+      _isRecording = true;
+    });
   }
 
-  Future<void> stopRecording() async{
-    try{
-      String? path = await audioRecorder.stop();
-      setState(() {
-        isRecording = false;
-        audioPath = path!;
-      });
-    }
-    catch(e){
-      if (kDebugMode) {
-        print('Error Stopping Recording: $e');
-      }
-    }
-  }
+  Future<void> _stopAmplifying() async {
+    if (!_isRecording) return;
 
-  Future<void> playRecording() async{
-    try{
-      Source urlSource = UrlSource(audioPath);
-      await audioPlayer.play(urlSource);
-    }
-    catch(e){
-      if (kDebugMode) {
-        print('Error playing Recording: $e');
-      }
-    }
+    await _recorder.stopRecorder();
+    await _player.stopPlayer();
+
+    setState(() {
+      _isRecording = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ReVoiceMe')
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if(isRecording)
-              const Text(
-                'Recording in Progress',
-                style: TextStyle(
-                  fontSize: 20
-                )
-              ),
-            ElevatedButton(
-              onPressed: isRecording ? stopRecording : startRecording,
-              child: isRecording ? const Text('Stop Recording') : const Text('Start Recording')
-            ),
-
-            const SizedBox(
-              height: 25,
-            ),
-
-            if(!isRecording && audioPath != '')
-            ElevatedButton(
-              onPressed: playRecording,
-              child: const Text('Play Recording')
-            ),
-          ]
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: _isRecording ? _stopAmplifying : _startAmplifying,
+            child: Text(_isRecording ? 'Stop Amplifying' : 'Start Amplifying'),
+          ),
+        ],
       ),
     );
   }
