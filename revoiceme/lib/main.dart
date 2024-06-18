@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 void main() {
@@ -210,10 +209,36 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
             // wireframe for each widget.
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ElevatedButton(
-                onPressed: _isRecording ? _stopAmplifying : _startAmplifying,
-                child:
-                    Text(_isRecording ? 'Stop Amplifying' : 'Start Amplifying'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 25.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Starte ReVoiceMe:',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed:
+                          _isRecording ? _stopAmplifying : _startAmplifying,
+                      tooltip: 'Beginne deine Stimmveränderung',
+                      icon: _isRecording
+                          ? Icon(Icons.pause_circle)
+                          : Icon(Icons.not_started),
+                      color: _isRecording
+                          ? Theme.of(context).iconTheme.color
+                          : Colors.green,
+                      iconSize: 72,
+                    ), // This trailing comma makes auto-formatting nicer for build methods.
+                    Text(
+                      _isRecording
+                          ? 'Stimmveränderung wird durchgeführt.'
+                          : 'Stimmveränderung nicht aktiviert.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50.0),
@@ -223,7 +248,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                     const Text(
                       'Lautstärke ',
                       style: TextStyle(
-                        fontSize: 24, // Adjust this value based on switch size
+                        fontSize: 24,
                       ),
                     ),
                     Switch(
@@ -264,3 +289,5 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     );
   }
 }
+
+class 
