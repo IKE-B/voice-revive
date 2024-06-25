@@ -301,6 +301,8 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                       onChanged: _changeVolumeDevice,
                       min: 0.0,
                       max: 1.0,
+                      divisions: 50,
+                      label: _currentDeviceVolume.round().toString(),
                     ),
                     IconButton(
                       icon: Icon(Icons.add),
@@ -345,6 +347,8 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                       onChanged: _changeVolumeAudio,
                       min: 0.0,
                       max: _maxAudioVolume,
+                      divisions: 50,
+                      label: _currentAudioVolume.toStringAsFixed(1),
                     ),
                     IconButton(
                       icon: Icon(Icons.add),
