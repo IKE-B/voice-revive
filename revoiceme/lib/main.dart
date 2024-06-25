@@ -47,9 +47,9 @@ class VoiceAmplifier extends StatefulWidget {
 class _VoiceAmplifierState extends State<VoiceAmplifier> {
   final FlutterSoundPlayer _player = FlutterSoundPlayer();
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
-  bool _isRecording = false;
-  bool _isToggled = false;
-  double _currentVolume = 0.5;
+  bool _isAmplifying = false;
+  bool _isDeviceVolumeActive = false;
+  double _currentDeviceVolume = 0.5;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
         print('Volume changed: $volume');
       }
       setState(() {
-        _currentVolume = volume;
+        _currentDeviceVolume = volume;
       });
     });
     VolumeController().showSystemUI = true;
@@ -89,7 +89,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
   Future<void> _initVolume() async {
     double volume = await VolumeController().getVolume();
     setState(() {
-      _currentVolume = volume;
+      _currentDeviceVolume = volume;
     });
   }
 
@@ -117,11 +117,11 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
 
   void _toggleSlider() {
     setState(() {
-      _isToggled = !_isToggled;
+      _isDeviceVolumeActive = !_isDeviceVolumeActive;
     });
   }
 
-  void _changeVolume(double volume) async {
+  void _changeVolumeDevice(double volume) async {
     if (volume < 0.0) {
       return;
     } else if (volume > 1.0) {
@@ -129,25 +129,25 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
       return;
     }
     setState(() {
-      _currentVolume = volume;
+      _currentDeviceVolume = volume;
     });
     VolumeController().setVolume(volume);
   }
 
-  void _increaseVolume() {
-    if (_currentVolume < 1.0) {
-      _changeVolume((_currentVolume + 0.1));
+  void _increaseVolumeDevice() {
+    if (_currentDeviceVolume < 1.0) {
+      _changeVolumeDevice((_currentDeviceVolume + 0.1));
     }
   }
 
-  void _decreaseVolume() {
-    if (_currentVolume > 0.0) {
-      _changeVolume((_currentVolume - 0.1));
+  void _decreaseVolumeDevice() {
+    if (_currentDeviceVolume > 0.0) {
+      _changeVolumeDevice((_currentDeviceVolume - 0.1));
     }
   }
 
   Future<void> _startAmplifying() async {
-    if (_isRecording) return;
+    if (_isAmplifying) return;
 
     final _streamController = StreamController<Food>.broadcast();
 
@@ -171,18 +171,18 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     );
 
     setState(() {
-      _isRecording = true;
+      _isAmplifying = true;
     });
   }
 
   Future<void> _stopAmplifying() async {
-    if (!_isRecording) return;
+    if (!_isAmplifying) return;
 
     await _recorder.stopRecorder();
     await _player.stopPlayer();
 
     setState(() {
-      _isRecording = false;
+      _isAmplifying = false;
     });
   }
 
@@ -221,18 +221,18 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                     ),
                     IconButton(
                       onPressed:
-                          _isRecording ? _stopAmplifying : _startAmplifying,
+                          _isAmplifying ? _stopAmplifying : _startAmplifying,
                       tooltip: 'Beginne deine Stimmveränderung',
-                      icon: _isRecording
+                      icon: _isAmplifying
                           ? Icon(Icons.pause_circle)
                           : Icon(Icons.not_started),
-                      color: _isRecording
+                      color: _isAmplifying
                           ? Theme.of(context).iconTheme.color
                           : Colors.green,
                       iconSize: 72,
                     ), // This trailing comma makes auto-formatting nicer for build methods.
                     Text(
-                      _isRecording
+                      _isAmplifying
                           ? 'Stimmveränderung wird durchgeführt.'
                           : 'Stimmveränderung nicht aktiviert.',
                       style: Theme.of(context).textTheme.bodyLarge,
@@ -246,41 +246,41 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
-                      'Lautstärke ',
+                      'Geräte-Lautstärke ',
                       style: TextStyle(
                         fontSize: 24,
                       ),
                     ),
                     Switch(
-                      value: _isToggled,
+                      value: _isDeviceVolumeActive,
                       activeColor: Colors.green,
                       onChanged: (bool value) {
                         // This is called when the user toggles the switch.
                         setState(() {
-                          _isToggled = value;
+                          _isDeviceVolumeActive = value;
                         });
                       },
                     ),
                   ],
                 ),
               ),
-              if (_isToggled)
+              if (_isDeviceVolumeActive)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
                       icon: Icon(Icons.remove),
-                      onPressed: _decreaseVolume,
+                      onPressed: _decreaseVolumeDevice,
                     ),
                     Slider(
-                      value: _currentVolume,
-                      onChanged: _changeVolume,
+                      value: _currentDeviceVolume,
+                      onChanged: _changeVolumeDevice,
                       min: 0.0,
                       max: 1.0,
                     ),
                     IconButton(
                       icon: Icon(Icons.add),
-                      onPressed: _increaseVolume,
+                      onPressed: _increaseVolumeDevice,
                     ),
                   ],
                 ),
@@ -289,5 +289,3 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     );
   }
 }
-
-class 
