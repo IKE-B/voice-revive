@@ -49,7 +49,10 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
   bool _isAmplifying = false;
   bool _isDeviceVolumeActive = false;
+  bool _isAudioVolumeActive = false;
   double _currentDeviceVolume = 0.5;
+  double _currentAudioVolume = 1.0;
+  double _maxAudioVolume = 5.0;
 
   @override
   void initState() {
@@ -143,6 +146,27 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
   void _decreaseVolumeDevice() {
     if (_currentDeviceVolume > 0.0) {
       _changeVolumeDevice((_currentDeviceVolume - 0.1));
+    }
+  }
+
+  void _changeVolumeAudio(double volume) async {
+    if (volume < 0.0 || volume > _maxAudioVolume) {
+      return;
+    }
+    setState(() {
+      _currentAudioVolume = volume;
+    });
+  }
+
+  void _increaseVolumeAudio() {
+    if (_currentAudioVolume < _maxAudioVolume) {
+      _changeVolumeAudio((_currentAudioVolume + 0.1));
+    }
+  }
+
+  void _decreaseVolumeAudio() {
+    if (_currentAudioVolume > 0.0) {
+      _changeVolumeAudio((_currentAudioVolume - 0.1));
     }
   }
 
@@ -281,6 +305,50 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                     IconButton(
                       icon: Icon(Icons.add),
                       onPressed: _increaseVolumeDevice,
+                    ),
+                  ],
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Audio-Lautstärke: ',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    Switch(
+                      value: _isAudioVolumeActive,
+                      activeColor: Colors.green,
+                      onChanged: (bool value) {
+                        // This is called when the user toggles the switch.
+                        setState(() {
+                          _isAudioVolumeActive = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              if (_isAudioVolumeActive)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.remove),
+                      onPressed: _decreaseVolumeAudio,
+                    ),
+                    Slider(
+                      value: _currentAudioVolume,
+                      onChanged: _changeVolumeAudio,
+                      min: 0.0,
+                      max: _maxAudioVolume,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: _increaseVolumeAudio,
                     ),
                   ],
                 ),
