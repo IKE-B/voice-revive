@@ -9,6 +9,11 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+language:
+  strict-casts: true
+  strict-inference: true
+  strict-raw-types: true
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
@@ -21,8 +26,97 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
-
+    # --- error ---
+    - always_use_package_imports # Avoid relative imports for files in lib/.
+    - avoid_dynamic_calls # Avoid method calls or property accesses on a dynamic target.
+    - avoid_slow_async_io # Avoid slow asynchronous dart:io methods.
+    - avoid_type_to_string # Avoid.toString() in production code since results may be minified.
+    - cancel_subscriptions # Cancel instances of dart:async StreamSubscription.
+    - close_sinks # Close instances of dart:core Sink.
+    - deprecated_member_use_from_same_package # Avoid using deprecated elements from within the package in which they are declared.
+    - discarded_futures # Don't invoke asynchronous functions in non-async blocks.
+    - literal_only_boolean_expressions # Boolean expression composed only with literals.
+    - missing_code_block_language_in_doc_comment # A code block is missing a specified language.
+    - no_adjacent_strings_in_list # Don't use adjacent strings in list.
+    - no_self_assignments # Don't assign a variable to itself.
+    - test_types_in_equals # Test type of argument in operator ==(Object other).
+    - throw_in_finally # Avoid throw in finally block.
+    - unnecessary_statements # Avoid using unnecessary statements.
+    # ---style---
+    - always_declare_return_types # Declare method return types.
+    - always_put_required_named_parameters_first # Put required named parameters first.
+    - always_specify_types # Specify type annotations.
+    - avoid_bool_literals_in_conditional_expressions # Avoid bool literals in conditional expressions.
+    - avoid_catches_without_on_clauses # Avoid catches without on clauses.
+    - avoid_catching_errors # Don't explicitly catch Error or types that implement it.
+    - avoid_equals_and_hash_code_on_mutable_classes # Avoid overloading operator == and hashCode on classes not marked @immutable.
+    - avoid_final_parameters # Avoid final for parameter declarations.
+    - avoid_implementing_value_types # Don't implement classes that override ==.
+    - avoid_multiple_declarations_per_line # Don't declare multiple variables on a single line.
+    - avoid_positional_boolean_parameters # Avoid positional boolean parameters.
+    - avoid_private_typedef_functions # Avoid private typedef functions.
+    - avoid_redundant_argument_values # Avoid redundant argument values.
+    - avoid_returning_this # Avoid returning this from methods just to enable a fluent interface.
+    - avoid_setters_without_getters # Avoid setters without getters.
+    - avoid_unused_constructor_parameters # Avoid defining unused parameters in constructors.
+    - avoid_void_async # Avoid async functions that return void.
+    - cascade_invocations # Cascade consecutive method invocations on the same reference.
+    - cast_nullable_to_non_nullable # Don't cast a nullable value to a non nullable type.
+    - combinators_ordering # Sort combinator names alphabetically.
+    - conditional_uri_does_not_exist # Missing conditional import.
+    - deprecated_consistency # Missing deprecated annotation.
+    - directives_ordering # Adhere to Effective Dart Guide directives sorting conventions.
+    #- document_ignores # (Unreleased) Document ignore comments.
+    - eol_at_end_of_file # Put a single newline at end of file.
+    - flutter_style_todos # Use Flutter TODO format: // TODO(username): message, https://URL-to-issue.
+    - join_return_with_assignment # Join return statement with assignment when possible.
+    - library_names # Name libraries using lowercase_with_underscores.
+    - matching_super_parameters # Use matching super parameter names.
+    - no_literal_bool_comparisons # Don't compare booleans to boolean literals.
+    - no_runtimeType_toString # Avoid calling toString() on runtimeType.
+    - noop_primitive_operations # Noop primitive operations.
+    - only_throw_errors # Only throw instances of classes extending either Exception or Error.
+    - package_api_docs # Provide doc comments for all public APIs.
+    - package_prefixed_library_names # Prefix library names with the package name and a dot-separated path.
+    - parameter_assignments # Don't reassign references to parameters of functions or methods.
+    - prefer_asserts_with_message # Prefer asserts with message.
+    - prefer_constructors_over_static_methods # Prefer defining constructors instead of static methods to create instances.
+    - prefer_double_quotes # Prefer double quotes where they won't require escape sequences.
+    - prefer_expression_function_bodies # Use => for short members whose body is a single return statement.
+    - prefer_final_in_for_each # Prefer final in for-each loop variable if reference is not reassigned.
+    - prefer_final_locals # Prefer final for variable declarations if they are not reassigned.
+    - prefer_if_elements_to_conditional_expressions # Prefer if elements to conditional expressions where possible.
+    - prefer_mixin # Prefer using mixins.
+    - prefer_null_aware_method_calls # Prefer null-aware method calls.
+    - public_member_api_docs # Document all public members.
+    - require_trailing_commas # Use trailing commas for all parameter lists and argument lists.
+    - sized_box_shrink_expand # Use SizedBox shrink and expand named constructors.
+    - sort_constructors_first # Sort constructor declarations before other members.
+    - sort_unnamed_constructors_first # Sort unnamed constructor declarations first.
+    - tighten_type_of_initializing_formals # Tighten type of initializing formal.
+    - type_annotate_public_apis # Type annotate public APIs.
+    - unawaited_futures # Future results in async function bodies must be awaited or marked unawaited using dart:async.
+    - unnecessary_await_in_return # Unnecessary await keyword in return.
+    - unnecessary_breaks # Don't use explicit breaks when a break is implied.
+    - unnecessary_lambdas # Don't create a lambda when a tear-off will do.
+    - unnecessary_library_directive # Avoid library directives unless they have documentation comments or annotations.
+    - unnecessary_library_name # Don't have a library name in a library declaration.
+    - unnecessary_null_aware_operator_on_extension_on_nullable # Unnecessary null aware operator on extension on a nullable type.
+    - unnecessary_parenthesis # Unnecessary parentheses can be removed.
+    - unnecessary_raw_strings # Unnecessary raw string.
+    - unreachable_from_main # Unreachable top-level members in executable libraries.
+    - use_colored_box # Use ColoredBox.
+    - use_decorated_box # Use DecoratedBox
+    - use_enums # Use enums rather than classes that behave like enums.
+    - use_if_null_to_convert_nulls_to_bools # Use ?? operators to convert nulls to bools.
+    - use_is_even_rather_than_modulo # Prefer intValue.isOdd/isEven instead of checking the result of % 2.
+    - use_named_constants # Use predefined named constants.
+    - use_raw_strings # Use raw string to avoid escapes.
+    - use_setters_to_change_properties # Use a setter for operations that conceptually change a property.
+    - use_string_buffers # Use string buffers to compose strings.
+    - use_test_throws_matchers # Use throwsA matcher instead of fail().
+    - use_to_and_as_if_applicable # Start the name of the method with to/_to or as/_as if applicable.
+    # ---pub---
+    - sort_pub_dependencies # Sort pub dependencies alphabetically.
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
