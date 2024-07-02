@@ -22,7 +22,7 @@ class ReVoiceMe extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const VoiceAmplifier(title: "Flutter Demo Home Page"),
+        home: const VoiceAmplifier(),
       );
 }
 
@@ -74,7 +74,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     // Request microphone permission
     final PermissionStatus status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
-      throw RecordingPermissionException("Microphone permission not granted");
+      throw RecordingPermissionException("Mikrofonzugriff verweigert.");
     }
 
     await _player.openPlayer();
@@ -169,7 +169,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                     IconButton(
                       onPressed:
                           _isAmplifying ? _stopAmplifying : _startAmplifying,
-                      tooltip: "Beginne deine Stimmveränderung",
+                      tooltip: "Starte deine Stimmveränderung.",
                       icon: _isAmplifying
                           ? const Icon(Icons.pause_circle)
                           : const Icon(Icons.not_started),
@@ -179,9 +179,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                       iconSize: 72,
                     ), // This trailing comma makes auto-formatting nicer for build methods.
                     Text(
-                      _isAmplifying
-                          ? "Stimmveränderung wird durchgeführt."
-                          : "Stimmveränderung nicht aktiviert.",
+                      "Stimmveränderung ${_isAmplifying ? "aktiviert" : "deaktiviert"}.",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
