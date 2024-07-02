@@ -52,9 +52,8 @@ class _AudioChangerState extends State<AudioChanger> {
   bool _isActive = false;
 
   void _changeValue(double value) {
-    widget.onChangedSlider(value);
-    if (value < 0.0 || value > widget.maxValue) {
-      return;
+    if (value >= _minValue && value <= widget.maxValue) {
+      widget.onChangedValue(value);
     }
   }
 
@@ -62,18 +61,6 @@ class _AudioChangerState extends State<AudioChanger> {
     setState(() {
       _isActive = value;
     });
-  }
-
-  void _increaseValue() {
-    if (widget.value < widget.maxValue) {
-      _changeValue(widget.value + 0.1);
-    }
-  }
-
-  void _decreaseValue() {
-    if (widget.value > 0.0) {
-      _changeValue(widget.value - 0.1);
-    }
   }
 
   @override
@@ -103,7 +90,8 @@ class _AudioChangerState extends State<AudioChanger> {
               children: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.remove),
-                  onPressed: _decreaseValue,
+                  onPressed: () =>
+                      _changeValue(widget.value - (widget.maxValue / steps)),
                 ),
                 Slider(
                   value: widget.value,
@@ -114,7 +102,8 @@ class _AudioChangerState extends State<AudioChanger> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.add),
-                  onPressed: _increaseValue,
+                  onPressed: () =>
+                      _changeValue(widget.value + (widget.maxValue / steps)),
                 ),
               ],
             ),
