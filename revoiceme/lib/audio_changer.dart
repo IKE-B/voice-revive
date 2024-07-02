@@ -1,10 +1,22 @@
 import "package:flutter/material.dart";
 
+/// A callback function that accepts a double value.
 typedef DoubleCallback = void Function(double value);
 
+/// A widget for manipulating the audio I/O via a user controllable slider.
+///
+/// The [AudioChanger] consists of a slider, a switch, buttons for increasing or decreasing the [value] and a descriptive [title].
+/// It consumes a [value] from the parent widget and reflects it on the slider.
+/// The [value] can be changed by the slider or the buttons.
+/// The parent widget is notified via the [onChangedValue] function.
+/// The [maxValue] controls the maximum logical value of the slider.
+/// The switch's state is correlated with the [_AudioChangerState._isActive] variable.
+/// It controls whether this widget interferes with the given [value] or not.
 class AudioChanger extends StatefulWidget {
-  AudioChanger({
-    required this.onChangedSlider,
+  /// Creates a new [AudioChanger] widget.
+  ///
+  /// All four parameters, [title], [value], [maxValue], and [onChangedValue], are required.
+  const AudioChanger({
     required this.title,
     required this.value,
     required this.maxValue,
