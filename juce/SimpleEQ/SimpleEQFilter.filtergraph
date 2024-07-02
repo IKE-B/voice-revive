@@ -31,11 +31,11 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
-  <FILTER uid="5" x="0.50125" y="0.7056451612903226" useARA="0" uiLastX_Normal="1780"
+  <FILTER uid="5" x="0.4975" y="0.6451612903225806" useARA="0" uiLastX_Normal="1780"
           uiLastY_Normal="355" uiopen_Normal="0">
     <PLUGIN name="SimpleEQ" format="VST3" category="Fx" manufacturer="yourcompany"
             version="1.0.0" file="C:\Users\lukas\Desktop\VoiceRevive\VoiceRevive_Repo\voice-revive\juce\SimpleEQ\Builds\VisualStudio2022\x64\Debug\VST3\SimpleEQ.vst3\Contents\x86_64-win\SimpleEQ.vst3"
-            uniqueId="3a9db26" isInstrument="0" fileTime="190741ec9c4" infoUpdateTime="1907421af6e"
+            uniqueId="3a9db26" isInstrument="0" fileTime="1907564ed30" infoUpdateTime="1907565f1cc"
             numInputs="2" numOutputs="2" isShell="0" hasARAExtension="0"
             uid="e95b554c"/>
     <STATE>191.VMjLgXK....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9XCLt3hKt3hKt3hKt3hYRUUSTEETIckVwTjQisVTTgkdEYjKAQjYPQSPWgUdMcjKAQjct3hdA4hKt3hKt3hKtnTUv.UQAslXuk0UXoWUFE0YQcEV77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
@@ -48,13 +48,13 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
-  <FILTER uid="8" x="0.705" y="0.1028225806451613" useARA="0" uiLastX_Normal="2119"
-          uiLastY_Normal="290" uiopen_Normal="0">
+  <FILTER uid="8" x="0.705" y="0.1028225806451613" useARA="0" uiLastX_Normal="1146"
+          uiLastY_Normal="249" uiopen_Normal="0">
     <PLUGIN name="AudioPluginDemo" format="Internal" category="Effect" manufacturer="JUCE"
             version="1.0.0" file="AudioPluginDemo" uniqueId="4d00ec0c" isInstrument="0"
             fileTime="0" infoUpdateTime="0" numInputs="2" numOutputs="2"
             isShell="0" hasARAExtension="0" uid="4d00ec0c"/>
-    <STATE>159.VMjLgXI....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOyQWXzUlO7.UPRETSfjFY8HBYkwVX4IBH1EFa0UVOh.iKvHxK9vCTAIUPMARZj0iHmEVZtIBH1EFa0UVOhDiKvHxK9vScoMEcgQWYfbWZjQGZ8HRM2jiHffVYocFZz0iHyTiMh7hO77xbzEFck4C.</STATE>
+    <STATE>159.VMjLgXI....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOyQWXzUlO7.UPRETSfjFY8HBYkwVX4IBH1EFa0UVOhDiKvHxK9vCTAIUPMARZj0iHmEVZtIBH1EFa0UVOhDiKvHxK9vScoMEcgQWYfbWZjQGZ8HRM1biHffVYocFZz0iHyPCMh7hO77xbzEFck4C.</STATE>
     <LAYOUT>
       <INPUTS>
         <BUS index="0" layout="L R"/>
@@ -76,6 +76,20 @@
       <INPUTS>
         <BUS index="0" layout="L R"/>
       </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="L R"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="10" x="0.2375" y="0.3447580645161291" useARA="0" uiLastX_Normal="816"
+          uiLastY_Normal="277" uiopen_Normal="0">
+    <PLUGIN name="SamplerPlugin" format="Internal" category="Synth" manufacturer="JUCE"
+            version="1.0.0" file="SamplerPlugin" uniqueId="2a34a53b" isInstrument="1"
+            fileTime="0" infoUpdateTime="0" numInputs="0" numOutputs="2"
+            isShell="0" hasARAExtension="0" uid="2a34a53b"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS/>
       <OUTPUTS>
         <BUS index="0" layout="L R"/>
       </OUTPUTS>
