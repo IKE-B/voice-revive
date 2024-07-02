@@ -26,6 +26,7 @@ This is generated automatically by following the specified process for [issue cr
 
 Commit messages must follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).  
 Therefore, each contributing person should have an appropriate tool installed locally, which enforces these conventions.
+This project uses the [Conventional Commits](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits) extension for Visual Studio Code.
 
 ## Issue Tracking
 
