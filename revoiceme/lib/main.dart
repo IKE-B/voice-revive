@@ -1,6 +1,5 @@
 import "dart:async";
 
-import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_sound/flutter_sound.dart";
 import "package:permission_handler/permission_handler.dart";
@@ -42,21 +41,27 @@ class VoiceAmplifier extends StatefulWidget {
   final String title;
 
   @override
-  _VoiceAmplifierState createState() => _VoiceAmplifierState();
+  State<VoiceAmplifier> createState() => _VoiceAmplifierState();
 }
 
 class _VoiceAmplifierState extends State<VoiceAmplifier> {
-  late AudioChanger audioVolume;
-  late AudioChanger deviceVolume;
+  ValueNotifier<double> deviceVolume = ValueNotifier<double>(0.0);
+  ValueNotifier<double> pitch = ValueNotifier<double>(1.5);
 
   bool _isAmplifying = false;
   final FlutterSoundPlayer _player = FlutterSoundPlayer();
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  final StreamController<Food> _streamController =
+      StreamController<Food>.broadcast(
+    onCancel: () => debugPrint("Stream closed"),
+    onListen: () => debugPrint("Stream opened"),
+  );
 
   @override
-  void dispose() {
-    _player.closePlayer();
-    _recorder.closeRecorder();
+  Future<void> dispose() async {
+    await _player.closePlayer();
+    await _recorder.closeRecorder();
+    await _streamController.close();
     VolumeController().removeListener();
     super.dispose();
   }
@@ -64,33 +69,13 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
   @override
   void initState() {
     super.initState();
-    audioVolume = AudioChanger(
-      onChangedSlider: (double value) {},
-      title: "Audio-Lautstärke: ",
-      maxValue: 5.0,
-    );
-    deviceVolume = AudioChanger(
-      onChangedSlider: (double volume) {
-        if (volume >= 1.0) {
-          _showWarningMaxVolume();
-        } else if (volume >= 0.0) {
-          VolumeController().setVolume(volume);
-        }
-      },
-      title: "Geräte-Lautstärke: ",
-      maxValue: 1.0,
-    );
     VolumeController().listener((double volume) {
-      if (kDebugMode) {
-        print("Volume changed: $volume");
-      }
-      setState(() {
+      debugPrint("Volume changed: $volume");
         deviceVolume.value = volume;
-      });
     });
     VolumeController().showSystemUI = true;
-    _initVolume();
-    _initializeAudioSessions();
+    unawaited(_initVolume());
+    unawaited(_initializeAudioSessions());
   }
 
   Future<void> _initializeAudioSessions() async {
@@ -106,14 +91,11 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
   }
 
   Future<void> _initVolume() async {
-    final double volume = await VolumeController().getVolume();
-    setState(() {
-      deviceVolume.value = volume;
-    });
+    deviceVolume.value = await VolumeController().getVolume();
   }
 
   Future<void> _showWarningMaxVolume() async {
-    showDialog<void>(
+    await showDialog<void>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text("Maximale Lautstärke erreicht"),
@@ -135,10 +117,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
   Future<void> _startAmplifying() async {
     if (_isAmplifying) return;
 
-    final StreamController<Food> streamController =
-        StreamController<Food>.broadcast();
-
-    streamController.stream.listen((Food food) {
+    _streamController.stream.listen((Food food) {
       if (_player.isPlaying) {
         _player.foodSink!.add(food);
       }
@@ -149,7 +128,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     );
 
     await _recorder.startRecorder(
-      toStream: streamController,
+      toStream: _streamController,
       codec: Codec.pcm16,
       sampleRate: 44100,
     );
@@ -168,6 +147,14 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     setState(() {
       _isAmplifying = false;
     });
+  }
+
+  Future<void> _deviceVolumeOnChanged(double volume) async {
+    if (volume >= 1.0) {
+      await _showWarningMaxVolume();
+    } else if (volume >= 0.0) {
+      VolumeController().setVolume(volume);
+    }
   }
 
   @override
@@ -223,8 +210,30 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                   ],
                 ),
               ),
-              deviceVolume,
-              audioVolume,
+              ValueListenableBuilder<double>(
+                valueListenable: deviceVolume,
+                builder: (BuildContext context, double value, Widget? child) =>
+                    AudioChanger(
+                  onChangedValue: _deviceVolumeOnChanged,
+                  title: "Lautstärke:",
+                  maxValue: 1.0,
+                  value: value,
+                ),
+              ),
+              ValueListenableBuilder<double>(
+                valueListenable: pitch,
+                builder: (BuildContext context, double value, Widget? child) =>
+                    AudioChanger(
+                  onChangedValue: (double value) {
+                    debugPrint("$pitch");
+                    debugPrint("$value");
+                    pitch.value = value;
+                  },
+                  title: "Tonhöhe:",
+                  maxValue: 3.0,
+                  value: value,
+                ),
+              ),
             ],
           ),
         ),
