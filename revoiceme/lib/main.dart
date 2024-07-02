@@ -289,5 +289,3 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     );
   }
 }
-
-class 
