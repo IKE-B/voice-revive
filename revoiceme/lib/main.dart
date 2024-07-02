@@ -64,7 +64,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
     super.initState();
     VolumeController().listener((double volume) {
       debugPrint("Volume changed: $volume");
-        deviceVolume.value = volume;
+      deviceVolume.value = volume;
     });
     VolumeController().showSystemUI = true;
     unawaited(_initVolume());
