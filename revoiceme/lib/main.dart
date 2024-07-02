@@ -177,7 +177,7 @@ class _VoiceAmplifierState extends State<VoiceAmplifier> {
                           ? Theme.of(context).iconTheme.color
                           : Colors.green,
                       iconSize: 72,
-                    ), // This trailing comma makes auto-formatting nicer for build methods.
+                    ),
                     Text(
                       "Stimmveränderung ${_isAmplifying ? "aktiviert" : "deaktiviert"}.",
                       style: Theme.of(context).textTheme.bodyLarge,
