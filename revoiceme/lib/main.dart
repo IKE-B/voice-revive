@@ -26,6 +26,7 @@ class ReVoiceMe extends StatelessWidget {
       );
 }
 
+/// The home screen of the ReVoiceMe app.
 class VoiceAmplifier extends StatefulWidget {
   /// Creates a new [VoiceAmplifier] instance.
   const VoiceAmplifier({
