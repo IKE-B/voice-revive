@@ -32,10 +32,10 @@
     </LAYOUT>
   </FILTER>
   <FILTER uid="5" x="0.50125" y="0.7056451612903226" useARA="0" uiLastX_Normal="1780"
-          uiLastY_Normal="356" uiopen_Normal="0">
+          uiLastY_Normal="355" uiopen_Normal="0">
     <PLUGIN name="SimpleEQ" format="VST3" category="Fx" manufacturer="yourcompany"
             version="1.0.0" file="C:\Users\lukas\Desktop\VoiceRevive\VoiceRevive_Repo\voice-revive\juce\SimpleEQ\Builds\VisualStudio2022\x64\Debug\VST3\SimpleEQ.vst3\Contents\x86_64-win\SimpleEQ.vst3"
-            uniqueId="3a9db26" isInstrument="0" fileTime="19073cea647" infoUpdateTime="19073e76632"
+            uniqueId="3a9db26" isInstrument="0" fileTime="190741ec9c4" infoUpdateTime="1907421af6e"
             numInputs="2" numOutputs="2" isShell="0" hasARAExtension="0"
             uid="e95b554c"/>
     <STATE>191.VMjLgXK....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9XCLt3hKt3hKt3hKt3hYRUUSTEETIckVwTjQisVTTgkdEYjKAQjYPQSPWgUdMcjKAQjct3hdA4hKt3hKt3hKtnTUv.UQAslXuk0UXoWUFE0YQcEV77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
@@ -54,7 +54,7 @@
             version="1.0.0" file="AudioPluginDemo" uniqueId="4d00ec0c" isInstrument="0"
             fileTime="0" infoUpdateTime="0" numInputs="2" numOutputs="2"
             isShell="0" hasARAExtension="0" uid="4d00ec0c"/>
-    <STATE>159.VMjLgXI....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOyQWXzUlO7.UPRETSfjFY8HBYkwVX4IBH1EFa0UVOh.iKvHxK9vCTAIUPMARZj0iHmEVZtIBH1EFa0UVOhDiKvHxK9vScoMEcgQWYfbWZjQGZ8HRM3TiHffVYocFZz0iHyXiLh7hO77xbzEFck4C.</STATE>
+    <STATE>159.VMjLgXI....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOyQWXzUlO7.UPRETSfjFY8HBYkwVX4IBH1EFa0UVOh.iKvHxK9vCTAIUPMARZj0iHmEVZtIBH1EFa0UVOhDiKvHxK9vScoMEcgQWYfbWZjQGZ8HRM2jiHffVYocFZz0iHyTiMh7hO77xbzEFck4C.</STATE>
     <LAYOUT>
       <INPUTS>
         <BUS index="0" layout="L R"/>
@@ -64,8 +64,8 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
-  <FILTER uid="9" x="0.6899999999999999" y="0.3971774193548387" useARA="0"
-          uiLastX_Normal="1790" uiLastY_Normal="204" uiopen_Normal="0">
+  <FILTER uid="9" x="0.8225" y="0.4213709677419355" useARA="0" uiLastX_Normal="1790"
+          uiLastY_Normal="204" uiopen_Normal="0">
     <PLUGIN name="DSPModulePluginDemo" format="Internal" category="Effect"
             manufacturer="JUCE" version="1.0.0" file="DSPModulePluginDemo"
             uniqueId="fa106703" isInstrument="0" fileTime="0" infoUpdateTime="0"
@@ -81,10 +81,8 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
-  <CONNECTION srcFilter="1" srcChannel="0" dstFilter="5" dstChannel="0"/>
-  <CONNECTION srcFilter="1" srcChannel="1" dstFilter="5" dstChannel="1"/>
   <CONNECTION srcFilter="5" srcChannel="0" dstFilter="3" dstChannel="0"/>
   <CONNECTION srcFilter="5" srcChannel="1" dstFilter="3" dstChannel="1"/>
-  <CONNECTION srcFilter="8" srcChannel="0" dstFilter="9" dstChannel="0"/>
-  <CONNECTION srcFilter="8" srcChannel="1" dstFilter="9" dstChannel="1"/>
+  <CONNECTION srcFilter="8" srcChannel="0" dstFilter="5" dstChannel="0"/>
+  <CONNECTION srcFilter="8" srcChannel="1" dstFilter="5" dstChannel="1"/>
 </FILTERGRAPH>
