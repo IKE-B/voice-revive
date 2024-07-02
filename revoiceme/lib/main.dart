@@ -8,15 +8,17 @@ import "package:revoiceme/audio_changer.dart";
 import "package:volume_controller/volume_controller.dart";
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ReVoiceMe());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/// The main widget of the ReVoiceMe app.
+class ReVoiceMe extends StatelessWidget {
+  /// Creates a new [ReVoiceMe] instance.
+  const ReVoiceMe({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: "Flutter Demo",
+        title: "ReVoiceMe",
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
