@@ -15,9 +15,6 @@
 /**
 */
 class SimpleEQAudioProcessorEditor  : public juce::AudioProcessorEditor
-                            #if JucePlugin_Enable_ARA
-                             , public juce::AudioProcessorEditorARAExtension
-                            #endif
 {
 public:
     SimpleEQAudioProcessorEditor (SimpleEQAudioProcessor&);
