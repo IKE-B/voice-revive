@@ -6,32 +6,49 @@ class AudioChanger extends StatefulWidget {
   AudioChanger({
     required this.onChangedSlider,
     required this.title,
+    required this.value,
     required this.maxValue,
+    required this.onChangedValue,
     super.key,
   });
 
-  double maxValue;
-  final DoubleCallback onChangedSlider;
-  final String title;
-  double value = 1.0;
+  /// The maximum value of this widget. The minimum value is controlled by [_AudioChangerState._minValue].
+  final double maxValue;
 
-  /// AudioChanger is a widget that always implements a Slider to set a value and
-  /// a button to activate or deactivate the change. The method onChangedSlider
-  /// is always called when the value of the slider is changed.
-  bool _isActive = false;
+  /// The action that should be performed when the user changes the slider or presses the increase or decrease buttons.
+  final DoubleCallback onChangedValue;
+
+  /// The title of this widget. It is displayed above the slider.
+  final String title;
+
+  /// The current value. Provided by the parent widget.
+  final double value;
 
   @override
-  State<StatefulWidget> createState() => _AudioChangerState();
+  State<AudioChanger> createState() => _AudioChangerState();
 }
 
 class _AudioChangerState extends State<AudioChanger> {
+  /// The number of steps of the slider. The device volume slider has 15 steps.
+  static const int steps = 15;
+
+  /// The minimum value of the slider.
+  static const double _minValue = 0.0;
+
+  /// Whether this widget currently interferes with the [AudioChanger.value].
+  /// It is controlled by this widget's switch.
+  bool _isActive = false;
+
   void _changeValue(double value) {
     widget.onChangedSlider(value);
     if (value < 0.0 || value > widget.maxValue) {
       return;
     }
+  }
+
+  void _setActive(bool value) {
     setState(() {
-      widget.value = value;
+      _isActive = value;
     });
   }
 
@@ -61,19 +78,14 @@ class _AudioChangerState extends State<AudioChanger> {
                   ),
                 ),
                 Switch(
-                  value: widget._isActive,
+                  value: _isActive,
                   activeColor: Colors.green,
-                  onChanged: (bool value) {
-                    // This is called when the user toggles the switch.
-                    setState(() {
-                      widget._isActive = value;
-                    });
-                  },
+                  onChanged: _setActive,
                 ),
               ],
             ),
           ),
-          if (widget._isActive)
+          if (_isActive)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
