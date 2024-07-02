@@ -125,3 +125,38 @@ Each issue needs a **size estimation**. There are four different values availabl
 The project is developed in Visual Studio Code (VSCode).  
 VSCode's in-built [workspace extensions and settings recommendation system](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions) is used to share and synchronize configurations of the development environment across the team.  
 These workspace extensions and settings **must** be used by all contributors to ensure a consistent development environment.
+
+- [Conventional Commits](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits)
+- [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
+
+### Formatting
+
+The project uses the [dart formatter](https://dart.dev/tools/dartfmt) to format the code.
+Usually, VSCode should automatically pick it after installing the [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter) extension.
+A good practice is to format often, especially before committing.
+Therefore, the formatter should be set to format on save.
+However, it won't work, as long as there are syntax errors in the code and it also won't work, if auto-save is enabled (in VSCode).
+To run the formatter manually on the currently selected file, use the shortcut `Alt+Shift+F`.
+Alternatively, use the command `dart format` in the terminal.
+The latter lets you specify multiple files or even directories.
+
+Optionally, install the [flutter stylizer](https://marketplace.visualstudio.com/items?itemName=gmlewis-vscode.flutter-stylizer) VSCode extension.
+It is not in the workspace recommendations, as it is unfortunately archived (among other caveats).
+By itself, it can only be run manually on a single file via the command palette (`Ctrl+Shift+P`): `Flutter Stylizer`.
+Be careful while using it, because it can produce big git diffs.
+
+## CI/CD
+
+The project uses GitHub Actions for CI/CD.
+
+### Linting
+
+The project uses the [dart analyzer](https://pub.dev/packages/analyzer) to check for linting issues.
+The rules are defined in the `analysis_options.yaml` file.
+The base rule set is [flutter lints](https://pub.dev/packages/flutter_lints) (which itself is a superset of the [officially recommended dart ruleset](https://pub.dev/packages/lints)) and it is even mentioned in the official dart documentation.
+Additionally, all linter rules (for Dart SDK version 3.4.3) were sighted and many were added to the `analysis_options.yaml` file.
+Please conform to these rules before committing, even if they are not marked as errors.
+
+Applying the [formatter](#formatting) can already resolve many linting issues.
+Many issues are also automatically fixable by running the command `dart fix --apply` in the terminal.
+To only preview the changes, use `dart fix --dry-run`.
