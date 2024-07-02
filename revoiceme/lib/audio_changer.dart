@@ -97,8 +97,9 @@ class _AudioChangerState extends State<AudioChanger> {
                   value: widget.value,
                   onChanged: _changeValue,
                   max: widget.maxValue,
-                  divisions: 50,
-                  label: widget.value.toStringAsFixed(1),
+                  divisions: steps,
+                  label:
+                      "${(widget.value / widget.maxValue * 100).toStringAsFixed(0)}%",
                 ),
                 IconButton(
                   icon: const Icon(Icons.add),
