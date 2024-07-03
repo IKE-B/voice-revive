@@ -1,0 +1,16 @@
+dartdoc:
+  categories:
+    "Screen":
+      name: "Screens"
+    "Widget":
+      name: "Widgets"
+    "Other":
+      name: "Other"
+  categoryOrder: [
+    "Screens",
+    "Widgets",
+    "Other"
+  ]
+  linkTo:
+    url: "https://github.com/IKE-B/voice-revive"
+  showUndocumentedCategories: true
