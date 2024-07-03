@@ -15,7 +15,9 @@ jobs:
         uses: actions/checkout@v4
       # install flutter
       - name: install flutter
-        run: sudo snap install flutter --classic
+        run: |
+          sudo snap install flutter --classic
+          flutter
       # change to 
       - name: run documentation generator
         run: |
