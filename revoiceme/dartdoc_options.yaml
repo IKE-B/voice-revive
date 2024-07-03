@@ -2,13 +2,13 @@ dartdoc:
   categories:
     "Screen":
       name: "Screens"
-      markdown: ../docs/screens.md
+      markdown: ../docs/categories/screens.md
     "Widget":
       name: "Widgets"
-      markdown: ../docs/widgets.md
+      markdown: ../docs/categories/widgets.md
     "Other":
       name: "Others"
-      markdown: ../docs/others.md
+      markdown: ../docs/categories/others.md
   categoryOrder: [
     "Screens",
     "Widgets",
