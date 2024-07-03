@@ -31,14 +31,14 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
-  <FILTER uid="5" x="0.4975" y="0.6451612903225806" useARA="0" uiLastX_Normal="1780"
-          uiLastY_Normal="355" uiopen_Normal="0">
+  <FILTER uid="5" x="0.4975" y="0.6451612903225806" useARA="0" uiLastX_Normal="1044"
+          uiLastY_Normal="313" uiopen_Normal="0">
     <PLUGIN name="SimpleEQ" format="VST3" category="Fx" manufacturer="yourcompany"
             version="1.0.0" file="C:\Users\lukas\Desktop\VoiceRevive\VoiceRevive_Repo\voice-revive\juce\SimpleEQ\Builds\VisualStudio2022\x64\Debug\VST3\SimpleEQ.vst3\Contents\x86_64-win\SimpleEQ.vst3"
-            uniqueId="3a9db26" isInstrument="0" fileTime="1907564ed30" infoUpdateTime="1907565f1cc"
+            uniqueId="3a9db26" isInstrument="0" fileTime="190776d9b9f" infoUpdateTime="190776e11b9"
             numInputs="2" numOutputs="2" isShell="0" hasARAExtension="0"
             uid="e95b554c"/>
-    <STATE>191.VMjLgXK....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9XCLt3hKt3hKt3hKt3hYRUUSTEETIckVwTjQisVTTgkdEYjKAQjYPQSPWgUdMcjKAQjct3hdA4hKt3hKt3hKtnTUv.UQAslXuk0UXoWUFE0YQcEV77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
+    <STATE>623.VMjLgXl....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9LCNy3BTEwlXmAiUYoWUrIVdA4hKAIlKTETRUAUSAAkKBolQY4BQlMTQlQkVscVLPASTGgjQIcUV2EjYic1cVM1ZAAkKIAkKt3hKt3hKlMidtDjKTETRUAUSAAkKBolQY4BQ1MTQlQkVscVLPASTGgzT2ESX1UkQtDSQFEFLUYjKAolKA4hKt3hKt3hKt3hKt.UQpQUPvPjKAgDTZoVPP4RST4xT0MlLPASTGgjQIcUV2EjYic1cVM1ZAAkKIAkKt3hKt3hKtbmYtDjKTETRUAUSAAkKBolQY4BQlMTQ1oWXxzDUioWP3Qkb3XjXqEjYic1cVM1ZAAkKIAkKt3hKt3hKt3hKt3hKTETRUAUSAAkKBolQY4BQ1ITQtTUVmMmQHYTRWk0cAY1XmcmUisVPP4RRP4hKt3hKt3hKxblKA4BUAkTUP0TPP4hPpYTVtPjcBUjKUk0YyYDRGUjUZQWPlM1Y2Y0XqEDTtjDTt3hKt3hKt3hKB4xPtPUPIUETMEDTtHjZFkkKDY1PE4RUYc1bFgTTUcEVxslQiQSPlM1Y2Y0XqEDTtjDTt3hKt3hKt3hK2rhKt3hKt3hKt3hKt3haTU0PUQDU3sFaicVTWkEQEYzXmEDTtDDRTQlcEEiX4EDTtDDSt3xXt3hKt3hKt3hKlIUUMQUTPkzUZESQFM1ZQQEV5UjQ77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
     <LAYOUT>
       <INPUTS>
         <BUS index="0" layout="L R"/>
@@ -54,7 +54,7 @@
             version="1.0.0" file="AudioPluginDemo" uniqueId="4d00ec0c" isInstrument="0"
             fileTime="0" infoUpdateTime="0" numInputs="2" numOutputs="2"
             isShell="0" hasARAExtension="0" uid="4d00ec0c"/>
-    <STATE>159.VMjLgXI....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOyQWXzUlO7.UPRETSfjFY8HBYkwVX4IBH1EFa0UVOhDiKvHxK9vCTAIUPMARZj0iHmEVZtIBH1EFa0UVOhDiKvHxK9vScoMEcgQWYfbWZjQGZ8HRM1biHffVYocFZz0iHyPCMh7hO77xbzEFck4C.</STATE>
+    <STATE>159.VMjLgXI....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOyQWXzUlO7.UPRETSfjFY8HBYkwVX4IBH1EFa0UVOh.iKvHxK9vCTAIUPMARZj0iHmEVZtIBH1EFa0UVOhDiKvHxK9vScoMEcgQWYfbWZjQGZ8HRM0TiHffVYocFZz0iHyLiLh7hO77xbzEFck4C.</STATE>
     <LAYOUT>
       <INPUTS>
         <BUS index="0" layout="L R"/>
