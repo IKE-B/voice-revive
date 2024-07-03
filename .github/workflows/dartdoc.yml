@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - revoiceme/lib/**
+      - revoiceme/dartdoc_options.yaml
       - .github/workflows/dartdoc.yml
 jobs:
   dart-doc-generation:
