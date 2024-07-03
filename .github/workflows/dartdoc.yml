@@ -14,18 +14,19 @@ jobs:
     steps:
       # use public action to checkout the repository
       - name: checkout repository
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
       # install flutter
       - name: install flutter
-      - run: sudo snap install flutter --classic
+        run: sudo snap install flutter --classic
       # change to 
       - name: run documentation generator
-      - run: ls
-      - run: cd revoiceme
-      - run: dart doc
+        run: |
+          ls
+          cd revoiceme
+          dart doc
       # stages changes, commits them and pushs them as contributor "github_actor"
       - name: commit and push
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
           # The arguments for the `git add` command (see the paragraph below for more info)
           # Default: '.'
