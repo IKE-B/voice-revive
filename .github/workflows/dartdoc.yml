@@ -32,7 +32,7 @@ jobs:
         with:
           # The arguments for the `git add` command (see the paragraph below for more info)
           # Default: '.'
-          add: '../docs/*'
+          add: './docs/*'
       
           # Additional arguments for the git commit command. The --message argument is already set by the message input.
           # Default: ''
