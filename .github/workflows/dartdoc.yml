@@ -3,7 +3,6 @@ run-name: "docs(doc): generate dart documentation from code comments"
 on:
   push:
     branches:
-      - 11-documentation-documentation-generation-and-publishing
       - dev
       - main
     paths:
