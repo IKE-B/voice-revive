@@ -24,7 +24,6 @@ jobs:
       # change to 
       - name: run documentation generator
         run: |
-          ls
           cd revoiceme
           dart doc --output ../docs
       # stages changes, commits them and pushs them as contributor "github_actor"
@@ -33,7 +32,7 @@ jobs:
         with:
           # The arguments for the `git add` command (see the paragraph below for more info)
           # Default: '.'
-          add: './revoiceme/docs/*'
+          add: '../docs/*'
       
           # Additional arguments for the git commit command. The --message argument is already set by the message input.
           # Default: ''
