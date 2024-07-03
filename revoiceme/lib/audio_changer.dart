@@ -12,6 +12,8 @@ typedef DoubleCallback = void Function(double value);
 /// The [maxValue] controls the maximum logical value of the slider.
 /// The switch's state is correlated with the [_AudioChangerState._isActive] variable.
 /// It controls whether this widget interferes with the given [value] or not.
+/// 
+/// {@category Widget}
 class AudioChanger extends StatefulWidget {
   /// Creates a new [AudioChanger] widget.
   ///
