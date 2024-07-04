@@ -10,8 +10,8 @@ dartdoc:
       name: "Others"
       markdown: ../docs/categories/others.md
   categoryOrder: [
-    "Screens",
-    "Widgets",
+    "Screen",
+    "Widget",
     "Other"
   ]
   linkTo:
