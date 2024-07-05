@@ -11,6 +11,8 @@ void main() {
 }
 
 /// The main widget of the ReVoiceMe app.
+/// 
+/// {@category Other}
 class ReVoiceMe extends StatelessWidget {
   /// Creates a new [ReVoiceMe] instance.
   const ReVoiceMe({super.key});
@@ -27,6 +29,8 @@ class ReVoiceMe extends StatelessWidget {
 }
 
 /// The home screen of the ReVoiceMe app.
+/// 
+/// {@category Screen}
 class VoiceAmplifier extends StatefulWidget {
   /// Creates a new [VoiceAmplifier] instance.
   const VoiceAmplifier({
