@@ -26,8 +26,7 @@ The goal of this project is to develop a **smartphone application** where:
   init: {
     'theme': 'base',
     'themeVariables': {
-      'fontSize': '56px',
-      'background': '#000000'
+      'fontSize': '56px'
     }
   }
 }%%
