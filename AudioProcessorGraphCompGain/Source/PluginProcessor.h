@@ -61,8 +61,8 @@ namespace Params
     {
         static std::map<Names, juce::String> params =
         {
-            {Low_Mid_Crossover_Freq, "Low-Mid Crossover Freq"},
-            {Mid_High_Crossover_Freq, "Mid-High Crossover Freq"},
+            {Low_Mid_Crossover_Freq, "Low Mid Crossover Freq"},
+            {Mid_High_Crossover_Freq, "Mid High Crossover Freq"},
             {Threshold_Low_Band, "Threshold Low Band"},
             {Threshold_Mid_Band, "Threshold Mid Band"},
             {Threshold_High_Band, "Threshold High Band"},
