@@ -3,6 +3,9 @@ import "package:revoiceme/core/utils/styles/default_theme.dart";
 
 /// The app bar for the ReVoiceMe app.
 ///
+/// The app bar provides an icon button to toggle voice changing.
+/// The icon changes depending on whether voice changing is applied.
+///
 /// {@category Widget}
 class ReVoiceMeAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Creates a new [ReVoiceMeAppBar] instance.
@@ -23,7 +26,7 @@ class ReVoiceMeAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Whether the voice changing is currently active.
   final bool appliesVoiceChanging;
 
-  /// The function to call when the voice changing is toggled.
+  /// The function to call for toggling the voice changing.
   final VoidCallback toggleVoiceChanging;
 
   /// Change the app bar height to be more visually appealing.
