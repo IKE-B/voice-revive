@@ -95,9 +95,79 @@ void CompGainEQ::changeProgramName(int index, const juce::String& newName)
 void CompGainEQ::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     // TODO:
-    //gainProcess.prepareToPlay(sampleRate, samplesPerBlock);
-    //compProcess.prepareToPlay(sampleRate, samplesPerBlock);
-    //compAllProcess.prepareToPlay(sampleRate, samplesPerBlock);
+    // 
+    // CompAll
+    prepareToPlayCompAll(sampleRate, samplesPerBlock);
+
+    // Comp Mult Band
+    prepareToPlayCompMultBand(sampleRate, samplesPerBlock);
+
+    // Gain
+    prepareToPlayGain(sampleRate, samplesPerBlock);
+
+    // EQ
+    prepareToPlayEQ(sampleRate, samplesPerBlock);
+}
+
+void CompGainEQ::prepareToPlayCompAll(double sampleRate, int samplesPerBlock)
+{
+    // prepare Compressor for compressing the AudioInput
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
+    spec.numChannels = static_cast<juce::uint32>(getTotalNumOutputChannels());
+    spec.sampleRate = sampleRate;
+
+    compressorAll.prepare(spec);
+}
+
+void CompGainEQ::prepareToPlayCompMultBand(double sampleRate, int samplesPerBlock)
+{
+    // prepare Compressor for compressing the AudioInput
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
+    spec.numChannels = static_cast<juce::uint32>(getTotalNumOutputChannels());
+    spec.sampleRate = sampleRate;
+
+    compressorLow.process(spec);
+    compressorMid.process(spec);
+    compressorHigh.process(spec);
+
+    LP1.prepare(spec);
+    HP1.prepare(spec);
+
+    AP2.prepare(spec);
+
+    LP2.prepare(spec);
+    HP2.prepare(spec);
+
+    for (auto& buffer : filterBuffers)
+    {
+        buffer.setSize(static_cast<int>(spec.numChannels), samplesPerBlock);
+    }
+}
+
+void CompGainEQ::prepareToPlayGain(double sampleRate, int samplesPerBlock)
+{
+    // prepare Compressor for compressing the AudioInput
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
+    spec.numChannels = static_cast<juce::uint32>(getTotalNumOutputChannels());
+    spec.sampleRate = sampleRate;
+
+    gain.prepare(spec);
+
+    gain.setRampDurationSeconds(0.05);
+}
+
+void CompGainEQ::prepareToPlayEQ(double sampleRate, int samplesPerBlock)
+{
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = 1;
+    spec.sampleRate = sampleRate;
+
+    leftChain.prepare(spec);
+    rightChain.prepare(spec);
 }
 
 void CompGainEQ::releaseResources()
@@ -148,9 +218,129 @@ void CompGainEQ::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
         buffer.clear(i, 0, buffer.getNumSamples());
 
     // TODO
-    //compProcess.processBlock(buffer, midiMessages);
-    //compAllProcess.processBlock(buffer, midiMessages);
-    //gainProcess.processBlock(buffer, midiMessages);
+    // maybe we need an update:
+    // updateValues(floatValues, boolValues
+    
+    // compressor All
+    processBlockCompAll(buffer, midiMessages);
+
+    // compressor multiBand
+    processBlockCompMultBand(buffer, midiMessages);
+
+    // gain
+    applyGain(buffer, gain);
+
+    // EQ
+    processBlockEQ(buffer, midiMessages);
+}
+
+void CompGainEQ::processBlockCompAll(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+{
+    if (!compAllMute)
+    {
+        auto block = juce::dsp::AudioBlock<float>(buffer);
+        auto context = juce::dsp::ProcessContextReplacing<float>(block);
+
+        context.isBypassed = compAllBypassed;
+
+        compressorAll.process(buffer);
+    }
+}
+
+void CompGainEQ::processBlockCompMultBand(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+{
+    splitBands(buffer);
+
+    compressorLow.process(filterBuffers[0]);
+    compressorMid.process(filterBuffers[1]);
+    compressorHigh.process(filterBuffers[2]);
+
+
+    auto numSamples = buffer.getNumSamples();
+    auto numChannels = buffer.getNumChannels();
+
+    buffer.clear();
+
+    auto addFilterBand = [nc = numChannels, ns = numSamples](auto& inputBuffer, const auto& source)
+        {
+            for (auto i = 0; i < nc; i++)
+            {
+                inputBuffer.addFrom(i, 0, source, i, 0, ns);
+            }
+        };
+
+    bool bandsAreSoloed = compLowSolo || compMidSolo || compHighSolo;
+
+    if (bandsAreSoloed)
+    {
+        if (compLowSolo)
+        {
+            addFilterBand(buffer, filterBuffers[0]);
+        }
+        else if (compMidSolo)
+        {
+            addFilterBand(buffer, filterBuffers[1]);
+        }
+        else if (compHighSolo)
+        {
+            addFilterBand(buffer, filterBuffers[2]);
+        }
+    }
+    else
+    {
+        if (!compLowMute)
+        {
+            addFilterBand(buffer, filterBuffers[0]);
+        }
+        else if (!compMidMute)
+        {
+            addFilterBand(buffer, filterBuffers[1]);
+        }
+        else if (!compHighMute)
+        {
+            addFilterBand(buffer, filterBuffers[2]);
+        }
+    }
+}
+
+void CompGainEQ::splitBands(const juce::AudioBuffer<float>& inputBuffer)
+{
+    // split the buffer in 2 filterBuffers
+    for (auto& fb : filterBuffers)
+    {
+        fb = inputBuffer;
+    }
+
+    auto fb0Block = juce::dsp::AudioBlock<float>(filterBuffers[0]);
+    auto fb1Block = juce::dsp::AudioBlock<float>(filterBuffers[1]);
+    auto fb2Block = juce::dsp::AudioBlock<float>(filterBuffers[2]);
+
+    auto fb0Ctx = juce::dsp::ProcessContextReplacing<float>(fb0Block);
+    auto fb1Ctx = juce::dsp::ProcessContextReplacing<float>(fb1Block);
+    auto fb2Ctx = juce::dsp::ProcessContextReplacing<float>(fb2Block);
+
+    LP1.process(fb0Ctx);
+    AP2.process(fb0Ctx);
+
+    HP1.process(fb1Ctx);
+    filterBuffers[2] = filterBuffers[1];
+    LP2.process(fb1Ctx);
+
+    HP2.process(fb2Ctx);
+}
+
+void CompGainEQ::processBlockEQ(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+{
+    juce::dsp::AudioBlock<float> block(buffer);
+
+    auto leftBlock = block.getSingleChannelBlock(0);
+    auto rightBlock = block.getSingleChannelBlock(1);
+
+    juce::dsp::ProcessContextReplacing<float> leftContext(leftBlock);
+    juce::dsp::ProcessContextReplacing<float> rightContext(rightBlock);
+
+    leftChain.process(leftContext);
+    rightChain.process(rightContext);
 }
 
 void CompGainEQ::updateValues(const std::unordered_map<std::string, float>& floatValues, const std::unordered_map<std::string, bool>& boolValues)
@@ -208,6 +398,75 @@ void CompGainEQ::updateValues(const std::unordered_map<std::string, float>& floa
     // gain
     gain.setGainDecibels(getWithDefault(floatValues, std::string("Gain"), 0.0f));
 
+    // EQ
+    updateFilters(floatValues);
+
+}
+
+ChainSettings CompGainEQ::getChainSettings(const std::unordered_map<std::string, float>& floatValues)
+{
+    ChainSettings settings;
+
+    settings.lowCutFreq = getWithDefault(floatValues, std::string("Low Cut Freq"), 0.0f);
+    settings.highCutFreq = getWithDefault(floatValues, std::string("High Cut Freq"), 0.0f);
+    settings.peakFreq = getWithDefault(floatValues, std::string("Peak Freq"), 0.0f);
+    settings.peakGainInDecibels = getWithDefault(floatValues, std::string("Peak Gain in Decibels"), 0.0f);
+    settings.peakQuality = getWithDefault(floatValues, std::string("Peak Quality"), 0.0f);
+    settings.lowCutSlope = getWithDefault(floatValues, std::string("Low Cut Slope"), 0.0f);
+    settings.highCutSlope = getWithDefault(floatValues, std::string("High Cut Slope"), 0.0f);
+
+    return settings;
+}
+
+void CompGainEQ::updateFilters(const std::unordered_map<std::string, float>& floatValues)
+{
+    auto chainSettings = getChainSettings(floatValues);
+
+    updateLowCutFilters(chainSettings);
+    updatePeakFilter(chainSettings);
+    updateHighCutFilters(chainSettings);
+}
+
+void CompGainEQ::updateHighCutFilters(const ChainSettings& chainSettings)
+{
+    auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRLowpassHighOrderButterworthMethod(chainSettings.highCutFreq,
+        getSampleRate(),
+        2 * (chainSettings.highCutSlope + 1));
+
+    auto& leftHighCut = leftChain.get<ChainPositions::HighCut>();
+    auto& rightHighCut = rightChain.get<ChainPositions::HighCut>();
+
+    updateCutFilter(leftHighCut, highCutCoefficients, chainSettings.highCutSlope);
+    updateCutFilter(rightHighCut, highCutCoefficients, chainSettings.highCutSlope);
+}
+
+void CompGainEQ::updateLowCutFilters(const ChainSettings& chainSettings)
+{
+    auto cutCoefficients = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(chainSettings.lowCutFreq,
+        getSampleRate(),
+        2 * (chainSettings.lowCutSlope + 1));
+
+    auto& leftLowCut = leftChain.get<ChainPositions::LowCut>();
+    auto& rightLowCut = rightChain.get<ChainPositions::LowCut>();
+
+    updateCutFilter(leftLowCut, cutCoefficients, chainSettings.lowCutSlope);
+    updateCutFilter(rightLowCut, cutCoefficients, chainSettings.lowCutSlope);
+}
+
+void CompGainEQ::updateCoefficients(Coefficients& old, const Coefficients& replacements)
+{
+    *old = *replacements;
+}
+
+void CompGainEQ::updatePeakFilter(const ChainSettings& chainSettings)
+{
+    auto peakCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(),
+        chainSettings.peakFreq,
+        chainSettings.peakQuality,
+        juce::Decibels::decibelsToGain(chainSettings.peakGainInDecibels));
+
+    updateCoefficients(leftChain.get<ChainPositions::Peak>().coefficients, peakCoefficients);
+    updateCoefficients(rightChain.get<ChainPositions::Peak>().coefficients, peakCoefficients);
 }
 
 //==============================================================================
