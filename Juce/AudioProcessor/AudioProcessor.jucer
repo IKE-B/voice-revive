@@ -3,7 +3,10 @@
 <JUCERPROJECT id="BfW9zF" name="AudioProcessor" projectType="dll" useAppConfig="1"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="T7zDHS" name="AudioProcessor">
-    <GROUP id="{D61621A0-162F-BDB5-3B7E-C87B42A34CF6}" name="Source"/>
+    <GROUP id="{D61621A0-162F-BDB5-3B7E-C87B42A34CF6}" name="Source">
+      <FILE id="ol7stX" name="CompGainEQ.cpp" compile="1" resource="0" file="Source/CompGainEQ.cpp"/>
+      <FILE id="pmref1" name="CompGainEQ.h" compile="0" resource="0" file="Source/CompGainEQ.h"/>
+    </GROUP>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
