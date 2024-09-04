@@ -36,6 +36,8 @@ add_library( ${BINARY_NAME}
 
     SHARED
 
+    "../../../Source/CompGainEQ.cpp"
+    "../../../Source/CompGainEQ.h"
     "../../../../../../../../../../Users/Simon/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.cpp"
     "../../../../../../../../../../Users/Simon/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h"
     "../../../../../../../../../../Users/Simon/JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp"
@@ -2546,6 +2548,7 @@ add_library( ${BINARY_NAME}
 )
 
 set_source_files_properties(
+    "../../../Source/CompGainEQ.h"
     "../../../../../../../../../../Users/Simon/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.cpp"
     "../../../../../../../../../../Users/Simon/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h"
     "../../../../../../../../../../Users/Simon/JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp"

@@ -2,6 +2,12 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="AudioProcessor\Source">
+      <UniqueIdentifier>{E606D020-9279-EA2D-15F0-5DFA987DEFDC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioProcessor">
+      <UniqueIdentifier>{4D32D933-3B51-FDBA-672C-5F4CC524FD80}</UniqueIdentifier>
+    </Filter>
     <Filter Include="JUCE Modules\juce_audio_basics\audio_play_head">
       <UniqueIdentifier>{EB58F05A-A968-CEBE-40C4-107CDD8F240F}</UniqueIdentifier>
     </Filter>
@@ -691,6 +697,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\CompGainEQ.cpp">
+      <Filter>AudioProcessor\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClCompile>
@@ -3546,6 +3555,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\CompGainEQ.h">
+      <Filter>AudioProcessor\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClInclude>
