@@ -107,6 +107,16 @@ private:
         HP2;
 
 
+    void prepareToPlayCompAll(double sampleRate, int samplesPerBlock); 
+    void prepareToPlayCompMultBand(double sampleRate, int samplesPerBlock);
+    void prepareToPlayGain(double sampleRate, int samplesPerBlock); 
+    void prepareToPlayEQ(double sampleRate, int samplesPerBlock);
+
+    void startModulation();
+    void stopModulation();
+
+    bool isProcessing = false;
+    bool isInitialized = false;
 
     // gain
     juce::dsp::Gain<float> gain;
