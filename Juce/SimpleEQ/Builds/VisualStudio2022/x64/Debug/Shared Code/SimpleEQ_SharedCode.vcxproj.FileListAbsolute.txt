@@ -1,0 +1,1 @@
+C:\Users\maxig\projectVoice\voice-revive\juce\SimpleEQ\Builds\VisualStudio2022\x64\Debug\Shared Code\SimpleEQ.lib

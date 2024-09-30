@@ -10,6 +10,48 @@
 
 #include "CompGainEQ.h"
 
+
+
+
+void CompGainEQ::startModulation()
+{
+    if (!isInitialized) {
+        DBG("Das Programm ist noch nicht bereit!");
+        return;
+    }
+
+    // Hier f�hrst du den eigentlichen Start der Modulation durch
+    DBG("Modulation startet jetzt...");
+    isProcessing = true;
+    gain.setGainDecibels(-60.0f); // Sehr niedriger Gain zum Start
+
+    
+    const float rampDurationSeconds = 2.0f; // Dauer der Modulation in Sekunden
+    gain.setRampDurationSeconds(rampDurationSeconds);
+
+    // Setze das Ziel-Gain, z. B. 0 dB
+    gain.setGainDecibels(0.0f);
+}
+
+
+void CompGainEQ::stopModulation()
+{
+    
+    gain.setRampDurationSeconds(0.0f); 
+    gain.setGainDecibels(-60.0f); 
+    compAllBypassed = true;     
+    compLowBypassed = true;     
+    compMidBypassed = true;    
+    compHighBypassed = true;
+    isProcessing = false;
+
+}
+
+
+
+
+
+
 CompGainEQ::CompGainEQ()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(BusesProperties()
@@ -107,6 +149,8 @@ void CompGainEQ::prepareToPlay(double sampleRate, int samplesPerBlock)
 
     // EQ
     prepareToPlayEQ(sampleRate, samplesPerBlock);
+    isInitialized = true;
+    
 }
 
 void CompGainEQ::prepareToPlayCompAll(double sampleRate, int samplesPerBlock)
@@ -205,6 +249,15 @@ bool CompGainEQ::isBusesLayoutSupported(const BusesLayout& layouts) const
 void CompGainEQ::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
+
+    if (!isProcessing || (compAllBypassed && compLowBypassed && compMidBypassed && compHighBypassed))
+    {
+        
+        buffer.clear();
+        return; // Beendet das Processing hier
+    }
+
+
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
