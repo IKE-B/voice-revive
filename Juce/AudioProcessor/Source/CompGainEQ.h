@@ -30,6 +30,8 @@ public:
     CompGainEQ();
     ~CompGainEQ() override;
 
+    void logAvailableDevices();
+
     //==============================================================================
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void CompGainEQ::prepareToPlayEQ(double sampleRate, int samplesPerBlock);
@@ -75,6 +77,8 @@ public:
         }
         return defaultValue;
     }
+
+    juce::AudioDeviceManager deviceManager;
     
 private:
     // compressors
