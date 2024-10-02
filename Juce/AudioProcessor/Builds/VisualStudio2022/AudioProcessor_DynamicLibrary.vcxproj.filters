@@ -140,12 +140,6 @@
     <Filter Include="JUCE Modules\juce_audio_formats">
       <UniqueIdentifier>{E824435F-FC7B-10BE-5D1A-5DACC51A8836}</UniqueIdentifier>
     </Filter>
-    <Filter Include="JUCE Modules\juce_audio_plugin_client\detail">
-      <UniqueIdentifier>{50461EB0-68B5-5582-2DE2-81B0FE171231}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\juce_audio_plugin_client">
-      <UniqueIdentifier>{BA0A76FA-458F-0B1C-02E9-ECFBF81140EC}</UniqueIdentifier>
-    </Filter>
     <Filter Include="JUCE Modules\juce_audio_processors\format">
       <UniqueIdentifier>{86737735-F6BA-F64A-5EC7-5C9F36755F79}</UniqueIdentifier>
     </Filter>
@@ -1278,9 +1272,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_formats\juce_audio_formats.mm">
       <Filter>JUCE Modules\juce_audio_formats</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_ARA.cpp">
-      <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.cpp">
       <Filter>JUCE Modules\juce_audio_processors\format</Filter>
@@ -3511,9 +3502,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_formats.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_ARA.cpp">
-      <Filter>JUCE Library Code</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_processors.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
@@ -4295,30 +4283,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_formats\juce_audio_formats.h">
       <Filter>JUCE Modules\juce_audio_formats</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_CheckSettingMacros.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_CreatePluginFilter.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_IncludeModuleHeaders.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_IncludeSystemHeaders.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_LinuxMessageThread.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_PluginUtilities.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_VSTWindowUtilities.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h">
-      <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.h">
       <Filter>JUCE Modules\juce_audio_processors\format</Filter>

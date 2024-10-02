@@ -709,9 +709,6 @@
     <ClCompile Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_ARA.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -2800,7 +2797,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_devices.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_formats.cpp"/>
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_ARA.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_processors.cpp">
       <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -3071,14 +3067,6 @@
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_formats\format\juce_MemoryMappedAudioFormatReader.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_formats\sampler\juce_Sampler.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_formats\juce_audio_formats.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_CheckSettingMacros.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_CreatePluginFilter.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_IncludeModuleHeaders.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_IncludeSystemHeaders.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_LinuxMessageThread.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_PluginUtilities.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\detail\juce_VSTWindowUtilities.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormatManager.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\Users\Simon\JUCE\modules\juce_audio_processors\format_types\LV2_SDK\lilv\lilv\lilv.h"/>

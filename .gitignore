@@ -159,3 +159,26 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 **/.vs
+
+# Visual Studio build files
+.vscode/
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.sdf
+*.opendb
+*.tlog
+*.obj
+*.pch
+*.idb
+*.ipch
+*.pdb
+*.ilk
+*.log
+*.user
+
+# Output directories
+/Debug/
+/Release/
+/x64/Debug/
+/x64/Release/

@@ -231,9 +231,9 @@ void CompGainEQ::prepareToPlayCompMultBand(double sampleRate, int samplesPerBloc
     spec.numChannels = static_cast<juce::uint32>(getTotalNumOutputChannels());
     spec.sampleRate = sampleRate;
 
-    compressorLow.process(spec);
-    compressorMid.process(spec);
-    compressorHigh.process(spec);
+    compressorLow.prepare(spec);
+    compressorMid.prepare(spec);
+    compressorHigh.prepare(spec);
 
     LP1.prepare(spec);
     HP1.prepare(spec);
@@ -331,7 +331,7 @@ void CompGainEQ::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
 
     // TODO
     // maybe we need an update:
-    // updateValues(floatValues, boolValues
+    // updateValues(floatValues, boolValues);
     
     // compressor All
     processBlockCompAll(buffer, midiMessages);
@@ -350,22 +350,27 @@ void CompGainEQ::processBlockCompAll(juce::AudioBuffer<float>& buffer, juce::Mid
 {
     if (!compAllMute)
     {
-        auto block = juce::dsp::AudioBlock<float>(buffer);
-        auto context = juce::dsp::ProcessContextReplacing<float>(block);
-
-        context.isBypassed = compAllBypassed;
-
-        compressorAll.process(buffer);
+        compressorAll.process(getCompressorContext(buffer, compAllBypassed));
     }
+}
+
+juce::dsp::ProcessContextReplacing<float> CompGainEQ::getCompressorContext(juce::AudioBuffer<float>& buffer, bool isBypass)
+{
+    auto block = juce::dsp::AudioBlock<float>(buffer);
+    auto context = juce::dsp::ProcessContextReplacing<float>(block);
+
+    context.isBypassed = isBypass;
+
+    return context;
 }
 
 void CompGainEQ::processBlockCompMultBand(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     splitBands(buffer);
 
-    compressorLow.process(filterBuffers[0]);
-    compressorMid.process(filterBuffers[1]);
-    compressorHigh.process(filterBuffers[2]);
+    compressorLow.process(getCompressorContext(filterBuffers[0], compLowBypassed));
+    compressorMid.process(getCompressorContext(filterBuffers[1], compMidBypassed));
+    compressorHigh.process(getCompressorContext(filterBuffers[2], compHighBypassed));
 
 
     auto numSamples = buffer.getNumSamples();
