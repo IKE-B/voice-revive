@@ -20,16 +20,14 @@ void CompGainEQ::startModulation()
         return;
     }
 
-    // Hier führst du den eigentlichen Start der Modulation durch
     DBG("Modulation startet jetzt...");
     isProcessing = true;
-    gain.setGainDecibels(-60.0f); // Sehr niedriger Gain zum Start
+    gain.setGainDecibels(-60.0f); 
 
     
-    const float rampDurationSeconds = 2.0f; // Dauer der Modulation in Sekunden
+    const float rampDurationSeconds = 2.0f;
     gain.setRampDurationSeconds(rampDurationSeconds);
 
-    // Setze das Ziel-Gain, z. B. 0 dB
     gain.setGainDecibels(0.0f);
 }
 
@@ -44,6 +42,8 @@ void CompGainEQ::stopModulation()
     compMidBypassed = true;    
     compHighBypassed = true;
     isProcessing = false;
+
+    juce::JUCEApplicationBase::quit();
 
 }
 
