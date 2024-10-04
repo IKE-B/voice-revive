@@ -20,6 +20,7 @@ void CompGainEQ::startModulation()
         return;
     }
 
+    // Hier f�hrst du den eigentlichen Start der Modulation durch
     DBG("Modulation startet jetzt...");
     isProcessing = true;
     gain.setGainDecibels(-60.0f); 
@@ -64,11 +65,70 @@ CompGainEQ::CompGainEQ()
     )
 #endif
 {
-    
+    // Initialize the audio device manager (2 input channels, 2 output channels)
+    deviceManager.initialise(1, 1, nullptr, true, {}, nullptr);
+
+    // Log available devices
+    logAvailableDevices();
+
+    // Start the device and check if it is working
+    if (auto* currentDevice = deviceManager.getCurrentAudioDevice())
+    {
+        juce::String deviceName = currentDevice->getName();
+        juce::Logger::writeToLog("Current audio device: " + deviceName);
+
+        if (currentDevice->isOpen())
+        {
+            juce::Logger::writeToLog("Audio device is open and ready to use.");
+        }
+        else
+        {
+            juce::Logger::writeToLog("Failed to open audio device.");
+        }
+    }
+    else
+    {
+        juce::Logger::writeToLog("No audio device is currently initialized.");
+    }
 }
 
 CompGainEQ::~CompGainEQ()
 {
+}
+
+// for testing log the Audio Devices
+void CompGainEQ::logAvailableDevices()
+{
+    // Get the list of available device types (e.g., CoreAudio, ASIO, WASAPI, etc.)
+    juce::AudioIODeviceType* deviceType = deviceManager.getCurrentDeviceTypeObject();
+
+    if (deviceType != nullptr)
+    {
+        // Refresh the list of devices (needed before calling getDeviceNames)
+        deviceType->scanForDevices();
+
+        // Get the list of input and output device names
+        juce::StringArray outputDevices = deviceType->getDeviceNames(false); // false = output devices
+        juce::StringArray inputDevices = deviceType->getDeviceNames(true);   // true = input devices
+
+        // Log the available output devices
+        juce::Logger::writeToLog("Available Output Devices:");
+        for (const auto& device : outputDevices)
+        {
+            juce::Logger::writeToLog("  - " + device);
+        }
+
+        // Log the available input devices
+        juce::Logger::writeToLog("Available Input Devices:");
+        for (const auto& device : inputDevices)
+        {
+            juce::Logger::writeToLog("  - " + device);
+        }
+    }
+    else
+    {
+        juce::Logger::writeToLog("No audio device type found.");
+    }
 }
 
 //==============================================================================
@@ -172,9 +232,9 @@ void CompGainEQ::prepareToPlayCompMultBand(double sampleRate, int samplesPerBloc
     spec.numChannels = static_cast<juce::uint32>(getTotalNumOutputChannels());
     spec.sampleRate = sampleRate;
 
-    compressorLow.process(spec);
-    compressorMid.process(spec);
-    compressorHigh.process(spec);
+    compressorLow.prepare(spec);
+    compressorMid.prepare(spec);
+    compressorHigh.prepare(spec);
 
     LP1.prepare(spec);
     HP1.prepare(spec);
@@ -272,7 +332,7 @@ void CompGainEQ::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
 
     // TODO
     // maybe we need an update:
-    // updateValues(floatValues, boolValues
+    // updateValues(floatValues, boolValues);
     
     // compressor All
     processBlockCompAll(buffer, midiMessages);
@@ -291,22 +351,27 @@ void CompGainEQ::processBlockCompAll(juce::AudioBuffer<float>& buffer, juce::Mid
 {
     if (!compAllMute)
     {
-        auto block = juce::dsp::AudioBlock<float>(buffer);
-        auto context = juce::dsp::ProcessContextReplacing<float>(block);
-
-        context.isBypassed = compAllBypassed;
-
-        compressorAll.process(buffer);
+        compressorAll.process(getCompressorContext(buffer, compAllBypassed));
     }
+}
+
+juce::dsp::ProcessContextReplacing<float> CompGainEQ::getCompressorContext(juce::AudioBuffer<float>& buffer, bool isBypass)
+{
+    auto block = juce::dsp::AudioBlock<float>(buffer);
+    auto context = juce::dsp::ProcessContextReplacing<float>(block);
+
+    context.isBypassed = isBypass;
+
+    return context;
 }
 
 void CompGainEQ::processBlockCompMultBand(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     splitBands(buffer);
 
-    compressorLow.process(filterBuffers[0]);
-    compressorMid.process(filterBuffers[1]);
-    compressorHigh.process(filterBuffers[2]);
+    compressorLow.process(getCompressorContext(filterBuffers[0], compLowBypassed));
+    compressorMid.process(getCompressorContext(filterBuffers[1], compMidBypassed));
+    compressorHigh.process(getCompressorContext(filterBuffers[2], compHighBypassed));
 
 
     auto numSamples = buffer.getNumSamples();
@@ -520,19 +585,4 @@ void CompGainEQ::updatePeakFilter(const ChainSettings& chainSettings)
 
     updateCoefficients(leftChain.get<ChainPositions::Peak>().coefficients, peakCoefficients);
     updateCoefficients(rightChain.get<ChainPositions::Peak>().coefficients, peakCoefficients);
-}
-
-//==============================================================================
-void CompGainEQ::getStateInformation(juce::MemoryBlock& destData)
-{
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
-    juce::MemoryOutputStream mos(destData, true);
-}
-
-void CompGainEQ::setStateInformation(const void* data, int sizeInBytes)
-{
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
 }

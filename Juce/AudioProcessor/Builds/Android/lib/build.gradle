@@ -90,7 +90,7 @@ android {
 
     sourceSets {
         main.java.srcDirs +=
-            ["D:/maxig/Juce/JUCE/modules/juce_core/native/javacore/init"]
+            ["../../../../../../../../../../Users/Simon/JUCE/modules/juce_core/native/javacore/init"]
 
         main.res.srcDirs +=
             []

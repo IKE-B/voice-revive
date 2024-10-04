@@ -30,12 +30,10 @@ public:
     CompGainEQ();
     ~CompGainEQ() override;
 
+    void logAvailableDevices();
+
     //==============================================================================
-    void prepareToPlay(double sampleRate, int samplesPerBlock) override;
-    void CompGainEQ::prepareToPlayEQ(double sampleRate, int samplesPerBlock);
-    void CompGainEQ::prepareToPlayCompAll(double sampleRate, int samplesPerBlock);
-    void CompGainEQ::prepareToPlayCompMultBand(double sampleRate, int samplesPerBlock);
-    void CompGainEQ::prepareToPlayGain(double sampleRate, int samplesPerBlock);
+    
 
     void releaseResources() override;
 
@@ -44,10 +42,13 @@ public:
     #endif
 
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-    void CompGainEQ::processBlockEQ(juce::AudioBuffer<float>&, juce::MidiBuffer&);
-    void CompGainEQ::processBlockCompAll(juce::AudioBuffer<float>&, juce::MidiBuffer&);
-    void CompGainEQ::processBlockCompMultBand(juce::AudioBuffer<float>&, juce::MidiBuffer&);
-    void CompGainEQ::splitBands(const juce::AudioBuffer<float>& inputBuffer);
+    void processBlockEQ(juce::AudioBuffer<float>&, juce::MidiBuffer&);
+    void processBlockCompAll(juce::AudioBuffer<float>&, juce::MidiBuffer&);
+    void processBlockCompMultBand(juce::AudioBuffer<float>&, juce::MidiBuffer&);
+
+    juce::dsp::ProcessContextReplacing<float> getCompressorContext(juce::AudioBuffer<float>& buffer, bool isBypass);
+
+    void splitBands(const juce::AudioBuffer<float>& inputBuffer);
 
     void updateValues(const std::unordered_map<std::string, float>& floatValues, const std::unordered_map<std::string, bool>& boolValues);
 
@@ -75,6 +76,8 @@ public:
         }
         return defaultValue;
     }
+
+    juce::AudioDeviceManager deviceManager;
     
 private:
     // compressors
@@ -106,7 +109,7 @@ private:
         HP1, LP2,
         HP2;
 
-
+    void prepareToPlay(double sampleRate, int samplesPerBlock);
     void prepareToPlayCompAll(double sampleRate, int samplesPerBlock); 
     void prepareToPlayCompMultBand(double sampleRate, int samplesPerBlock);
     void prepareToPlayGain(double sampleRate, int samplesPerBlock); 
@@ -130,9 +133,9 @@ private:
     }
 
     // EQ
-    using Filter = juce::dsp::IIR::Filter<float>;
-    using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
-    using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
+    using FilterEQ = juce::dsp::IIR::Filter<float>;
+    using CutFilter = juce::dsp::ProcessorChain<FilterEQ, FilterEQ, FilterEQ, FilterEQ>;
+    using MonoChain = juce::dsp::ProcessorChain<CutFilter, FilterEQ, CutFilter>;
     MonoChain leftChain, rightChain;
 
     enum ChainPositions
@@ -143,7 +146,7 @@ private:
     };
 
     void updatePeakFilter(const ChainSettings& chainSettings);
-    using Coefficients = Filter::CoefficientsPtr;
+    using Coefficients = FilterEQ::CoefficientsPtr;
     static void updateCoefficients(Coefficients& old, const Coefficients& replacements);
 
     template<int Index, typename ChainType, typename CoefficientType>
@@ -161,24 +164,21 @@ private:
         chain.template setBypassed<2>(true);
         chain.template setBypassed<3>(true);
 
-        switch (lowCutSlope)
-        {
-        case 48.0f:
+        if (lowCutSlope == 48.0f)
         {
             update<3>(chain, cutCoefficients);
         }
-        case 36.0f:
+        else if (lowCutSlope == 36.0f)
         {
             update<2>(chain, cutCoefficients);
         }
-        case 24.0f:
+        else if (lowCutSlope == 24.0f)
         {
             update<1>(chain, cutCoefficients);
         }
-        case 12.0f:
+        else if (lowCutSlope == 12.0f)
         {
             update<0>(chain, cutCoefficients);
-        }
         }
     }
 
