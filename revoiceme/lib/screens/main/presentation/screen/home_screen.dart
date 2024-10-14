@@ -31,8 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     // cleanup value notifiers
-    VolumeController().removeListener();
-    deviceVolume.dispose();
     pitch.dispose();
     super.dispose();
   }
