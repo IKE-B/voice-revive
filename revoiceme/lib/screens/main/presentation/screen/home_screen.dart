@@ -198,14 +198,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: ReVoiceMeAppBar(
-          title: Routes.homeText,
-          userHasControl: true,
-          appliesVoiceChanging: _isAmplifying,
-          toggleVoiceChanging:
-              _isAmplifying ? _stopAmplifying : _startAmplifying,
+        appBar: const ReVoiceMeAppBar(),
+        drawer: const ReVoiceMeDrawer(
+          cleanup: DeviceVolumeSlider.cleanup,
         ),
-        drawer: const ReVoiceMeDrawer(Routes.home),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -220,20 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 inactiveIcon: Icons.play_arrow_rounded,
               ),
               const SmallPadder(),
-              ValueListenableBuilder<double>(
-                valueListenable: deviceVolume,
-                builder: (BuildContext context, double value, Widget? child) =>
-                    VoiceChangerSlider(
-                  title: "Lautstärke",
-                  value: value,
-                  min: minVolume,
-                  max: maxVolume,
-                  delta: maxVolume /
-                      15, // 15 steps is the default step count for the (development) device's volume slider
-                  togglable: false,
-                  onChanged: _deviceVolumeOnChanged,
-                ),
-              ),
+              const DeviceVolumeSlider(),
               ValueListenableBuilder<double>(
                 valueListenable: pitch,
                 builder: (BuildContext context, double value, Widget? child) =>
