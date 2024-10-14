@@ -6,12 +6,16 @@ dartdoc:
     "Widget":
       name: "Widgets"
       markdown: ../docs/categories/widgets.md
+    "Global":
+      name: "Globals"
+      markdown: ../docs/categories/globals.md
     "Other":
       name: "Others"
       markdown: ../docs/categories/others.md
   categoryOrder: [
     "Screen",
     "Widget",
+    "Global",
     "Other"
   ]
   linkTo:

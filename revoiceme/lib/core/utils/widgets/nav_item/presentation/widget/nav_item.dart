@@ -6,6 +6,10 @@ import "package:revoiceme/core/utils/widgets/small_padder/presentation/widget/sm
 
 /// A navigation item to be used inside a [ReVoiceMeDrawer].
 ///
+/// A [NavItem] can be tapped to navigate to a different screen.
+/// It is able to perform [cleanup] before navigating to the new screen.
+/// Automatically highlights the item if the current route matches the item's route.
+///
 /// {@category Widget}
 class NavItem extends StatelessWidget {
   /// Creates a new [NavItem] instance.
@@ -13,8 +17,7 @@ class NavItem extends StatelessWidget {
     required this.route,
     required this.routeText,
     required this.icon,
-    this.textColor,
-    this.tileColor,
+    this.cleanup,
     super.key,
   });
 
@@ -27,11 +30,25 @@ class NavItem extends StatelessWidget {
   /// The icon to display left to the [routeText].
   final IconData icon;
 
-  /// The text color of the item.
-  final Color? textColor;
+  /// A cleanup method that is called when navigating away from the screen via the item.
+  /// It is called before the new screen is built (and before the current screen is disposed).
+  final void Function()? cleanup;
 
-  /// The background color of the item.
-  final Color? tileColor;
+  /// Performs [cleanup] and then starts the navigation to the item's route.
+  void onTap(BuildContext context) {
+    cleanup?.call();
+    Navigator.pop(context);
+    context.go(route);
+  }
+
+  /// Infer the color of the tile depending on whether the [currenRoute] matches the item's [route].
+  Color? inferTileColor(BuildContext context) {
+    final String? currentRoute = ModalRoute.of(context)?.settings.name;
+
+    return currentRoute != null && currentRoute == route
+        ? Theme.of(context).colorScheme.primaryContainer
+        : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +69,8 @@ class NavItem extends StatelessWidget {
           ),
         ],
       ),
-      onTap: () {
-        Navigator.pop(context);
-        context.go(route);
-      },
-      tileColor: tileColor,
+      onTap: () => onTap(context),
+      tileColor: inferTileColor(context),
     );
   }
 }

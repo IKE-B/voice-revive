@@ -6,7 +6,8 @@ typedef DoubleCallback = void Function(double value);
 
 /// A widget for controlling a certain voice changing parameter via a user controllable slider.
 ///
-/// The [VoiceChangerSlider] consists of a slider for increasing or decreasing the [value] and a descriptive [title].
+/// The [VoiceChangerSlider] consists of a a descriptive [title] and
+/// a slider for increasing or decreasing the [value].
 /// Optionally, the slider can be activated or deactivated by a switch.
 /// The switch's state is correlated with the [_VoiceChangerSliderState._isActive] variable.
 ///
@@ -19,8 +20,8 @@ class VoiceChangerSlider extends StatefulWidget {
     required this.min,
     required this.max,
     required this.delta,
-    required this.togglable,
     required this.onChanged,
+    this.togglable = false,
     this.labelBuilder = _defaultLabelBuilder,
     super.key,
   });
@@ -40,7 +41,7 @@ class VoiceChangerSlider extends StatefulWidget {
   /// The step size of the slider.
   final double delta;
 
-  /// Whether the slider can be toggled on or off by a switch.
+  /// Whether the slider can be toggled on or off by a switch ('false' by default).
   final bool togglable;
 
   /// The action that should be performed when the user changes the slider.
@@ -59,7 +60,7 @@ class VoiceChangerSlider extends StatefulWidget {
 
 class _VoiceChangerSliderState extends State<VoiceChangerSlider> {
   /// Whether this widget currently interferes with the [VoiceChangerSlider.value].
-  /// It is controlled by this widget's switch.
+  /// It is controlled by this widget's switch.pop
   bool _isActive = false;
 
   @override
@@ -75,7 +76,8 @@ class _VoiceChangerSliderState extends State<VoiceChangerSlider> {
       return;
     }
 
-    // only call [VoiceChangerSlider.onChanged] with the new [VoiceChangerSlider.value] if it is within the valid range, otherwise call it with the boundary values [VoiceChangerSlider.min] or [VoiceChangerSlider.max]
+    // only call [VoiceChangerSlider.onChanged] with the new [VoiceChangerSlider.value] if it is within the valid range,
+    // otherwise call it with the boundary values [VoiceChangerSlider.min] or [VoiceChangerSlider.max]
     if (widget.value < widget.min) {
       widget.onChanged(widget.min);
     } else if (widget.value > widget.max) {
