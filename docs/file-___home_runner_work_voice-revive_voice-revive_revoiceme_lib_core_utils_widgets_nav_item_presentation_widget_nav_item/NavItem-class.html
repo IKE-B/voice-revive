@@ -64,6 +64,9 @@
     
 <section class="desc markdown">
   <p>A navigation item to be used inside a <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_drawer_presentation_widget_revoiceme_drawer/ReVoiceMeDrawer-class.html">ReVoiceMeDrawer</a>.</p>
+<p>A <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem-class.html">NavItem</a> can be tapped to navigate to a different screen.
+It is able to perform <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/cleanup.html">cleanup</a> before navigating to the new screen.
+Automatically highlights the item if the current route matches the item's route.</p>
 </section>
 
 
@@ -74,7 +77,7 @@
 
     <dl class="constructor-summary-list">
         <dt id="NavItem" class="callable">
-          <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/NavItem.html">NavItem</a></span><span class="signature">({<span class="parameter" id="-param-route"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">route</span>, </span><span class="parameter" id="-param-routeText"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">routeText</span>, </span><span class="parameter" id="-param-icon"><span>required</span> <span class="type-annotation">dynamic</span> <span class="parameter-name">icon</span>, </span><span class="parameter" id="-param-textColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">textColor</span>, </span><span class="parameter" id="-param-tileColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">tileColor</span>, </span><span class="parameter" id="-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span></span>})</span>
+          <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/NavItem.html">NavItem</a></span><span class="signature">({<span class="parameter" id="-param-route"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">route</span>, </span><span class="parameter" id="-param-routeText"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">routeText</span>, </span><span class="parameter" id="-param-icon"><span>required</span> <span class="type-annotation">dynamic</span> <span class="parameter-name">icon</span>, </span><span class="parameter" id="-param-cleanup"><span class="type-annotation">void</span> <span class="parameter-name">cleanup</span>()?, </span><span class="parameter" id="-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span></span>})</span>
         </dt>
         <dd>
           Creates a new <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem-class.html">NavItem</a> instance.
@@ -88,6 +91,19 @@
       id="instance-properties">
     <h2>Properties</h2>
     <dl class="properties">
+        <dt id="cleanup" class="property">
+  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/cleanup.html">cleanup</a></span>
+  <span class="signature">&#8594; (void Function<span class="signature">()</span>?)</span>
+  
+
+</dt>
+<dd>
+  A cleanup method that is called when navigating away from the screen via the item.
+It is called before the new screen is built (and before the current screen is disposed).
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
@@ -148,30 +164,6 @@
 
 </dd>
 
-        <dt id="textColor" class="property">
-  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/textColor.html">textColor</a></span>
-  <span class="signature">&#8594; dynamic</span>
-  
-
-</dt>
-<dd>
-  The text color of the item.
-  <div class="features"><span class="feature">final</span></div>
-
-</dd>
-
-        <dt id="tileColor" class="property">
-  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/tileColor.html">tileColor</a></span>
-  <span class="signature">&#8594; dynamic</span>
-  
-
-</dt>
-<dd>
-  The background color of the item.
-  <div class="features"><span class="feature">final</span></div>
-
-</dd>
-
     </dl>
   </section>
     
@@ -193,6 +185,19 @@
 
 </dd>
 
+        <dt id="inferTileColor" class="callable">
+  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/inferTileColor.html">inferTileColor</a></span><span class="signature">(<wbr><span class="parameter" id="inferTileColor-param-context"><span class="type-annotation">dynamic</span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Infer the color of the tile depending on whether the <code>currenRoute</code> matches the item's <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/route.html">route</a>.
+  
+
+</dd>
+
         <dt id="noSuchMethod" class="callable inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
     <span class="returntype parameter">&#8594; dynamic</span>
@@ -203,6 +208,19 @@
 <dd class="inherited">
   Invoked when a nonexistent method or property is accessed.
   <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="onTap" class="callable">
+  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/onTap.html">onTap</a></span><span class="signature">(<wbr><span class="parameter" id="onTap-param-context"><span class="type-annotation">dynamic</span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Performs <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_nav_item_presentation_widget_nav_item/NavItem/cleanup.html">cleanup</a> and then starts the navigation to the item's route.
+  
 
 </dd>
 

@@ -59,13 +59,18 @@
 <h1><span class="kind-class">ReVoiceMeAppBar</span> class 
  
     <span class="category widget cp-1 linked" title="This is part of the Widget topic."><a href="../topics/Widget-topic.html">Widget</a></span>
+    <span class="category global cp-2 linked" title="This is part of the Global topic."><a href="../topics/Global-topic.html">Global</a></span>
 </h1></div>
 
     
 <section class="desc markdown">
   <p>The app bar for the ReVoiceMe app.</p>
-<p>The app bar provides an icon button to toggle voice changing.
-The icon changes depending on whether voice changing is applied.</p>
+<p>Depends on <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_voice_change_demo_presentation_widget_voice_change_demo_bloc/VoiceChangeDemo-class.html">VoiceChangeDemo</a>.
+The <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar-class.html">ReVoiceMeAppBar</a> is a custom app bar consisting of multiple components.
+The title is automatically inferred from the current route.
+The app bar provides an icon button to toggle voice changing.
+The icon changes depending on whether
+the user is allowed to toggle the voice changing and whether voice changing is active.</p>
 </section>
 
 
@@ -76,7 +81,7 @@ The icon changes depending on whether voice changing is applied.</p>
 
     <dl class="constructor-summary-list">
         <dt id="ReVoiceMeAppBar" class="callable">
-          <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/ReVoiceMeAppBar.html">ReVoiceMeAppBar</a></span><span class="signature">({<span class="parameter" id="-param-title"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">title</span>, </span><span class="parameter" id="-param-userHasControl"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">userHasControl</span>, </span><span class="parameter" id="-param-appliesVoiceChanging"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">appliesVoiceChanging</span>, </span><span class="parameter" id="-param-toggleVoiceChanging"><span>required</span> <span class="type-annotation">dynamic</span> <span class="parameter-name">toggleVoiceChanging</span>, </span><span class="parameter" id="-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span></span>})</span>
+          <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/ReVoiceMeAppBar.html">ReVoiceMeAppBar</a></span><span class="signature">({<span class="parameter" id="-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span></span>})</span>
         </dt>
         <dd>
           Creates a new <a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar-class.html">ReVoiceMeAppBar</a> instance.
@@ -90,18 +95,6 @@ The icon changes depending on whether voice changing is applied.</p>
       id="instance-properties">
     <h2>Properties</h2>
     <dl class="properties">
-        <dt id="appliesVoiceChanging" class="property">
-  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/appliesVoiceChanging.html">appliesVoiceChanging</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
-  
-
-</dt>
-<dd>
-  Whether the voice changing is currently active.
-  <div class="features"><span class="feature">final</span></div>
-
-</dd>
-
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
@@ -138,42 +131,6 @@ The icon changes depending on whether voice changing is applied.</p>
 
 </dd>
 
-        <dt id="title" class="property">
-  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/title.html">title</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  The text to display in the app bar.
-  <div class="features"><span class="feature">final</span></div>
-
-</dd>
-
-        <dt id="toggleVoiceChanging" class="property">
-  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/toggleVoiceChanging.html">toggleVoiceChanging</a></span>
-  <span class="signature">&#8594; dynamic</span>
-  
-
-</dt>
-<dd>
-  The function to call for toggling the voice changing.
-  <div class="features"><span class="feature">final</span></div>
-
-</dd>
-
-        <dt id="userHasControl" class="property">
-  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/userHasControl.html">userHasControl</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
-  
-
-</dt>
-<dd>
-  Whether the user currently can toggle the voice changing.
-  <div class="features"><span class="feature">final</span></div>
-
-</dd>
-
     </dl>
   </section>
     
@@ -195,6 +152,46 @@ The icon changes depending on whether voice changing is applied.</p>
 
 </dd>
 
+        <dt id="inferIndicatorColor" class="callable">
+  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/inferIndicatorColor.html">inferIndicatorColor</a></span><span class="signature">(<wbr><span class="parameter" id="inferIndicatorColor-param-context"><span class="type-annotation">dynamic</span> <span class="parameter-name">context</span>, </span><span class="parameter" id="inferIndicatorColor-param-state"><span class="type-annotation">dynamic</span> <span class="parameter-name">state</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Infer the color of the indicator depending on
+whether the user is allowed to toggle the voice changing.
+  
+
+</dd>
+
+        <dt id="inferIndicatorIcon" class="callable">
+  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/inferIndicatorIcon.html">inferIndicatorIcon</a></span><span class="signature">(<wbr><span class="parameter" id="inferIndicatorIcon-param-state"><span class="type-annotation">dynamic</span> <span class="parameter-name">state</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Infer the icon to show for indicating the voice changing state.
+  
+
+</dd>
+
+        <dt id="inferTitle" class="callable">
+  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/inferTitle.html">inferTitle</a></span><span class="signature">(<wbr><span class="parameter" id="inferTitle-param-context"><span class="type-annotation">dynamic</span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Infer the title of the app bar from the current route.
+  
+
+</dd>
+
         <dt id="noSuchMethod" class="callable inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
     <span class="returntype parameter">&#8594; dynamic</span>
@@ -205,6 +202,21 @@ The icon changes depending on whether voice changing is applied.</p>
 <dd class="inherited">
   Invoked when a nonexistent method or property is accessed.
   <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="onPressed" class="callable">
+  <span class="name"><a href="../file-___home_runner_work_voice-revive_voice-revive_revoiceme_lib_core_utils_widgets_revoiceme_appbar_presentation_widget_revoiceme_appbar/ReVoiceMeAppBar/onPressed.html">onPressed</a></span><span class="signature">(<wbr><span class="parameter" id="onPressed-param-context"><span class="type-annotation">dynamic</span> <span class="parameter-name">context</span>, </span><span class="parameter" id="onPressed-param-state"><span class="type-annotation">dynamic</span> <span class="parameter-name">state</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Function to call when the microphone icon is pressed.
+Attempts to toggle the voice changing state depending on whether
+the user is allowed to toggle the voice changing and whether voice changing is active.
+  
 
 </dd>
 

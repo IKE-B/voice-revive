@@ -65,8 +65,7 @@
       <span class="name ">NavItem</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="-param-route"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">route</span>, </span></li>
 <li><span class="parameter" id="-param-routeText"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">routeText</span>, </span></li>
 <li><span class="parameter" id="-param-icon"><span>required</span> <span class="type-annotation">dynamic</span> <span class="parameter-name">icon</span>, </span></li>
-<li><span class="parameter" id="-param-textColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">textColor</span>, </span></li>
-<li><span class="parameter" id="-param-tileColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">tileColor</span>, </span></li>
+<li><span class="parameter" id="-param-cleanup"><span class="type-annotation">void</span> <span class="parameter-name">cleanup</span>()?, </span></li>
 <li><span class="parameter" id="-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span>, </span></li>
 </ol>})
     </section>
@@ -84,8 +83,7 @@
   required this.route,
   required this.routeText,
   required this.icon,
-  this.textColor,
-  this.tileColor,
+  this.cleanup,
   super.key,
 });</code></pre>
 </section>

@@ -100,11 +100,8 @@ Widget build(BuildContext context) {
         ),
       ],
     ),
-    onTap: () {
-      Navigator.pop(context);
-      context.go(route);
-    },
-    tileColor: tileColor,
+    onTap: () =&gt; onTap(context),
+    tileColor: inferTileColor(context),
   );
 }</code></pre>
 </section>

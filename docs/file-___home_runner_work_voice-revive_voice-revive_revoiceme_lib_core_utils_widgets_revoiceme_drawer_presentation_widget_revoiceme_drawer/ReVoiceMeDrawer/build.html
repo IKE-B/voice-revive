@@ -82,43 +82,41 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Widget build(BuildContext context) {
-  const Color? unselectedColor = null;
-  final Color selectedColor = Theme.of(context).colorScheme.primaryContainer;
-
-  return Drawer(
-    child: ListView(
-      children: &lt;Widget&gt;[
-        const SizedBox(
-          height: CustomThemeData.drawerHeaderHeight,
-          child: DrawerHeader(
-            child: Text(&quot;Übersicht&quot;),
-          ),
-        ),
-        Expanded(
-          &#47;&#47; ListView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CustomThemeData.defaultPadding,
+Widget build(BuildContext context) =&gt; Drawer(
+      child: ListView(
+        children: &lt;Widget&gt;[
+          const SizedBox(
+            height: CustomThemeData.drawerHeaderHeight,
+            child: DrawerHeader(
+              child: Text(&quot;Übersicht&quot;),
             ),
-            child: Column(
-              children: &lt;Widget&gt;[
-                NavItem(
-                  routeText: Routes.homeText,
-                  route: Routes.home,
-                  icon: Icons.home,
-                  tileColor: selectedRoute == Routes.home
-                      ? selectedColor
-                      : unselectedColor,
+          ),
+          Row(
+            children: &lt;Widget&gt;[
+              Expanded(
+                &#47;&#47; ListView(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CustomThemeData.defaultPadding,
+                  ),
+                  child: Column(
+                    children: List&lt;NavItem&gt;.generate(
+                      routes.length,
+                      (int index) =&gt; NavItem(
+                        routeText: routes.values.elementAt(index).text,
+                        route: routes.values.elementAt(index).path,
+                        icon: routes.values.elementAt(index).icon,
+                        cleanup: cleanup,
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ),
-      ],
-    ),
-  );
-}</code></pre>
+        ],
+      ),
+    );</code></pre>
 </section>
 
 

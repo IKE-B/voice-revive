@@ -83,35 +83,27 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  &#47;&#47; Get icons
-  const IconData activeIcon = Icons.mic;
-  const IconData inactiveIcon = Icons.mic_off;
-
-  &#47;&#47; Get colors
+  &#47;&#47; Get color palette
   final ColorScheme colors = Theme.of(context).colorScheme;
-  final Color enabledColor = colors.onSurface;
-  final Color disabledColor = Theme.of(context).disabledColor;
 
-  return AppBar(
-    title: Text(title),
-    backgroundColor: colors.primary,
-    actions: &lt;Widget&gt;[
-      IconButton(
-        icon: Icon(
-          appliesVoiceChanging ? activeIcon : inactiveIcon,
+  return BlocBuilder&lt;VoiceChangeDemo, VoiceChangeDemoState&gt;(
+    builder: (BuildContext context, VoiceChangeDemoState state) =&gt; AppBar(
+      title: Text(inferTitle(context)),
+      backgroundColor: colors.primary,
+      actions: &lt;Widget&gt;[
+        IconButton(
+          icon: Icon(inferIndicatorIcon(state)),
+          onPressed: () =&gt; onPressed(context, state),
         ),
-        onPressed: () {
-          if (userHasControl) toggleVoiceChanging();
-        },
+      ],
+      iconTheme: IconThemeData(
+        color: colors.onSurface,
+        size: CustomThemeData.defaultIconSize,
       ),
-    ],
-    iconTheme: IconThemeData(
-      color: colors.onSurface,
-      size: CustomThemeData.defaultIconSize,
-    ),
-    actionsIconTheme: IconThemeData(
-      color: userHasControl ? enabledColor : disabledColor,
-      size: CustomThemeData.defaultIconSize,
+      actionsIconTheme: IconThemeData(
+        color: inferIndicatorColor(context, state),
+        size: CustomThemeData.defaultIconSize,
+      ),
     ),
   );
 }</code></pre>

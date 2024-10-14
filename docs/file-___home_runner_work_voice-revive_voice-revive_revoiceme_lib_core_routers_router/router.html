@@ -58,7 +58,7 @@
       <div>
 <h1><span class="kind-top-level-property">router</span> top-level property 
  
-    <span class="category other cp-2 linked" title="This is part of the Other topic."><a href="../topics/Other-topic.html">Other</a></span>
+    <span class="category other cp-3 linked" title="This is part of the Other topic."><a href="../topics/Other-topic.html">Other</a></span>
 </h1></div>
 
         <section class="multi-line-signature">
@@ -81,9 +81,14 @@
   &#47;&#47;&#47; The routes to the different screens of the ReVoiceMe app.
   routes: &lt;RouteBase&gt;[
     GoRoute(
-      path: Routes.home,
+      path: routes[&quot;home&quot;]!.path,
       builder: (BuildContext context, GoRouterState state) =&gt;
           const HomeScreen(),
+    ),
+    GoRoute(
+      path: routes[&quot;configurator&quot;]!.path,
+      builder: (BuildContext context, GoRouterState state) =&gt;
+          const ConfiguratorScreen(),
     ),
   ],
 );</code></pre>
