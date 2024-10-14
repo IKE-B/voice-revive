@@ -69,7 +69,7 @@
   </div>
 
 <span class="returntype">dynamic</span>
-<span class="name ">build</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="build-param-context"><span class="type-annotation">dynamic</span> <span class="parameter-name">context</span></span></li>
+<span class="name ">build</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="build-param-context"><span class="type-annotation">dynamic</span> <span class="parameter-name">context</span></span></li>
 </ol>)
 
       
@@ -82,13 +82,10 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Widget build(BuildContext context) =&gt; MaterialApp(
+Widget build(BuildContext context) =&gt; MaterialApp.router(
       title: &quot;ReVoiceMe&quot;,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const VoiceAmplifier(),
+      theme: buildThemeData(context),
+      routerConfig: router,
     );</code></pre>
 </section>
 
