@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 11-documentation-documentation-generation-and-publishing
-      - dev
       - main
     paths:
       - revoiceme/lib/**
