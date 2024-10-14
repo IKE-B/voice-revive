@@ -69,6 +69,11 @@ An up-to-date documentation of this project is available online at: [ike-b.githu
 
 Consult the [CONTRIBUTING.md](CONTRIBUTING.md) for all necessary information about the complete development cycle of this project: from how to opening issues, to setting up the development environment, to eventually integrating changes into the main codebase.
 
+## Hardware-Setup
+To run the app succesfully a connected mircofon and a speaker is needed. Therefore every normal mircofon and speaker should work. We ourselves only tested and developed the app with 2 specific ones. This is not any advertisement in any way, we just want to point out that with these tools the app works as intended.
+
+Our test-phone is the Google Pixel 5 with 8 GB RAM and 128 GB storage. It will be connected with [a Rode AI microfon](https://rode.com/de/interfaces-and-mixers/ai-series/ai-micro) to have two possible AUX-Inputs. For the mircofon and speaker we use the [Giecy speech enhancer](https://www.amazon.de/dp/B07VRPY2DT/?tag=glv-21&ascsubtag=dd0c82bc-5c9a-4a14-86c2-2772675619be&th=1&linkCode=osi), these are then connected to the Rode AI microfon.
+
 ## Acknowledgements
 
 We express our gratitude to the [Vogel Stiftung Dr. Eckernkamp](https://www.vogel-stiftung.de/) as well as the [ImDS](https://www.ukw.de/interdisziplinaere-einrichtungen/institut-fuer-medizinische-datenwissenschaften/startseite/#) for their support. Without their support, this project would not have been possible.
