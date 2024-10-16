@@ -4,7 +4,7 @@
     CompGainEQ.h
     Created: 3 Sep 2024 4:26:59pm
     Author:  Simon
-
+    
   ==============================================================================
 */
 
@@ -34,7 +34,7 @@ public:
 
     //==============================================================================
     
-
+    void prepareToPlay(double sampleRate, int samplesPerBlock); void prepareToPlay(double sampleRate, int samplesPerBlock);
     void releaseResources() override;
 
     #ifndef JucePlugin_PreferredChannelConfigurations
@@ -78,6 +78,11 @@ public:
     }
 
     juce::AudioDeviceManager deviceManager;
+    juce::AudioProcessorEditor* createEditor() override;
+    bool hasEditor() const override;
+    void getStateInformation(juce::MemoryBlock& destData) override;
+    void setStateInformation(const void* data, int sizeInBytes) override;
+    juce::AudioProcessorValueTreeState treeState;
     
 private:
     // compressors
@@ -109,7 +114,7 @@ private:
         HP1, LP2,
         HP2;
 
-    void prepareToPlay(double sampleRate, int samplesPerBlock);
+   
     void prepareToPlayCompAll(double sampleRate, int samplesPerBlock); 
     void prepareToPlayCompMultBand(double sampleRate, int samplesPerBlock);
     void prepareToPlayGain(double sampleRate, int samplesPerBlock); 

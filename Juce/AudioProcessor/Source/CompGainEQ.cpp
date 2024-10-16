@@ -11,48 +11,6 @@
 #include "CompGainEQ.h"
 
 
-
-
-void CompGainEQ::startModulation()
-{
-    if (!isInitialized) {
-        DBG("Das Programm ist noch nicht bereit!");
-        return;
-    }
-
-    // Hier f�hrst du den eigentlichen Start der Modulation durch
-    DBG("Modulation startet jetzt...");
-    isProcessing = true;
-    gain.setGainDecibels(-60.0f); 
-
-    
-    const float rampDurationSeconds = 2.0f;
-    gain.setRampDurationSeconds(rampDurationSeconds);
-
-    gain.setGainDecibels(0.0f);
-}
-
-
-void CompGainEQ::stopModulation()
-{
-    
-    gain.setRampDurationSeconds(0.0f); 
-    gain.setGainDecibels(-60.0f); 
-    compAllBypassed = true;     
-    compLowBypassed = true;     
-    compMidBypassed = true;    
-    compHighBypassed = true;
-    isProcessing = false;
-
-    juce::JUCEApplicationBase::quit();
-
-}
-
-
-
-
-
-
 CompGainEQ::CompGainEQ()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(BusesProperties()
@@ -95,6 +53,46 @@ CompGainEQ::CompGainEQ()
 CompGainEQ::~CompGainEQ()
 {
 }
+
+/*Hinzugefügt*/
+bool CompGainEQ::hasEditor() const
+{
+    return true;  
+}
+
+juce::AudioProcessorEditor* CompGainEQ::createEditor()
+{
+    return new juce::GenericAudioProcessorEditor(*this);
+}
+
+
+void CompGainEQ::getStateInformation(juce::MemoryBlock& destData)
+{
+    // Hier kannst du den Zustand deines Prozessors speichern (z.B. alle Parameter)
+    juce::MemoryOutputStream memoryStream(destData, true);
+
+    // Beispiel: Einen Parameterbaum speichern
+    auto state = treeState.copyState();
+    std::unique_ptr<juce::XmlElement> xml(state.createXml());
+    copyXmlToBinary(*xml, destData);
+}
+
+void CompGainEQ::setStateInformation(const void* data, int sizeInBytes)
+{
+    // Hier kannst du den Zustand deines Prozessors wiederherstellen
+    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+
+    if (xmlState != nullptr && xmlState->hasTagName(treeState.state.getType()))
+    {
+        treeState.replaceState(juce::ValueTree::fromXml(*xmlState));
+    }
+}
+
+
+
+/*Hinzugefügt*/
+
+
 
 // for testing log the Audio Devices
 void CompGainEQ::logAvailableDevices()
@@ -194,6 +192,8 @@ void CompGainEQ::changeProgramName(int index, const juce::String& newName)
 }
 
 //==============================================================================
+
+/*
 void CompGainEQ::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     // TODO:
@@ -212,6 +212,7 @@ void CompGainEQ::prepareToPlay(double sampleRate, int samplesPerBlock)
     isInitialized = true;
     
 }
+*/
 
 void CompGainEQ::prepareToPlayCompAll(double sampleRate, int samplesPerBlock)
 {
