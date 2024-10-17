@@ -94,44 +94,39 @@ class _VoiceChangerSliderState extends State<VoiceChangerSlider> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final Text title = Text(
-      widget.title,
-    );
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: CustomThemeData.defaultPadding,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          title,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              if (widget.togglable)
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: CustomThemeData.smallPadding),
-                  child: Switch(
-                    value: _isActive,
-                    onChanged: _setActive,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: CustomThemeData.defaultPadding,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "${widget.title}: ${widget.labelBuilder(widget.value, widget.min, widget.max)}",
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (widget.togglable)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: CustomThemeData.smallPadding,
+                    ),
+                    child: Switch(
+                      value: _isActive,
+                      onChanged: _setActive,
+                    ),
+                  ),
+                Expanded(
+                  child: Slider(
+                    value: widget.value,
+                    onChanged: _isActive ? _onChanged : null,
+                    max: widget.max,
                   ),
                 ),
-              Expanded(
-                child: Slider(
-                  value: widget.value,
-                  onChanged: _isActive ? _onChanged : null,
-                  max: widget.max,
-                  label:
-                      widget.labelBuilder(widget.value, widget.min, widget.max),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+              ],
+            ),
+          ],
+        ),
+      );
 }
