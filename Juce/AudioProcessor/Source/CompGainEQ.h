@@ -32,7 +32,7 @@ public:
 
     //==============================================================================
     
-    void prepareToPlay(double sampleRate, int samplesPerBlock); void prepareToPlay(double sampleRate, int samplesPerBlock);
+    void prepareToPlay(double sampleRate, int samplesPerBlock);
     void releaseResources() override;
 
     #ifndef JucePlugin_PreferredChannelConfigurations
@@ -92,7 +92,7 @@ public:
     bool hasEditor() const override;
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
-    juce::AudioProcessorValueTreeState treeState;
+    //juce::AudioProcessorValueTreeState treeState;
     
 private:
     // compressors
@@ -129,9 +129,6 @@ private:
     void prepareToPlayCompMultBand(double sampleRate, int samplesPerBlock);
     void prepareToPlayGain(double sampleRate, int samplesPerBlock); 
     void prepareToPlayEQ(double sampleRate, int samplesPerBlock);
-
-    void startModulation();
-    void stopModulation();
 
     bool isProcessing = false;
     bool isInitialized = false;

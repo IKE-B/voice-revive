@@ -68,24 +68,12 @@ juce::AudioProcessorEditor* CompGainEQ::createEditor()
 
 void CompGainEQ::getStateInformation(juce::MemoryBlock& destData)
 {
-    // Hier kannst du den Zustand deines Prozessors speichern (z.B. alle Parameter)
-    juce::MemoryOutputStream memoryStream(destData, true);
-
-    // Beispiel: Einen Parameterbaum speichern
-    auto state = treeState.copyState();
-    std::unique_ptr<juce::XmlElement> xml(state.createXml());
-    copyXmlToBinary(*xml, destData);
+    
 }
 
 void CompGainEQ::setStateInformation(const void* data, int sizeInBytes)
 {
-    // Hier kannst du den Zustand deines Prozessors wiederherstellen
-    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-
-    if (xmlState != nullptr && xmlState->hasTagName(treeState.state.getType()))
-    {
-        treeState.replaceState(juce::ValueTree::fromXml(*xmlState));
-    }
+    
 }
 
 
@@ -193,7 +181,7 @@ void CompGainEQ::changeProgramName(int index, const juce::String& newName)
 
 //==============================================================================
 
-/*
+
 void CompGainEQ::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     // TODO:
@@ -212,7 +200,7 @@ void CompGainEQ::prepareToPlay(double sampleRate, int samplesPerBlock)
     isInitialized = true;
     
 }
-*/
+
 
 void CompGainEQ::prepareToPlayCompAll(double sampleRate, int samplesPerBlock)
 {

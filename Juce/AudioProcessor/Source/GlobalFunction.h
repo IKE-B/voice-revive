@@ -8,6 +8,8 @@
   ==============================================================================
 */
 
+#include <JuceHeader.h>
+
 #pragma once
 #ifndef GLOBALFUNCTIONS_H
 #define GLOBALFUNCTIONS_H

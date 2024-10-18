@@ -1,3 +1,7 @@
+#Ignore Juce-Builds Folder
+Builds/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
