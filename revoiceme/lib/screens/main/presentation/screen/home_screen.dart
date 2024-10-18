@@ -54,12 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   min: -50,
                   max: 50,
                   delta: 5.0,
-                  togglable: true,
                   onChanged: (double value) {
                     debugPrint("$pitch");
                     debugPrint("$value");
                     pitch.value = value;
                   },
+                  togglable: true,
                 ),
               ),
             ],
