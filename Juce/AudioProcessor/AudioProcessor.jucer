@@ -6,6 +6,10 @@
     <GROUP id="{D61621A0-162F-BDB5-3B7E-C87B42A34CF6}" name="Source">
       <FILE id="ol7stX" name="CompGainEQ.cpp" compile="1" resource="0" file="Source/CompGainEQ.cpp"/>
       <FILE id="pmref1" name="CompGainEQ.h" compile="0" resource="0" file="Source/CompGainEQ.h"/>
+      <FILE id="oEfBNH" name="GlobalFunction.cpp" compile="1" resource="0"
+            file="Source/GlobalFunction.cpp"/>
+      <FILE id="Qssyxy" name="GlobalFunction.h" compile="0" resource="0"
+            file="Source/GlobalFunction.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

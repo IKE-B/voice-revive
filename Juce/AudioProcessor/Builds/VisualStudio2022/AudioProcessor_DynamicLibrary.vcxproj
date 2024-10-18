@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CompGainEQ.cpp"/>
+    <ClCompile Include="..\..\Source\GlobalFunction.cpp"/>
     <ClCompile Include="D:\maxig\Juce\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -2821,6 +2822,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CompGainEQ.h"/>
+    <ClInclude Include="..\..\Source\GlobalFunction.h"/>
     <ClInclude Include="D:\maxig\Juce\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="D:\maxig\Juce\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="D:\maxig\Juce\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

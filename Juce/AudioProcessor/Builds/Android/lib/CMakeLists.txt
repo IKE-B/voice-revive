@@ -38,6 +38,8 @@ add_library( ${BINARY_NAME}
 
     "../../../Source/CompGainEQ.cpp"
     "../../../Source/CompGainEQ.h"
+    "../../../Source/GlobalFunction.cpp"
+    "../../../Source/GlobalFunction.h"
     "D:/maxig/Juce/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.cpp"
     "D:/maxig/Juce/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h"
     "D:/maxig/Juce/JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp"
@@ -2302,6 +2304,7 @@ add_library( ${BINARY_NAME}
 
 set_source_files_properties(
     "../../../Source/CompGainEQ.h"
+    "../../../Source/GlobalFunction.h"
     "D:/maxig/Juce/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.cpp"
     "D:/maxig/Juce/JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h"
     "D:/maxig/Juce/JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp"
