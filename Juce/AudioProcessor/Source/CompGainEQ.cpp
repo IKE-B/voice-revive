@@ -462,84 +462,96 @@ void CompGainEQ::processBlockEQ(juce::AudioBuffer<float>& buffer, juce::MidiBuff
     rightChain.process(rightContext);
 }
 
-void CompGainEQ::updateValues(const std::unordered_map<std::string, float>& floatValues, const std::unordered_map<std::string, bool>& boolValues)
+void CompGainEQ::updateValues(float gainNew,
+    float compAllAttack, float compAllRelease, float compAllThreshold, float compAllRatio,
+    bool compAllBypassedNew, bool compAllMuteNew,
+    float compLowAttack, float compLowRelease, float compLowThreshold, float compLowRatio,
+    bool compLowBypassedNew, bool compLowMuteNew, bool compLowSoloNew,
+    float compMidAttack, float compMidRelease, float compMidThreshold, float compMidRatio,
+    bool compMidBypassedNew, bool compMidMuteNew, bool compMidSoloNew,
+    float compHighAttack, float compHighRelease, float compHighThreshold, float compHighRatio,
+    bool compHighBypassedNew, bool compHighMuteNew, bool compHighSoloNew,
+    float lowMidCutoff, float midHighCutoff,
+    float lowCutFreqNew, float highCutFreqNew, float peakFreqNew, 
+    float peakGainInDecibelsNew, float peakQualityNew, float lowCutSlopeNew, float highCutSlopeNew)
 {
     // set the 4 different Compressors
     // compressor for all with float and bool values
-    compressorAll.setAttack(getWithDefault(floatValues, std::string("Attack All"), 50.0f));
-    compressorAll.setRelease(getWithDefault(floatValues, std::string("Release All"), 50.0f));
-    compressorAll.setThreshold(getWithDefault(floatValues, std::string("Threshold All"), 50.0f));
-    compressorAll.setRatio(getWithDefault(floatValues, std::string("Ratio All"), 50.0f));
+    compressorAll.setAttack(compAllAttack);
+    compressorAll.setRelease(compAllRelease);
+    compressorAll.setThreshold(compAllThreshold);
+    compressorAll.setRatio(compAllRatio);
 
-    compAllBypassed = getWithDefault(boolValues, std::string("Bypassed All"), false);
-    compAllMute = getWithDefault(boolValues, std::string("Mute All"), false);
+    compAllBypassed = compAllBypassedNew;
+    compAllMute = compAllMuteNew;
 
     // compressor for low band
-    compressorLow.setAttack(getWithDefault(floatValues, std::string("Attack Low"), 50.0f));
-    compressorLow.setRelease(getWithDefault(floatValues, std::string("Release Low"), 50.0f));
-    compressorLow.setThreshold(getWithDefault(floatValues, std::string("Threshold Low"), 50.0f));
-    compressorLow.setRatio(getWithDefault(floatValues, std::string("Ratio Low"), 50.0f));
+    compressorLow.setAttack(compLowAttack);
+    compressorLow.setRelease(compLowRelease);
+    compressorLow.setThreshold(compLowThreshold);
+    compressorLow.setRatio(compLowRatio);
 
-    compLowBypassed = getWithDefault(boolValues, std::string("Bypassed Low"), false);
-    compLowMute = getWithDefault(boolValues, std::string("Mute Low"), false);
-    compLowSolo = getWithDefault(boolValues, std::string("Solo Low"), false);
+    compLowBypassed = compLowBypassedNew;
+    compLowMute = compLowMuteNew;
+    compLowSolo = compLowSoloNew;
 
     // compressor for mid band
-    compressorMid.setAttack(getWithDefault(floatValues, std::string("Attack Mid"), 50.0f));
-    compressorMid.setRelease(getWithDefault(floatValues, std::string("Release Mid"), 50.0f));
-    compressorMid.setThreshold(getWithDefault(floatValues, std::string("Threshold Mid"), 50.0f));
-    compressorMid.setRatio(getWithDefault(floatValues, std::string("Ratio Mid"), 50.0f));
+    // compressor for mid band
+    compressorMid.setAttack(compMidAttack);
+    compressorMid.setRelease(compMidRelease);
+    compressorMid.setThreshold(compMidThreshold);
+    compressorMid.setRatio(compMidRatio);
 
-    compMidBypassed = getWithDefault(boolValues, std::string("Bypassed Mid"), false);
-    compMidMute = getWithDefault(boolValues, std::string("Mute Mid"), false);
-    compMidSolo = getWithDefault(boolValues, std::string("Solo Mid"), false);
+    compMidBypassed = compMidBypassedNew;
+    compMidMute = compMidMuteNew;
+    compMidSolo = compMidSoloNew;
 
     // compressor for high band
-    compressorHigh.setAttack(getWithDefault(floatValues, std::string("Attack High"), 50.0f));
-    compressorHigh.setRelease(getWithDefault(floatValues, std::string("Release High"), 50.0f));
-    compressorHigh.setThreshold(getWithDefault(floatValues, std::string("Threshold High"), 50.0f));
-    compressorHigh.setRatio(getWithDefault(floatValues, std::string("Ratio High"), 50.0f));
+    compressorHigh.setAttack(compHighAttack);
+    compressorHigh.setRelease(compHighRelease);
+    compressorHigh.setThreshold(compHighThreshold);
+    compressorHigh.setRatio(compHighRatio);
 
-    compHighBypassed = getWithDefault(boolValues, std::string("Bypassed High"), false);
-    compHighMute = getWithDefault(boolValues, std::string("Mute High"), false);
-    compHighSolo = getWithDefault(boolValues, std::string("Solo High"), false);
+    compHighBypassed = compHighBypassedNew;
+    compHighMute = compHighMuteNew;
+    compHighSolo = compHighSoloNew;
 
     // set the 3 bands
-    auto lowMidCutoff = getWithDefault(floatValues, std::string("lowMidCutoff"), 200.0f);
     LP1.setCutoffFrequency(lowMidCutoff);
     HP1.setCutoffFrequency(lowMidCutoff);
 
-    auto midHighCutoff = getWithDefault(floatValues, std::string("highMidCutoff"), 2000.0f);
     AP2.setCutoffFrequency(midHighCutoff);
     LP2.setCutoffFrequency(midHighCutoff);
     HP2.setCutoffFrequency(midHighCutoff);
 
     // gain
-    gain.setGainDecibels(getWithDefault(floatValues, std::string("Gain"), 0.0f));
+    gain.setGainDecibels(gainNew);
 
     // EQ
-    updateFilters(floatValues);
+    updateFilters(lowCutFreqNew, highCutFreqNew, peakFreqNew, peakGainInDecibelsNew, peakQualityNew, lowCutSlopeNew, highCutSlopeNew);
 
 }
 
-ChainSettings CompGainEQ::getChainSettings(const std::unordered_map<std::string, float>& floatValues)
+ChainSettings CompGainEQ::getChainSettings(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
+    float peakGainInDecibelsNew, float peakQualityNew, float lowCutSlopeNew, float highCutSlopeNew)
 {
     ChainSettings settings;
 
-    settings.lowCutFreq = getWithDefault(floatValues, std::string("Low Cut Freq"), 0.0f);
-    settings.highCutFreq = getWithDefault(floatValues, std::string("High Cut Freq"), 0.0f);
-    settings.peakFreq = getWithDefault(floatValues, std::string("Peak Freq"), 0.0f);
-    settings.peakGainInDecibels = getWithDefault(floatValues, std::string("Peak Gain in Decibels"), 0.0f);
-    settings.peakQuality = getWithDefault(floatValues, std::string("Peak Quality"), 0.0f);
-    settings.lowCutSlope = getWithDefault(floatValues, std::string("Low Cut Slope"), 0.0f);
-    settings.highCutSlope = getWithDefault(floatValues, std::string("High Cut Slope"), 0.0f);
+    settings.lowCutFreq = lowCutFreqNew;
+    settings.highCutFreq = highCutFreqNew;
+    settings.peakFreq = peakFreqNew;
+    settings.peakGainInDecibels = peakGainInDecibelsNew;
+    settings.peakQuality = peakQualityNew;
+    settings.lowCutSlope = lowCutSlopeNew;
+    settings.highCutSlope = highCutSlopeNew;
 
     return settings;
 }
 
-void CompGainEQ::updateFilters(const std::unordered_map<std::string, float>& floatValues)
+void CompGainEQ::updateFilters(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
+    float peakGainInDecibelsNew, float peakQualityNew, float lowCutSlopeNew, float highCutSlopeNew)
 {
-    auto chainSettings = getChainSettings(floatValues);
+    ChainSettings chainSettings = getChainSettings(lowCutFreqNew, highCutFreqNew, peakFreqNew, peakGainInDecibelsNew, peakQualityNew, lowCutSlopeNew, highCutSlopeNew);
 
     updateLowCutFilters(chainSettings);
     updatePeakFilter(chainSettings);

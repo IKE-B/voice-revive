@@ -18,8 +18,6 @@ struct ChainSettings
     float lowCutFreq{ 0 }, highCutFreq{ 0 };
     float lowCutSlope{ 12.0f }, highCutSlope{ 12.0f };
 };
-
-ChainSettings getChainSettings(const std::unordered_map<std::string, float>& floatValues);
 //==============================================================================
 /**
 */
@@ -50,7 +48,18 @@ public:
 
     void splitBands(const juce::AudioBuffer<float>& inputBuffer);
 
-    void updateValues(const std::unordered_map<std::string, float>& floatValues, const std::unordered_map<std::string, bool>& boolValues);
+    void updateValues(float gainNew,
+        float compAllAttack, float compAllRelease, float compAllThreshold, float compAllRatio,
+        bool compAllBypassedNew, bool compAllMuteNew,
+        float compLowAttack, float compLowRelease, float compLowThreshold, float compLowRatio,
+        bool compLowBypassedNew, bool compLowMuteNew, bool compLowSoloNew,
+        float compMidAttack, float compMidRelease, float compMidThreshold, float compMidRatio,
+        bool compMidBypassedNew, bool compMidMuteNew, bool compMidSoloNew,
+        float compHighAttack, float compHighRelease, float compHighThreshold, float compHighRatio,
+        bool compHighBypassedNew, bool compHighMuteNew, bool compHighSoloNew,
+        float lowMidCutoff, float midHighCutoff,
+        float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
+        float peakGainInDecibelsNew, float peakQualityNew, float lowCutSlopeNew, float highCutSlopeNew);
 
     const juce::String getName() const override;
 
@@ -66,7 +75,8 @@ public:
     const juce::String getProgramName(int index) override;
     void changeProgramName(int index, const juce::String& newName) override;
 
-    ChainSettings getChainSettings(const std::unordered_map<std::string, float>& floatValues);
+    ChainSettings getChainSettings(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
+        float peakGainInDecibelsNew, float peakQualityNew, float lowCutSlopeNew, float highCutSlopeNew);
 
     template<typename K, typename V>
     V getWithDefault(const std::unordered_map<K, V>& map, const K& key, const V& defaultValue) {
@@ -190,7 +200,8 @@ private:
     void updateLowCutFilters(const ChainSettings& chainSettings);
     void updateHighCutFilters(const ChainSettings& chainSettings);
 
-    void updateFilters(const std::unordered_map<std::string, float>& floatValues);
+    void updateFilters(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
+        float peakGainInDecibelsNew, float peakQualityNew, float lowCutSlopeNew, float highCutSlopeNew);
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CompGainEQ);
