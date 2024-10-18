@@ -105,6 +105,8 @@ class _DeviceVolumeSliderState extends State<DeviceVolumeSlider> {
           max: maxVolume,
           delta: delta(),
           onChanged: _onChanged,
+          labelBuilder: (double value) =>
+              "${(value * 100).toStringAsFixed(0)}%",
         ),
       );
 }

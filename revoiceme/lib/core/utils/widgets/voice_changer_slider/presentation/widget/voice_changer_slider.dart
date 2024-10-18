@@ -48,11 +48,10 @@ class VoiceChangerSlider extends StatefulWidget {
   final DoubleCallback onChanged;
 
   /// A function that builds the display text above the handle of the slider.
-  final String Function(double value, double min, double max) labelBuilder;
+  final String Function(double value) labelBuilder;
 
   /// The default label builder for the slider. Displays the percentage of the value between the min and max.
-  static String _defaultLabelBuilder(double value, double min, double max) =>
-      "${(value / (max - min) * 100).toStringAsFixed(0)}%";
+  static String _defaultLabelBuilder(double value) => value.toStringAsFixed(0);
 
   @override
   State<VoiceChangerSlider> createState() => _VoiceChangerSliderState();
@@ -102,7 +101,7 @@ class _VoiceChangerSliderState extends State<VoiceChangerSlider> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "${widget.title}: ${widget.labelBuilder(widget.value, widget.min, widget.max)}",
+              "${widget.title}: ${widget.labelBuilder(widget.value)}",
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -121,7 +120,9 @@ class _VoiceChangerSliderState extends State<VoiceChangerSlider> {
                   child: Slider(
                     value: widget.value,
                     onChanged: _isActive ? _onChanged : null,
+                    min: widget.min,
                     max: widget.max,
+                    divisions: ((widget.max - widget.min) / widget.delta).toInt(),
                   ),
                 ),
               ],
