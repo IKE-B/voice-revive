@@ -1,5 +1,7 @@
 import "dart:async";
 import "package:flutter/material.dart";
+import "package:revoiceme/core/utils/constants/juce_parameters.dart";
+import "package:revoiceme/core/utils/styles/default_theme.dart";
 import "package:revoiceme/core/utils/widgets/device_volume_slider/presentation/widget/device_volume_slider.dart";
 import "package:revoiceme/core/utils/widgets/revoiceme_appbar/presentation/widget/revoiceme_appbar.dart";
 import "package:revoiceme/core/utils/widgets/revoiceme_drawer/presentation/widget/revoiceme_drawer.dart";
@@ -21,21 +23,107 @@ class ConfiguratorScreen extends StatefulWidget {
 }
 
 class _ConfiguratorScreenState extends State<ConfiguratorScreen> {
-  /// Listens to changes in the pitch parameter for the voice changer. Only a stub for now.
-  ValueNotifier<double> pitch = ValueNotifier<double>(1.5);
+  late Map<String, ValueNotifier<Object>> notifiers;
 
-  /// Listens to changes in the C parameter for the voice changer. Only a stub for now.
-  ValueNotifier<double> parameterC = ValueNotifier<double>(0);
+  @override
+  void initState() {
+    notifiers = initValueNotifiers();
+    super.initState();
+  }
 
-  /// Listens to changes in the D parameter for the voice changer. Only a stub for now.
-  ValueNotifier<double> parameterD = ValueNotifier<double>(10);
+  Map<String, ValueNotifier<Object>> initValueNotifiers() =>
+      Map<String, ValueNotifier<Object>>.fromEntries(
+        <Iterable<MapEntry<String, ValueNotifier<Object>>>>[
+          initCheckboxNotifiers(),
+          initDropdownNotifiers(),
+          initSliderNotifiers(),
+        ]
+            .expand(
+              (Iterable<MapEntry<String, ValueNotifier<Object>>> elem) => elem,
+            )
+            .toList(),
+      );
+
+  Iterable<MapEntry<String, ValueNotifier<Object>>> initSliderNotifiers() =>
+      juceSliderParameters.entries.map(
+        (
+          MapEntry<
+                  String,
+                  ({
+                    double delta,
+                    double init,
+                    String Function(double p1) labelBuilder,
+                    double max,
+                    double min,
+                    String title,
+                    bool togglable
+                  })>
+              param,
+        ) =>
+            MapEntry<String, ValueNotifier<double>>(
+          param.key,
+          ValueNotifier<double>(param.value.init),
+        ),
+      );
+
+  Iterable<MapEntry<String, ValueNotifier<Object>>> initDropdownNotifiers() =>
+      juceDropdownParameters.entries.map(
+        (
+          MapEntry<String, ({double init, String title, List<double> values})>
+              param,
+        ) =>
+            MapEntry<String, ValueNotifier<double>>(
+          param.key,
+          ValueNotifier<double>(param.value.init),
+        ),
+      );
+
+  Iterable<MapEntry<String, ValueNotifier<Object>>> initCheckboxNotifiers() =>
+      juceCheckboxParameters.entries.map(
+        (MapEntry<String, ({bool init, String title})> param) =>
+            MapEntry<String, ValueNotifier<bool>>(
+          param.key,
+          ValueNotifier<bool>(param.value.init),
+        ),
+      );
+
+  ValueListenableBuilder<double>? sliderBuilder(String key) {
+    final ({
+      double delta,
+      double init,
+      String Function(double p1) labelBuilder,
+      double max,
+      double min,
+      String title,
+      bool togglable
+    })? parameter = juceSliderParameters[key];
+    if (parameter == null) return null;
+    return ValueListenableBuilder<double>(
+      valueListenable: notifiers[key]! as ValueNotifier<double>,
+      builder: (BuildContext context, double value, Widget? child) =>
+          VoiceChangerSlider(
+        title: parameter.title,
+        value: value,
+        min: parameter.min,
+        max: parameter.max,
+        delta: parameter.delta,
+        onChanged: (double value) {
+          debugPrint("${notifiers[key]}");
+          debugPrint("$value");
+          notifiers[key]?.value = value;
+        },
+        togglable: parameter.togglable,
+        labelBuilder: parameter.labelBuilder,
+      ),
+    );
+  }
 
   @override
   Future<void> dispose() async {
     // cleanup value notifiers
-    pitch.dispose();
-    parameterC.dispose();
-    parameterD.dispose();
+    for (final ValueNotifier<Object> notifier in notifiers.values) {
+      notifier.dispose();
+    }
     super.dispose();
   }
 
@@ -46,60 +134,14 @@ class _ConfiguratorScreenState extends State<ConfiguratorScreen> {
           cleanup: DeviceVolumeSlider.cleanup,
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              vertical: CustomThemeData.defaultPadding,
+            ),
             children: <Widget>[
               const DeviceVolumeSlider(),
-              ValueListenableBuilder<double>(
-                valueListenable: pitch,
-                builder: (BuildContext context, double value, Widget? child) =>
-                    VoiceChangerSlider(
-                  title: "Tonhöhe",
-                  value: value,
-                  min: -50,
-                  max: 50,
-                  delta: 5.0,
-                  togglable: true,
-                  onChanged: (double value) {
-                    debugPrint("$pitch");
-                    debugPrint("$value");
-                    pitch.value = value;
-                  },
-                ),
-              ),
-              ValueListenableBuilder<double>(
-                valueListenable: parameterC,
-                builder: (BuildContext context, double value, Widget? child) =>
-                    VoiceChangerSlider(
-                  title: "Parameter C",
-                  value: value,
-                  min: -10,
-                  max: 20,
-                  delta: 2.0,
-                  onChanged: (double value) {
-                    debugPrint("$parameterC");
-                    debugPrint("$value");
-                    parameterC.value = value;
-                  },
-                ),
-              ),
-              ValueListenableBuilder<double>(
-                valueListenable: parameterD,
-                builder: (BuildContext context, double value, Widget? child) =>
-                    VoiceChangerSlider(
-                  title: "Parameter D",
-                  value: value,
-                  min: 0,
-                  max: 10,
-                  delta: 2.5,
-                  togglable: true,
-                  onChanged: (double value) {
-                    debugPrint("$parameterD");
-                    debugPrint("$value");
-                    parameterD.value = value;
-                  },
-                ),
-              ),
+              for (final String key in juceSliderParameters.keys)
+                sliderBuilder(key) ?? const SizedBox.shrink(),
             ],
           ),
         ),
