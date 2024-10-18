@@ -8,9 +8,11 @@
   ==============================================================================
 */
 
-#include <JuceHeader.h>
 
 #pragma once
+
+#include "CompGainEQ.h"
+
 #ifndef GLOBALFUNCTIONS_H
 #define GLOBALFUNCTIONS_H
 

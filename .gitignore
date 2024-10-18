@@ -186,3 +186,4 @@ cython_debug/
 /Release/
 /x64/Debug/
 /x64/Release/
+Juce/AudioProcessor/Builds/VisualStudio2022/x64/Debug/Dynamic Library/AudioProcessor.dll
