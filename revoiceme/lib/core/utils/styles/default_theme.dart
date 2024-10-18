@@ -15,6 +15,8 @@ ThemeData buildThemeData(BuildContext context) => ThemeData(
             fontSizeFactor:
                 1.25, // Scales all fonts so that elderly people can read them better
           ),
+      sliderTheme:
+          SliderThemeData(tickMarkShape: SliderTickMarkShape.noTickMark),
     );
 
 /// Object containing design constants for the ReVoiceMe app.
