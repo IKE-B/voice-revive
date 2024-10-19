@@ -22,6 +22,7 @@ jobs:
         run: |
           sudo snap install flutter --classic
           flutter
+          flutter pub get
       # change to 
       - name: run documentation generator
         working-directory: ./revoiceme
