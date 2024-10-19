@@ -23,8 +23,8 @@ CompGainEQ::CompGainEQ()
     )
 #endif
 {
-    // Initialize the audio device manager (2 input channels, 2 output channels)
-    deviceManager.initialise(1, 1, nullptr, true, {}, nullptr);
+    // Initialize the audio device manager with default device
+    deviceManager.initialiseWithDefaultDevices(1, 1);
 
     // Log available devices
     logAvailableDevices();
