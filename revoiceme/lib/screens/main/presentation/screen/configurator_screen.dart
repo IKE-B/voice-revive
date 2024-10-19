@@ -31,6 +31,7 @@ class _ConfiguratorScreenState extends State<ConfiguratorScreen> {
     super.initState();
   }
 
+  /// Initializes the value notifiers for the sliders, dropdowns, and checkboxes.
   Map<String, ValueNotifier<Object>> initValueNotifiers() =>
       Map<String, ValueNotifier<Object>>.fromEntries(
         <Iterable<MapEntry<String, ValueNotifier<Object>>>>[
@@ -44,6 +45,10 @@ class _ConfiguratorScreenState extends State<ConfiguratorScreen> {
             .toList(),
       );
 
+  /// Initializes the value notifiers for the sliders.
+  /// Walks over all parameters and creates [MapEntry]s.
+  /// The 'key' is the same as the key in their original [juceSliderParameters].
+  /// The value is a [ValueNotifier] initialized with the corresponding default value of the parameter.
   Iterable<MapEntry<String, ValueNotifier<Object>>> initSliderNotifiers() =>
       juceSliderParameters.entries.map(
         (
@@ -66,6 +71,10 @@ class _ConfiguratorScreenState extends State<ConfiguratorScreen> {
         ),
       );
 
+  /// Initializes the value notifiers for the dropdowns.
+  /// Walks over all parameters and creates [MapEntry]s.
+  /// The 'key' is the same as the key in their original [juceSliderParameters].
+  /// The value is a [ValueNotifier] initialized with the corresponding default value of the parameter.
   Iterable<MapEntry<String, ValueNotifier<Object>>> initDropdownNotifiers() =>
       juceDropdownParameters.entries.map(
         (
@@ -78,6 +87,10 @@ class _ConfiguratorScreenState extends State<ConfiguratorScreen> {
         ),
       );
 
+  /// Initializes the value notifiers for the checkboxes.
+  /// Walks over all parameters and creates [MapEntry]s.
+  /// The 'key' is the same as the key in their original [juceSliderParameters].
+  /// The value is a [ValueNotifier] initialized with the corresponding default value of the parameter.
   Iterable<MapEntry<String, ValueNotifier<Object>>> initCheckboxNotifiers() =>
       juceCheckboxParameters.entries.map(
         (MapEntry<String, ({bool init, String title})> param) =>
@@ -87,6 +100,8 @@ class _ConfiguratorScreenState extends State<ConfiguratorScreen> {
         ),
       );
 
+  /// Builds a slider for a parameter that is coppled with a [ValueNotifier].
+  /// The slider is configured as specified in the [juceSliderParameters].
   ValueListenableBuilder<double>? sliderBuilder(String key) {
     final ({
       double delta,
