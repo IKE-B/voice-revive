@@ -3,7 +3,6 @@ run-name: "docs(doc): generate dart documentation from code comments"
 on:
   push:
     branches:
-      - 26-pipeline-fix-dartdoc-action
       - dev
       - main
     paths:
