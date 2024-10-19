@@ -3,7 +3,7 @@ run-name: "docs(doc): generate dart documentation from code comments"
 on:
   push:
     branches:
-      - 11-documentation-documentation-generation-and-publishing
+      - dev
       - main
     paths:
       - revoiceme/lib/**
@@ -23,9 +23,10 @@ jobs:
           flutter
       # change to 
       - name: run documentation generator
+        working-directory: ./revoiceme
         run: |
-          cd revoiceme
-          dart doc --output ../docs
+          flutter pub get
+          dart doc . --output ../docs
       # stages changes, commits them and pushs them as contributor "github_actor"
       - name: commit and push
         uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
