@@ -102,6 +102,7 @@ class _VoiceChangerSliderState extends State<VoiceChangerSlider> {
           children: <Widget>[
             Text(
               "${widget.title}: ${widget.labelBuilder(widget.value)}",
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +123,8 @@ class _VoiceChangerSliderState extends State<VoiceChangerSlider> {
                     onChanged: _isActive ? _onChanged : null,
                     min: widget.min,
                     max: widget.max,
-                    divisions: ((widget.max - widget.min) / widget.delta).toInt(),
+                    divisions:
+                        ((widget.max - widget.min) / widget.delta).toInt(),
                   ),
                 ),
               ],
