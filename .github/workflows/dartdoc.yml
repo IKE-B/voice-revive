@@ -22,12 +22,13 @@ jobs:
         run: |
           sudo snap install flutter --classic
           flutter
-          export FLUTTER_ROOT=~/dev/flutter
+          export FLUTTER_ROOT=~/flutter
+          flutter pub global activate dartdoc
       # change to 
       - name: run documentation generator
         run: |
           cd revoiceme
-          dart doc --output ../docs
+          flutter pub global run dartdoc:dartdoc --output ../docs
       # stages changes, commits them and pushs them as contributor "github_actor"
       - name: commit and push
         uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
