@@ -8,8 +8,6 @@
       <FILE id="pmref1" name="CompGainEQ.h" compile="0" resource="0" file="Source/CompGainEQ.h"/>
       <FILE id="oEfBNH" name="GlobalFunction.cpp" compile="1" resource="0"
             file="Source/GlobalFunction.cpp"/>
-      <FILE id="Qssyxy" name="GlobalFunction.h" compile="0" resource="0"
-            file="Source/GlobalFunction.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

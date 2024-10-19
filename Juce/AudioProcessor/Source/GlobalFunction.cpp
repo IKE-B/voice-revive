@@ -8,10 +8,17 @@
   ==============================================================================
 */
 
-#include "GlobalFunction.h"
+#ifdef WIN32
+    #define EXPORT __declspec(dllexport)
+#else
+    #define EXPORT extern "C" __attribute__((visibility("default"))) __attribute__((used))
+#endif
+
+#include "CompGainEQ.h"
 
 CompGainEQ myProcessor;
 
+EXPORT
 void startModulation()
 {
     double sampleRate = 44100.0;
@@ -21,16 +28,24 @@ void startModulation()
     juce::AudioBuffer<float> buffer(2, samplesPerBlock);
     juce::MidiBuffer midiBuffer;
 
+    myProcessor.updateValues(0.0f, 50.0f, 250.0f, 0.0f, 3.0f, false, false,
+        50.0f, 250.0f, 0.0f, 3.0f, false, false, false,
+        50.0f, 250.0f, 0.0f, 3.0f, false, false, false,
+        50.0f, 250.0f, 0.0f, 3.0f, false, false, false,
+        400.0f, 2000.0f,
+        20.0f, 20000.0f, 750.0f, 0.0f, 1.0f, 12.0f, 12.0f);
+
     myProcessor.processBlock(buffer, midiBuffer);
 }
 
+EXPORT
 void stopModulation()
 {
     juce::JUCEApplicationBase::quit();
     //juce::MessageManager::callAsync([] { juce::JUCEApplicationBase::quit(); });
 }
 
-
+EXPORT
 void updateValues(float gainNew,
     float compAllAttack, float compAllRelease, float compAllThreshold, float compAllRatio,
     bool compAllBypassedNew, bool compAllMuteNew,
