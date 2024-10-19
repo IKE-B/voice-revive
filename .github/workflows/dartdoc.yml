@@ -27,7 +27,7 @@ jobs:
       - name: run documentation generator
         run: |
           cd revoiceme
-          $FLUTTER_ROOT/bin/cache/dart-sdk/bin/resources/dartdoc --output ../docs
+          dart doc --output ../docs
       # stages changes, commits them and pushs them as contributor "github_actor"
       - name: commit and push
         uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
