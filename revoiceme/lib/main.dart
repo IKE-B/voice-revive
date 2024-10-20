@@ -4,8 +4,18 @@ import "package:revoiceme/core/routers/router.dart";
 import "package:revoiceme/core/utils/styles/default_theme.dart";
 import "package:revoiceme/core/utils/widgets/voice_change_demo/presentation/widget/voice_change_demo_bloc.dart";
 import "package:revoiceme/core/utils/widgets/voice_change_demo/presentation/widget/voice_change_demo_event.dart";
+import "package:revoiceme/core/utils/juce_interface/ffi_audioprocessor.dart";
 
 void main() {
+
+  initLibrary();
+
+  /*updateValues(0.0, 50.0, 250.0, 0.0, 3.0, false, false,
+               50.0, 250.0, 0.0, 3.0, false, false, false,
+               50.0, 250.0, 0.0, 3.0, false, false, false,
+               50.0, 250.0, 0.0, 3.0, false, false, false,
+               400.0, 2000.0, 20.0, 20000.0, 750.0, 0.0, 1.0, 12.0, 12.0);*/
+
   runApp(const ReVoiceMe());
 }
 
