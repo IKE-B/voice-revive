@@ -19,15 +19,14 @@ typedef updateValuesFunctionDart = void Function(double, double, double, double,
 late final startModulation, stopModulation, updateValues;
 late final ffi.DynamicLibrary nativeLibrary;
 
-void _initLibrary() 
+void initLibrary() 
 {
   nativeLibrary = Platform.isMacOS || Platform.isIOS
         ? ffi.DynamicLibrary.process() // macos and ios
         : (ffi.DynamicLibrary.open(Platform.isWindows // windows
-            ? 'ffi_dart_library.dll'
-            : 'libffi_dart_library.so'));
+            ? 'libAudioProcessor.dll'
+            : 'libAudioProcessor.so'));
   startModulation = nativeLibrary.lookupFunction<startModulationFunctionCPP, startModulationFunctionDart>('startModulation');
   stopModulation = nativeLibrary.lookupFunction<stopModulationFunctionCPP, stopModulationFunctionDart>('stopModulation');
   updateValues = nativeLibrary.lookupFunction<updateValuesFunctionCPP, updateValuesFunctionDart>('updateValues');
 }
-
