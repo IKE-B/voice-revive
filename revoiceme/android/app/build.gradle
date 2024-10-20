@@ -24,6 +24,13 @@ if (flutterVersionName == null) {
 }
 
 android {
+
+    /*externalNativeBuild {
+        cmake {
+            path "../../juce/AudioProcessor/CMakeLists.txt"
+        }
+    }*/
+
     namespace = "com.example.revoiceme"
     compileSdk = 34
     ndkVersion = "25.1.8937393"

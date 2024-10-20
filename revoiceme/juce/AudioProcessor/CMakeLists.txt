@@ -2,11 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(AudioProcessor VERSION 1.0.0)
 
 # Specify JUCE root directory (adjust path as per your system and cross-platform compatibility)
-if (WIN32)
-    set(JUCE_DIR C:/Users/Max/JUCE)  # Windows path format
-else()
-    set(JUCE_DIR /home/Max/JUCE)     # Linux path format
-endif()
+set(JUCE_DIR C:/Users/lukas/JUCE)  # Windows path format
 
 # Add JUCE as a subdirectory
 add_subdirectory(${JUCE_DIR} JUCE)
@@ -18,7 +14,7 @@ add_library(AudioProcessor SHARED
 )
 
 # Link JUCE modules
-target_link_libraries(AudioProcessor PRIVATE 
+target_link_libraries(AudioProcessor
     juce_audio_basics 
     juce_audio_devices 
     juce_audio_formats 
