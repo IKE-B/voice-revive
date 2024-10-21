@@ -1,5 +1,6 @@
 #include "MainComponent.h"
 
+
 //==============================================================================
 MainComponent::MainComponent()
     : state(Stopped), audioSetupComp(deviceManager,
@@ -81,6 +82,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     // but be careful - it will be called on the audio thread, not the GUI thread.
 
     // For more details, see the help for AudioProcessor::prepareToPlay()
+    myAudioProcessor.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -99,7 +101,7 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     auto maxInputChannels = activeInputChannels.countNumberOfSetBits();
     auto maxOutputChannels = activeOutputChannels.countNumberOfSetBits();
 
-    //auto level = (float)levelSlider.getValue();
+    juce::MidiBuffer emptyMidiBuffer;
 
     for (auto channel = 0; channel < maxOutputChannels; ++channel)
     {
@@ -122,7 +124,8 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
             }
             else // [3]
             {
-                auto *inBuffer = bufferToFill.buffer->getReadPointer(actualInputChannel,
+                
+                auto* inBuffer = bufferToFill.buffer->getReadPointer(actualInputChannel,
                                                                      bufferToFill.startSample);
                 auto *outBuffer = bufferToFill.buffer->getWritePointer(channel, bufferToFill.startSample);
 
@@ -131,6 +134,7 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
                     //auto noise = (random.nextFloat() * 2.0f) - 1.0f;
                     outBuffer[sample] = inBuffer[sample];
                 }
+                //myAudioProcessor.processBlock(*bufferToFill.buffer, emptyMidiBuffer);
             }
         }
     }

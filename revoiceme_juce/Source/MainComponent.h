@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "CompGain.h"
 
 //==============================================================================
 /*
@@ -54,6 +55,8 @@ private:
 
     juce::Random random;
     juce::AudioDeviceSelectorComponent audioSetupComp;
+
+    CompGain myAudioProcessor{};
     
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
