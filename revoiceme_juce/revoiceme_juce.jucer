@@ -4,6 +4,13 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="uni-wuerzburg-ulm">
   <MAINGROUP id="WscqrE" name="revoiceme_juce">
     <GROUP id="{35B20479-5445-C12B-4C6A-6E9714410B15}" name="Source">
+      <GROUP id="{87DF1937-F1A7-009D-B52A-56FB646F4A3B}" name="screens">
+        <FILE id="Ex2bFB" name="FirstScreen.cpp" compile="1" resource="0" file="Source/FirstScreen.cpp"/>
+        <FILE id="uef04V" name="FirstScreen.h" compile="0" resource="0" file="Source/FirstScreen.h"/>
+        <FILE id="zJ9YE9" name="SecondScreen.cpp" compile="1" resource="0"
+              file="Source/SecondScreen.cpp"/>
+        <FILE id="JRS2u9" name="SecondScreen.h" compile="0" resource="0" file="Source/SecondScreen.h"/>
+      </GROUP>
       <FILE id="GvhzoN" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="DLrdUd" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="UzXP8i" name="MainComponent.cpp" compile="1" resource="0"

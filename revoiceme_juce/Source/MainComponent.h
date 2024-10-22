@@ -1,15 +1,11 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "FirstScreen.h"
+#include "SecondScreen.h"
 
 //==============================================================================
-/*
-    This component lives inside our window, and this is where you should put all
-    your controls and content.
-*/
-class MainComponent  : public juce::AudioAppComponent, 
-    public juce::ChangeListener, 
-    private juce::Timer
+class MainComponent : public juce::AudioAppComponent
 {
 public:
     //==============================================================================
@@ -17,44 +13,26 @@ public:
     ~MainComponent() override;
 
     //==============================================================================
-    void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
-    void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override;
+    void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
+    void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
     void releaseResources() override;
-    void changeListenerCallback(juce::ChangeBroadcaster *source) override;
 
     //==============================================================================
-    void paint (juce::Graphics& g) override;
+    void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
-    //==============================================================================
-    // Your private member variables go here...
-    enum TransportState
-    {
-        Stopped,
-        Starting,
-        Playing,
-        Stopping
-    };
+    // Buttons to switch between screens
+    juce::TextButton firstScreenButton;
+    juce::TextButton secondScreenButton;
 
-    void playButtonClicked();
-    void stopButtonClicked();
-    void changeState(TransportState state);
-    void dumpDeviceInfo();
-    void logMessage(const juce::String &m);
-    void timerCallback() override;
+    // Screens
+    FirstScreen firstScreen;
+    SecondScreen secondScreen;
 
-    juce::TextButton playButton;
-    juce::TextButton stopButton;
-    juce::Label cpuUsageLabel;
-    juce::Label cpuUsageText;
-    juce::TextEditor diagnosticsBox;
-
-    TransportState state;
-
-    juce::Random random;
-    juce::AudioDeviceSelectorComponent audioSetupComp;
-    
+    // Functions to switch screens
+    void showFirstScreen();
+    void showSecondScreen();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
