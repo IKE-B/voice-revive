@@ -1,6 +1,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "StartComponent.h"
+#include "ConfigComponent.h"
 
 //==============================================================================
 /*
@@ -8,8 +10,8 @@
     your controls and content.
 */
 class MainComponent  : public juce::AudioAppComponent, 
-    public juce::ChangeListener, 
-    private juce::Timer
+    public juce::ChangeListener
+    //private juce::Timer
 {
 public:
     //==============================================================================
@@ -29,31 +31,34 @@ public:
 private:
     //==============================================================================
     // Your private member variables go here...
-    enum TransportState
+    /*enum TransportState
     {
         Stopped,
         Starting,
         Playing,
         Stopping
-    };
+    };*/
 
-    void playButtonClicked();
-    void stopButtonClicked();
-    void changeState(TransportState state);
+    bool state;
+    
+    void changePlaybackState(bool newState);
     void dumpDeviceInfo();
     void logMessage(const juce::String &m);
-    void timerCallback() override;
+    //void timerCallback() override;
 
-    juce::TextButton playButton;
-    juce::TextButton stopButton;
-    juce::Label cpuUsageLabel;
-    juce::Label cpuUsageText;
-    juce::TextEditor diagnosticsBox;
+    
+    //juce::Label cpuUsageLabel;
+    //juce::Label cpuUsageText;
+    //juce::TextEditor diagnosticsBox;
 
-    TransportState state;
+    //TransportState state;
 
-    juce::AudioDeviceSelectorComponent audioSetupComp;
+   
+
+    //juce::AudioDeviceSelectorComponent audioSetupComp;
     juce::TabbedComponent tabs;
+    Component::SafePointer<StartComponent> startTab;
+    Component::SafePointer<ConfigComponent> configTab;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

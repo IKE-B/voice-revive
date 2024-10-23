@@ -2,32 +2,35 @@
 
 //==============================================================================
 MainComponent::MainComponent()
-    : state(Stopped), audioSetupComp(deviceManager,
-                       0,     // minimum input channels
-                       256,   // maximum input channels
-                       0,     // minimum output channels
-                       256,   // maximum output channels
-                       false, // ability to select midi inputs
-                       false, // ability to select midi output device
-                       false, // treat channels as stereo pairs
-                       false) // hide advanced options
+    : state(false), startTab(new StartComponent()), configTab(new ConfigComponent()), tabs(juce::TabbedButtonBar::TabsAtTop)
 {
-    addAndMakeVisible(&playButton);
-    playButton.setButtonText("Play");
-    playButton.onClick = [this] { playButtonClicked(); };
-    playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
-    playButton.setEnabled(false);
+    tabs.addTab("Startseite",
+                juce::Colours::grey,
+                startTab,
+                true);
+    tabs.addTab("Audiogerät", 
+                juce::Colours::grey, 
+                new juce::AudioDeviceSelectorComponent(deviceManager,
+                                                       0,     // minimum input channels
+                                                       256,   // maximum input channels
+                                                       0,     // minimum output channels
+                                                       256,   // maximum output channels
+                                                       false, // ability to select midi inputs
+                                                       false, // ability to select midi output device
+                                                       false, // treat channels as stereo pairs
+                                                       false), // hide advanced options)
+                true);
+    tabs.addTab("Konfiguration",
+                juce::Colours::grey,
+                configTab,
+                true);
 
-    addAndMakeVisible(&stopButton);
-    stopButton.setButtonText("Stop");
-    stopButton.onClick = [this] { stopButtonClicked(); };
-    stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-    stopButton.setEnabled(false);
+    addAndMakeVisible(tabs);
 
-    addAndMakeVisible(audioSetupComp);
-    addAndMakeVisible(diagnosticsBox);
+    //addAndMakeVisible(audioSetupComp);
+    //addAndMakeVisible(diagnosticsBox);
 
-    diagnosticsBox.setMultiLine(true);
+    /*diagnosticsBox.setMultiLine(true);
     diagnosticsBox.setReturnKeyStartsNewLine(true);
     diagnosticsBox.setReadOnly(true);
     diagnosticsBox.setScrollbarsShown(true);
@@ -35,16 +38,16 @@ MainComponent::MainComponent()
     diagnosticsBox.setPopupMenuEnabled(true);
     diagnosticsBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
     diagnosticsBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
-    diagnosticsBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
+    diagnosticsBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));*/
 
-    cpuUsageLabel.setText("CPU Usage", juce::dontSendNotification);
+    /*cpuUsageLabel.setText("CPU Usage", juce::dontSendNotification);
     cpuUsageText.setJustificationType(juce::Justification::right);
     addAndMakeVisible(&cpuUsageLabel);
-    addAndMakeVisible(&cpuUsageText);
+    addAndMakeVisible(&cpuUsageText);*/
 
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (760, 360);
+    setSize (640, 480);
 
     // Some platforms require permissions to open input channels so request that here
     if (juce::RuntimePermissions::isRequired (juce::RuntimePermissions::recordAudio)
@@ -56,13 +59,11 @@ MainComponent::MainComponent()
     else
     {
         // Specify the number of input and output channels that we want to open
-        setAudioChannels (2, 2);
-        
-       
+        setAudioChannels(2, 2);
     }
-    // deviceManager.getCurrentAudioDevice()->stop();
+    
     deviceManager.addChangeListener(this);
-    startTimer(50);
+    //startTimer(50);
 }
 
 MainComponent::~MainComponent()
@@ -103,11 +104,11 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
 
     for (auto channel = 0; channel < maxOutputChannels; ++channel)
     {
-        if (state == Stopped)
+        /*if (!state)
         {
             bufferToFill.clearActiveBufferRegion();
             continue;
-        }
+        }*/
         if ((!activeOutputChannels[channel]) || maxInputChannels == 0)
         {
             bufferToFill.buffer->clear(channel, bufferToFill.startSample, bufferToFill.numSamples);
@@ -146,26 +147,19 @@ void MainComponent::releaseResources()
 
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster *source)
 {
-    // TODO
-    /*if (transportSource.isPlaying())
-           changeState(Playing);
-       else
-           changeState(Stopped);*/
-    
-    
     if (deviceManager.getCurrentAudioDevice()->isPlaying())
-        changeState(Playing);
+        changePlaybackState(true);
     else
-        changeState(Stopped);
+        changePlaybackState(false);
 
-    dumpDeviceInfo();
+    //dumpDeviceInfo();
 }
 
-void MainComponent::timerCallback()
+/*void MainComponent::timerCallback()
 {
-    auto cpu = deviceManager.getCpuUsage() * 100;
-    cpuUsageText.setText(juce::String(cpu, 6) + " %", juce::dontSendNotification);
-}
+    //auto cpu = deviceManager.getCpuUsage() * 100;
+    //cpuUsageText.setText(juce::String(cpu, 6) + " %", juce::dontSendNotification);
+}*/
 
 //==============================================================================
 void MainComponent::paint (juce::Graphics& g)
@@ -181,60 +175,19 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    playButton.setBounds(getWidth() / 2, getHeight() - 150, 40, 20);
-    stopButton.setBounds(getWidth() / 2, getHeight() - 100, 40, 20);
+    tabs.setBounds(getLocalBounds());
 
-    auto rect = getLocalBounds();
+    //auto rect = getLocalBounds();
 
-    audioSetupComp.setBounds(rect.removeFromLeft(proportionOfWidth(0.6f)));
-    rect.reduce(10, 10);
+    /*audioSetupComp.setBounds(rect.removeFromLeft(proportionOfWidth(0.6f)));
+    rect.reduce(10, 10);*/
 
-    auto topLine(rect.removeFromTop(20));
+    /*auto topLine(rect.removeFromTop(20));
     cpuUsageLabel.setBounds(topLine.removeFromLeft(topLine.getWidth() / 2));
     cpuUsageText.setBounds(topLine);
-    rect.removeFromTop(20);
+    rect.removeFromTop(20);*/
 
-    diagnosticsBox.setBounds(rect);
-}
-
-void MainComponent::playButtonClicked()
-{
-    changeState(Playing);
-}
-
-void MainComponent::stopButtonClicked()
-{
-    changeState(Stopped);
-}
-
-void MainComponent::changeState(TransportState newState)
-{
-    if (state != newState)
-    {
-        state = newState;
-
-        switch (state)
-        {
-            case Stopped:
-                playButton.setButtonText("Play");
-                stopButton.setButtonText("Stop");
-                playButton.setEnabled(true);
-                stopButton.setEnabled(false);
-                break;
-
-            case Starting:
-                break;
-
-            case Playing:
-                stopButton.setButtonText("Stop");
-                stopButton.setEnabled(true);
-                playButton.setEnabled(false);
-                break;
-
-            case Stopping:
-                break;
-        }
-    }
+    //diagnosticsBox.setBounds(rect);
 }
 
 static juce::String getListOfActiveBits(const juce::BigInteger &b)
@@ -246,6 +199,11 @@ static juce::String getListOfActiveBits(const juce::BigInteger &b)
             bits.add(juce::String(i));
 
     return bits.joinIntoString(", ");
+}
+
+void MainComponent::changePlaybackState(bool newState)
+{
+    state = newState;
 }
 
 void MainComponent::dumpDeviceInfo()
@@ -274,8 +232,8 @@ void MainComponent::dumpDeviceInfo()
 
 void MainComponent::logMessage(const juce::String &m)
 {
-    diagnosticsBox.moveCaretToEnd();
-    diagnosticsBox.insertTextAtCaret(m + juce::newLine);
+    //diagnosticsBox.moveCaretToEnd();
+    //diagnosticsBox.insertTextAtCaret(m + juce::newLine);
 }
 
 
