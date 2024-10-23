@@ -4,10 +4,18 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="uni-wuerzburg-ulm">
   <MAINGROUP id="WscqrE" name="revoiceme_juce">
     <GROUP id="{35B20479-5445-C12B-4C6A-6E9714410B15}" name="Source">
+      <FILE id="qNO4TC" name="ConfigComponent.h" compile="0" resource="0"
+            file="Source/ConfigComponent.h"/>
+      <FILE id="bxyNwk" name="ConfigComponent.cpp" compile="1" resource="0"
+            file="Source/ConfigComponent.cpp"/>
       <FILE id="GvhzoN" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="DLrdUd" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="UzXP8i" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
+      <FILE id="u1P9cG" name="StartComponent.cpp" compile="1" resource="0"
+            file="Source/StartComponent.cpp"/>
+      <FILE id="ucwyZl" name="StartComponent.h" compile="0" resource="0"
+            file="Source/StartComponent.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

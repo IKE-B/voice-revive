@@ -52,9 +52,8 @@ private:
 
     TransportState state;
 
-    juce::Random random;
     juce::AudioDeviceSelectorComponent audioSetupComp;
-    
+    juce::TabbedComponent tabs;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
