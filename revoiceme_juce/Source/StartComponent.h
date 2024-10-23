@@ -25,5 +25,12 @@ public:
     void resized() override;
 
 private:
+
+    void playButtonClicked();
+    void stopButtonClicked();
+
+    juce::TextButton playButton;
+    juce::TextButton stopButton;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StartComponent)
 };
