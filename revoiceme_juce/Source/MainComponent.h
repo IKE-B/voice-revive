@@ -44,6 +44,8 @@ public:
     void resized() override;
 
 private:
+    // update all values with the UI values    
+    void updateState();
 
     //EQ
     using Filter = juce::dsp::IIR::Filter<float>;
@@ -60,6 +62,8 @@ private:
         Peak,
         HighCut
     };
+
+    void prepareEQ(int samplesPerBlock, double sampleRate);
 
     void updatePeakFilter(const ChainSettingsEQ &chainSettings);
     using Coefficients = Filter::CoefficientsPtr;
@@ -107,6 +111,29 @@ private:
 
     void updateFilters();
 
+    //==============================================================================
+
+    //Gain
+    juce::dsp::Gain<float> gain;
+
+    void prepareGain(int samplesPerBlock, double sampleRate);
+
+    template<typename T, typename U>
+    void applyGain(T& buffer, U& gain)
+    {
+        auto block = juce::dsp::AudioBlock<float>(buffer);
+        auto ctx = juce::dsp::ProcessContextReplacing<float>(block);
+        gain.process(ctx);
+    }
+
+    //==============================================================================
+
+    //CompressorAll
+
+    //==============================================================================
+
+    //UI
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     //==============================================================================
     // Your private member variables go here...
     
