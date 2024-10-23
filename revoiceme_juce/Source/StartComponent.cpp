@@ -16,7 +16,12 @@ StartComponent::StartComponent(juce::AudioDeviceManager& deviceMgt) : deviceMana
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
-    addAndMakeVisible(&playButton);
+    addAndMakeVisible(&playStopButton);
+    playStopButton.setButtonText("PLAY");
+    playStopButton.onClick = [this] { playButtonClicked(); };
+    playStopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+    
+    /*addAndMakeVisible(&playButton);
     playButton.setButtonText("Play");
     playButton.onClick = [this] { playButtonClicked(); };
     playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
@@ -26,7 +31,7 @@ StartComponent::StartComponent(juce::AudioDeviceManager& deviceMgt) : deviceMana
     stopButton.setButtonText("Stop");
     stopButton.onClick = [this] { stopButtonClicked(); };
     stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-    stopButton.setEnabled(false);
+    stopButton.setEnabled(false);*/
 
     deviceManager.addChangeListener(this);
 }
@@ -57,10 +62,10 @@ void StartComponent::paint (juce::Graphics& g)
        drawing code..
     */
 
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
-    //g.setColour (juce::Colours::grey);
-    //g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+    g.setColour (juce::Colours::grey);
+    g.drawRect (getLocalBounds(), 2);   // draw an outline around the component
 
     //g.setColour (juce::Colours::white);
     //g.setFont (juce::FontOptions (14.0f));
@@ -72,8 +77,12 @@ void StartComponent::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-    playButton.setBounds(getWidth() / 2, getHeight() / 2, 50, 40);
-    stopButton.setBounds(getWidth() / 2, getHeight() / 2 + 50, 50, 40);
+    //playButton.setBounds(getLocalBounds());
+    //stopButton.setBounds(getLocalBounds());
+
+    //playButton.setBounds(getWidth() / 2 - playButton.getWidth() / 2, getHeight() / 2 - playButton.getHeight() / 2, 50, 40);
+    //stopButton.setBounds(getWidth() / 2 - stopButton.getWidth() / 2, getHeight() / 2 - stopButton.getHeight() / 2 + 50, 50, 40);
+    playStopButton.setBounds(getWidth() / 2 - playStopButton.getWidth() / 2, getHeight() / 2 - playStopButton.getHeight() / 2, 100, 100);
 }
 
 void StartComponent::playButtonClicked()
@@ -95,14 +104,20 @@ void StartComponent::changeAudioState(audioState newState)
         switch (state)
         {
             case Playing:
-                stopButton.setEnabled(true);
-                playButton.setEnabled(false);
-                deviceManager.restartLastAudioDevice();
+                deviceManager.initialiseWithDefaultDevices(2,2);
+                //stopButton.setEnabled(true);
+                //playButton.setEnabled(false);
+                playStopButton.setButtonText("STOP");
+                playStopButton.onClick = [this] { stopButtonClicked(); };
+                playStopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
                 break;
             case Stopped:
-                playButton.setEnabled(true);
-                stopButton.setEnabled(false);
+                //playButton.setEnabled(true);
+                //stopButton.setEnabled(false);
                 deviceManager.getCurrentAudioDevice()->stop();
+                playStopButton.setButtonText("PLAY");
+                playStopButton.onClick = [this] { playButtonClicked(); };
+                playStopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
                 break;
         }
     }

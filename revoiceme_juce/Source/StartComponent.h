@@ -38,8 +38,9 @@ private:
     void changeAudioState(audioState newState);
 
     audioState state;
-    juce::TextButton playButton;
-    juce::TextButton stopButton;
+    juce::TextButton playStopButton;
+    //juce::TextButton playButton;
+    //juce::TextButton stopButton;
 
     juce::AudioDeviceManager &deviceManager;
 
