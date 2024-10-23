@@ -5,11 +5,11 @@ MainComponent::MainComponent()
     : startTab(new StartComponent(deviceManager)), configTab(new ConfigComponent()), tabs(juce::TabbedButtonBar::TabsAtTop)
 {
     tabs.addTab("Startseite",
-                juce::Colours::grey,
+                juce::Colours::lightgrey,
                 startTab,
                 true);
     tabs.addTab("Audiogeraet", 
-                juce::Colours::grey, 
+                juce::Colours::grey,
                 new juce::AudioDeviceSelectorComponent(deviceManager,
                                                        0,     // minimum input channels
                                                        256,   // maximum input channels
@@ -21,7 +21,7 @@ MainComponent::MainComponent()
                                                        false), // hide advanced options)
                 true);
     tabs.addTab("Konfiguration",
-                juce::Colours::grey,
+                juce::Colours::lightgrey,
                 configTab,
                 true);
 
@@ -240,7 +240,7 @@ void MainComponent::updateHighCutFilters(const ChainSettingsEQ &chainSettings)
 
 void MainComponent::updateFilters()
 {
-    auto chainSettings = getChainSettingsEQ(20.0f, 20000.0f, 750.0f, 0.0f, 1.0f, SlopeEQ::SlopeEQ_12, SlopeEQ::SlopeEQ_48);
+    auto chainSettings = getChainSettingsEQ(20.0f, 20.0f, 750.0f, 0.0f, 1.0f, SlopeEQ::SlopeEQ_12, SlopeEQ::SlopeEQ_12);
 
     updateLowCutFilters(chainSettings);
     updatePeakFilter(chainSettings);
