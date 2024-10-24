@@ -66,25 +66,24 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 
     //Gain
     prepareGain(samplesPerBlockExpected, sampleRate);
+
+    //compAll
+    prepareCompAll(samplesPerBlockExpected, sampleRate);
+
+    //compMult
+    prepareCompAll(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
     // Your audio-processing code goes here!
 
-    // For more details, see the help for AudioProcessor::getNextAudioBlock()
-
-    // Right now we are not producing any data, in which case we need to clear the buffer
-    // (to prevent the output of random noise)
-    //bufferToFill.clearActiveBufferRegion();
-
+    // For more details, see the help for AudioProcessor::getNextAudioBlock() 
     auto *device = deviceManager.getCurrentAudioDevice();
     auto activeInputChannels = device->getActiveInputChannels();
     auto activeOutputChannels = device->getActiveOutputChannels();
     auto maxInputChannels = activeInputChannels.countNumberOfSetBits();
     auto maxOutputChannels = activeOutputChannels.countNumberOfSetBits();
-    //myAudioProcessor.totalInputChannels = maxInputChannels;
-    //myAudioProcessor.totalOutputChannels = maxOutputChannels;
 
     // Create a temporary AudioBuffer to consolidate input channels
     juce::AudioBuffer<float> tempBuffer(maxInputChannels, bufferToFill.numSamples);
@@ -103,9 +102,6 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
             tempBuffer.clear(channel, 0, bufferToFill.numSamples);
         }
     }
-
-    // Call the processBlock function with the tempBuffer and the empty MIDI buffer
-    //myAudioProcessor.processBlock(tempBuffer, emptyMidiBuffer);
 
     //EQ-processBlock logic:
     /*juce::ScopedNoDenormals noDenormals;
@@ -136,6 +132,72 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
         rightChain.process(rightContext);
     }
 
+    //CompressorAll
+    if (!compAllMute)
+    {
+        auto block = juce::dsp::AudioBlock<float>(tempBuffer);
+        auto context = juce::dsp::ProcessContextReplacing<float>(block);
+
+        context.isBypassed = compAllMute;
+
+        compressorAll.process(context);
+    }
+
+    //Multiband Compressor
+    /*splitBands(tempBuffer);
+
+    for (size_t i = 0; i < filterBuffers.size(); i++)
+    {
+        compressors[i].process(filterBuffers[i]);
+    }
+
+    auto numSamples = tempBuffer.getNumSamples();
+    auto numChannels = tempBuffer.getNumChannels();
+
+    tempBuffer.clear();
+
+    auto addFilterBand = [nc = numChannels, ns = numSamples](auto& inputBuffer, const auto& source)
+        {
+            for (auto i = 0; i < nc; i++)
+            {
+                inputBuffer.addFrom(i, 0, source, i, 0, ns);
+            }
+        };
+
+    bool bandsAreSoloed = false;
+    for (auto& comp : compressors)
+    {
+        if (comp.solo)
+        {
+            bandsAreSoloed = true;
+            break;
+        }
+    }
+
+    if (bandsAreSoloed)
+    {
+        for (size_t i = 0; i < compressors.size(); i++)
+        {
+            auto& comp = compressors[i];
+            if (comp.solo)
+            {
+                addFilterBand(tempBuffer, filterBuffers[i]);
+            }
+        }
+    }
+    else
+    {
+        for (size_t i = 0; i < compressors.size(); i++)
+        {
+            auto& comp = compressors[i];
+            if (!comp.mute)
+            {
+                addFilterBand(tempBuffer, filterBuffers[i]);
+            }
+        }
+    }*/
+
+    //Gain
     applyGain(tempBuffer, gain);
 
     // Now copy the processed data back to the output buffer
@@ -175,6 +237,23 @@ void MainComponent::releaseResources()
 void MainComponent::updateState() 
 {
     gain.setGainDecibels(5.f);
+
+    // Solo, Mute and Bypass also needs to be set for compressors
+    compressorAll.setAttack(50.0f);
+    compressorAll.setRelease(50.0f);
+    compressorAll.setThreshold(0.0f);
+    compressorAll.setRatio(3.0f);
+
+    //update MultBandCompressor
+
+    lowMidCrossover = 400.0f;
+    LP1.setCutoffFrequency(lowMidCrossover);
+    HP1.setCutoffFrequency(lowMidCrossover);
+
+    midHighCrossover = 2000.0f;
+    AP2.setCutoffFrequency(midHighCrossover);
+    LP2.setCutoffFrequency(midHighCrossover);
+    HP2.setCutoffFrequency(midHighCrossover);
 }
 
 //==============================================================================
@@ -282,6 +361,78 @@ void MainComponent::updateFilters()
     updateLowCutFilters(chainSettings);
     updatePeakFilter(chainSettings);
     updateHighCutFilters(chainSettings);
+}
+
+//==============================================================================
+//CompAll
+
+void MainComponent::prepareCompAll(int samplesPerBlock, double sampleRate)
+{
+    auto* device = deviceManager.getCurrentAudioDevice();
+    
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
+    spec.numChannels = static_cast<juce::uint32>(device->getActiveOutputChannels().countNumberOfSetBits());
+    spec.sampleRate = sampleRate;
+
+    compressorAll.prepare(spec);
+}
+
+//==============================================================================
+//MultComp
+
+void MainComponent::prepareCompMult(int samplesPerBlock, double sampleRate)
+{
+    auto* device = deviceManager.getCurrentAudioDevice();
+
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
+    spec.numChannels = static_cast<juce::uint32>(device->getActiveOutputChannels().countNumberOfSetBits());
+    spec.sampleRate = sampleRate;
+
+    for (auto& comp : compressors)
+    {
+        comp.prepare(spec);
+    }
+
+    LP1.prepare(spec);
+    HP1.prepare(spec);
+
+    AP2.prepare(spec);
+
+    LP2.prepare(spec);
+    HP2.prepare(spec);
+
+    for (auto& buffer : filterBuffers)
+    {
+        buffer.setSize(static_cast<int>(spec.numChannels), samplesPerBlock);
+    }
+}
+
+void MainComponent::splitBands(const juce::AudioBuffer<float>& inputBuffer)
+{
+    // split the buffer in 2 filterBuffers
+    for (auto& fb : filterBuffers)
+    {
+        fb = inputBuffer;
+    }
+
+    auto fb0Block = juce::dsp::AudioBlock<float>(filterBuffers[0]);
+    auto fb1Block = juce::dsp::AudioBlock<float>(filterBuffers[1]);
+    auto fb2Block = juce::dsp::AudioBlock<float>(filterBuffers[2]);
+
+    auto fb0Ctx = juce::dsp::ProcessContextReplacing<float>(fb0Block);
+    auto fb1Ctx = juce::dsp::ProcessContextReplacing<float>(fb1Block);
+    auto fb2Ctx = juce::dsp::ProcessContextReplacing<float>(fb2Block);
+
+    LP1.process(fb0Ctx);
+    AP2.process(fb0Ctx);
+
+    HP1.process(fb1Ctx);
+    filterBuffers[2] = filterBuffers[1];
+    LP2.process(fb1Ctx);
+
+    HP2.process(fb2Ctx);
 }
 
 //==============================================================================
