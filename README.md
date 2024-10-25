@@ -7,6 +7,7 @@ This project aims to **improve the speech quality of laryngectomy patients** by 
 - [Overview](#overview)
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
+- [Hardware-Setup](#hardware-setup)
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
 
@@ -63,16 +64,35 @@ Audio processing is done in [JUCE](https://juce.com/), a *C++* framework for aud
 
 ## Documentation
 
-An up-to-date documentation of this project is available online at: [ike-b.github.io/voice-revive](https://ike-b.github.io/voice-revive/).
+An up-to-date **code documentation** (of the app frontend written in Dart/Flutter) of this project is available online at: [ike-b.github.io/voice-revive](https://ike-b.github.io/voice-revive/).
+
+The usage itself is quite intuitive.
+After opening the app, the "Start/Stop" button can be used to toggle the voice changing.
+If the app somehow detected the wrong speaker or microphone, the periphery can be changed in the tab "Audiogeraet" under "Input" and "Output".
+Per default, the voice should sound nearly unaltered.
+To tune voice manipulation to one's concrete needs, users can experiment with the settings under "Konfiguration".
+Because of its pure experimental nature, the app currently does not store configurations after exiting it. 
+
+Stopping the voice changing via the button causes the app to select the default devices again (instead of the last user selected devices).
+So changing the periphery must be done while voice changing is active.
 
 ## Contributing
 
 Consult the [CONTRIBUTING.md](CONTRIBUTING.md) for all necessary information about the complete development cycle of this project: from how to opening issues, to setting up the development environment, to eventually integrating changes into the main codebase.
 
 ## Hardware-Setup
-To run the app succesfully a connected mircofon and a speaker is needed. Therefore every normal mircofon and speaker should work. We ourselves only tested and developed the app with 2 specific ones. This is not any advertisement in any way, we just want to point out that with these tools the app works as intended.
 
-Our test-phone is the Google Pixel 5 with 8 GB RAM and 128 GB storage. It will be connected with [a Rode AI microfon](https://rode.com/de/interfaces-and-mixers/ai-series/ai-micro) to have two possible AUX-Inputs. For the mircofon and speaker we use the [Giecy speech enhancer](https://www.amazon.de/dp/B07VRPY2DT/?tag=glv-21&ascsubtag=dd0c82bc-5c9a-4a14-86c2-2772675619be&th=1&linkCode=osi), these are then connected to the Rode AI microfon.
+To run the app succesfully on a smartphone, an **externally** connected **directional** mircophone and an **external** speaker are needed.
+Additionally, to connect both at the same time, a 2-to-1 (AUX) adapter is needed as well.
+
+We tested our app with the following equipment:
+
+- a Google Pixel 5 with 8 GB RAM and 128 GB storage
+- a [Rode AI-Micro](https://rode.com/de/interfaces-and-mixers/ai-series/ai-micro) as adapter for two parallel AUX-Inputs
+- a [Giecy speech enhancer](https://www.amazon.de/dp/B07VRPY2DT/?tag=glv-21&ascsubtag=dd0c82bc-5c9a-4a14-86c2-2772675619be&th=1&linkCode=osi) as speaker and microphone
+
+This is **not** an advertisement. This is just the hardware we used during development where we tested the functionality.
+Every other smartphone, directional microphone, speaker, and 2-to-1 (AUX) adapter should work as well.
 
 ## Acknowledgements
 
