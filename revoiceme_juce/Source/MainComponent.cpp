@@ -302,25 +302,6 @@ void MainComponent::prepareEQ(int samplesPerBlock, double sampleRate)
     updateFilters();
 }
 
-ChainSettingsEQ getChainSettingsEQ(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
-                                   float peakGainInDecibelsNew, float peakQualityNew, SlopeEQ lowCutSlopeNew, SlopeEQ highCutSlopeNew)
-{
-    ChainSettingsEQ settings;
-
-
-    // TODO
-    // lowCutFreq und highCutFreq aktuell noch vertauscht!!
-    settings.lowCutFreq = 
-    settings.highCutFreq = highCutFreqNew;
-    settings.peakFreq = peakFreqNew;
-    settings.peakGainInDecibels = peakGainInDecibelsNew;
-    settings.peakQuality = peakQualityNew;
-    settings.lowCutSlope = lowCutSlopeNew;
-    settings.highCutSlope = highCutSlopeNew;
-
-    return settings;
-}
-
 void MainComponent::updatePeakFilter(const ChainSettingsEQ &chainSettings)
 {
     auto *device = deviceManager.getCurrentAudioDevice();
@@ -368,7 +349,7 @@ void MainComponent::updateHighCutFilters(const ChainSettingsEQ &chainSettings)
 
 void MainComponent::updateFilters()
 {
-    auto chainSettings = getChainSettingsEQ(20.0f, 1000.0f, 750.0f, 0.0f, 1.0f, SlopeEQ::SlopeEQ_12, SlopeEQ::SlopeEQ_48);
+    auto chainSettings = chainSettingsMember;
 
     updateLowCutFilters(chainSettings);
     updatePeakFilter(chainSettings);

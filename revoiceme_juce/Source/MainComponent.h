@@ -5,9 +5,6 @@
 #include "ConfigComponent.h"
 #include "HelperStructs.h"
 
-ChainSettingsEQ getChainSettingsEQ(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
-                                   float peakGainInDecibelsNew, float peakQualityNew, SlopeEQ lowCutSlopeNew, SlopeEQ highCutSlopeNew);
-
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all

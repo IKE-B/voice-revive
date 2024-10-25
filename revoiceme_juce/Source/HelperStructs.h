@@ -44,15 +44,6 @@ struct CompressorBand
         compressor.prepare(spec);
     }
 
-    void updateCompressorSettings()
-    {
-        // prepare the compressor with the values from our GUI
-        compressor.setAttack(attack);
-        compressor.setRelease(release);
-        compressor.setThreshold(threshold);
-        compressor.setRatio(ratio);
-    }
-
     void process(juce::AudioBuffer<float> &buffer)
     {
         auto block = juce::dsp::AudioBlock<float>(buffer);
