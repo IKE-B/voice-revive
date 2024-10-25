@@ -123,11 +123,12 @@ void ConfigComponent::resized()
 {
     viewport.setBounds(getLocalBounds());
 
-    int boxHeight = 100;  // Gesamthöhe für die Box mit Label und Slider
-    int checkboxHeight = 50; // Höhe für die Checkboxen (inkl. Rahmen)
-    int padding = 10;     // Abstand zwischen den Komponenten
+    int boxHeight = 100;      // Gesamthöhe für die Box mit Label und Slider
+    int checkboxHeight = 50;  // Höhe für die Checkboxen (inkl. Rahmen)
+    int padding = 10;         // Abstand zwischen den Komponenten
     int extraPaddingForSliders = 30;  // Zusätzlicher Abstand für Slider unter der Checkbox
 
+    // Berechnung der Höhe für jede Gruppe
     int totalHeightForFirstSliders = (boxHeight + padding) * 5;
     int totalHeightForCheckboxes1 = 2 * (checkboxHeight + padding); // Erste Checkbox-Gruppe
     int totalHeightForSecondSliders = (boxHeight + padding) * 4;
@@ -135,78 +136,84 @@ void ConfigComponent::resized()
     int totalHeightForThirdSliders = (boxHeight + padding) * 4;
     int totalHeightForCheckboxes3 = 3 * (checkboxHeight + padding); // Dritte Checkbox-Gruppe
     int totalHeightForFourthSliders = (boxHeight + padding) * 4;
-    int totalHeightForFifthSliders = (boxHeight + padding) * 9;
+    int totalHeightForCheckboxes4 = 3 * (checkboxHeight + padding); // Vierte Checkbox-Gruppe
+    int totalHeightForFifthSliders = (boxHeight + padding) * 9;     // Fünfte Slider-Gruppe
 
-    int totalHeight = totalHeightForFirstSliders + totalHeightForCheckboxes1 + totalHeightForSecondSliders +
-        totalHeightForCheckboxes2 + totalHeightForThirdSliders + totalHeightForCheckboxes3 +
-        totalHeightForFourthSliders + totalHeightForFifthSliders;
+    int totalHeight = totalHeightForFirstSliders + totalHeightForCheckboxes1 +
+        totalHeightForSecondSliders + totalHeightForCheckboxes2 +
+        totalHeightForThirdSliders + totalHeightForCheckboxes3 +
+        totalHeightForFourthSliders + totalHeightForCheckboxes4 +
+        totalHeightForFifthSliders + padding;
 
     int availableWidth = getWidth() - viewport.getScrollBarThickness();
 
     componentContainer->setSize(availableWidth, totalHeight);
 
-    // Positioniere die erste Gruppe von Slidern
+    // Erste Slider-Gruppe
+    int yOffset = 0;
     for (int i = 0; i < 5; ++i)
     {
-        int yOffset = i * (boxHeight + padding);
         sliders[i]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        yOffset += boxHeight + padding;
     }
 
-    // Positioniere die erste Gruppe von Checkboxen
-    int checkboxOffset1 = totalHeightForFirstSliders + padding;
-    checkboxes[0]->setBounds(10, checkboxOffset1, availableWidth - 20, checkboxHeight);
-    checkboxes[1]->setBounds(10, checkboxOffset1 + checkboxHeight + padding, availableWidth - 20, checkboxHeight);
+    // Erste Checkbox-Gruppe
+    for (int i = 0; i < 2; ++i)
+    {
+        checkboxes[i]->setBounds(10, yOffset, availableWidth - 20, checkboxHeight);
+        yOffset += checkboxHeight + padding;
+    }
 
     // Zweite Slider-Gruppe
-    int secondSliderOffset = checkboxOffset1 + checkboxHeight + extraPaddingForSliders;
-    for (int i = 0; i < 4; ++i)
+    for (int i = 5; i < 9; ++i)
     {
-        int yOffset = secondSliderOffset + i * (boxHeight + padding);
-        sliders[i + 5]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        sliders[i]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        yOffset += boxHeight + padding;
     }
 
-    // Zweite Gruppe von Checkboxen
-    int checkboxOffset2 = secondSliderOffset + (boxHeight + padding) * 4 + padding;
-    checkboxes[2]->setBounds(10, checkboxOffset2, availableWidth - 20, checkboxHeight);
-    checkboxes[3]->setBounds(10, checkboxOffset2 + checkboxHeight + padding, availableWidth - 20, checkboxHeight);
-    checkboxes[4]->setBounds(10, checkboxOffset2 + 2 * (checkboxHeight + padding), availableWidth - 20, checkboxHeight);
+    // Zweite Checkbox-Gruppe
+    for (int i = 2; i < 5; ++i)
+    {
+        checkboxes[i]->setBounds(10, yOffset, availableWidth - 20, checkboxHeight);
+        yOffset += checkboxHeight + padding;
+    }
 
     // Dritte Slider-Gruppe
-    int thirdSliderOffset = checkboxOffset2 + 3 * (checkboxHeight + padding) + extraPaddingForSliders;
-    for (int i = 0; i < 4; ++i)
+    for (int i = 9; i < 13; ++i)
     {
-        int yOffset = thirdSliderOffset + i * (boxHeight + padding);
-        sliders[i + 9]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        sliders[i]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        yOffset += boxHeight + padding;
     }
 
-    // Dritte Gruppe von Checkboxen
-    int checkboxOffset3 = thirdSliderOffset + (boxHeight + padding) * 4 + padding;
-    checkboxes[5]->setBounds(10, checkboxOffset3, availableWidth - 20, checkboxHeight);
-    checkboxes[6]->setBounds(10, checkboxOffset3 + checkboxHeight + padding, availableWidth - 20, checkboxHeight);
-    checkboxes[7]->setBounds(10, checkboxOffset3 + 2 * (checkboxHeight + padding), availableWidth - 20, checkboxHeight);
-
-    // Vierte Gruppe von Slidern
-    int fourthSliderOffset = checkboxOffset3 + 3 * (checkboxHeight + padding) + extraPaddingForSliders;
-    for (int i = 0; i < 4; ++i)
+    // Dritte Checkbox-Gruppe
+    for (int i = 5; i < 8; ++i)
     {
-        int yOffset = fourthSliderOffset + i * (boxHeight + padding);
-        sliders[i + 13]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        checkboxes[i]->setBounds(10, yOffset, availableWidth - 20, checkboxHeight);
+        yOffset += checkboxHeight + padding;
     }
 
-    // Vierte Gruppe von Checkboxen
-    int checkboxOffset4 = fourthSliderOffset + (boxHeight + padding) * 4 + padding;
-    checkboxes[8]->setBounds(10, checkboxOffset4, availableWidth - 20, checkboxHeight);
-    checkboxes[9]->setBounds(10, checkboxOffset4 + checkboxHeight + padding, availableWidth - 20, checkboxHeight);
-    checkboxes[10]->setBounds(10, checkboxOffset4 + 2 * (checkboxHeight + padding), availableWidth - 20, checkboxHeight);
-
-    // Fünfte Gruppe von Slidern (9 Slider)
-    int fifthSliderOffset = checkboxOffset4 + 3 * (checkboxHeight + padding) + extraPaddingForSliders;
-    for (int i = 0; i < 9; ++i)
+    // Vierte Slider-Gruppe
+    for (int i = 13; i < 17; ++i)
     {
-        int yOffset = fifthSliderOffset + i * (boxHeight + padding);
-        sliders[i + 17]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        sliders[i]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        yOffset += boxHeight + padding;
+    }
+
+    // Vierte Checkbox-Gruppe
+    for (int i = 8; i < 11; ++i)
+    {
+        checkboxes[i]->setBounds(10, yOffset, availableWidth - 20, checkboxHeight);
+        yOffset += checkboxHeight + padding;
+    }
+
+    // Fünfte Slider-Gruppe
+    for (int i = 17; i < 26; ++i)
+    {
+        sliders[i]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
+        yOffset += boxHeight + padding;
     }
 }
+
 
 void ConfigComponent::paintOverChildren(juce::Graphics& g)
 {
