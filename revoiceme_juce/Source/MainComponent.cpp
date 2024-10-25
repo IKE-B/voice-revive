@@ -71,7 +71,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     prepareCompAll(samplesPerBlockExpected, sampleRate);
 
     //compMult
-    prepareCompAll(samplesPerBlockExpected, sampleRate);
+    prepareCompMult(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -144,7 +144,7 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     }
 
     //Multiband Compressor
-    /*splitBands(tempBuffer);
+    splitBands(tempBuffer);
 
     for (size_t i = 0; i < filterBuffers.size(); i++)
     {
@@ -195,7 +195,7 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
                 addFilterBand(tempBuffer, filterBuffers[i]);
             }
         }
-    }*/
+    }
 
     //Gain
     applyGain(tempBuffer, gain);
@@ -281,6 +281,7 @@ void MainComponent::prepareEQ(int samplesPerBlock, double sampleRate)
     juce::dsp::ProcessSpec spec;
 
     spec.maximumBlockSize = samplesPerBlock;
+    //maybe adjust to be dynamically
     spec.numChannels = 1;
     spec.sampleRate = sampleRate;
 
@@ -387,7 +388,7 @@ void MainComponent::prepareCompMult(int samplesPerBlock, double sampleRate)
 
     juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
-    spec.numChannels = static_cast<juce::uint32>(device->getActiveOutputChannels().countNumberOfSetBits());
+    spec.numChannels = static_cast<juce::uint32>(device->getActiveOutputChannels().getHighestBit() +1);
     spec.sampleRate = sampleRate;
 
     for (auto& comp : compressors)
