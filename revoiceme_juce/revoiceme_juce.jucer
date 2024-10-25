@@ -8,6 +8,7 @@
             file="Source/ConfigComponent.h"/>
       <FILE id="bxyNwk" name="ConfigComponent.cpp" compile="1" resource="0"
             file="Source/ConfigComponent.cpp"/>
+      <FILE id="HaDzlX" name="HelperStructs.h" compile="0" resource="0" file="Source/HelperStructs.h"/>
       <FILE id="GvhzoN" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="DLrdUd" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="UzXP8i" name="MainComponent.cpp" compile="1" resource="0"
