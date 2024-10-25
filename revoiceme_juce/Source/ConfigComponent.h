@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "HelperStructs.h"
 
 // Benutzerdefinierte Slider-Klasse mit Label und Rand
 class CustomSliderWithLabel : public juce::Component
@@ -65,12 +66,22 @@ public:
 class ConfigComponent : public juce::Component
 {
 public:
-    ConfigComponent();
+    ConfigComponent(ChainSettingsEQ &chSe,
+                    juce::dsp::Gain<float> &gain,
+                    juce::dsp::Compressor<float> &compressorAll,
+                    bool &compAllMute,
+                    bool &compAllBypassed,
+                    CompressorBand &lowBandComp,
+                    CompressorBand &midBandComp,
+                    CompressorBand &highBandComp,
+                    float &lowMidCrossover,
+                    float &midHighCrossover);
     ~ConfigComponent() override;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
-    void paintOverChildren(juce::Graphics& g) override;
+    //void sliderValueChanged(juce::Slider *slider) override;
+    //void paintOverChildren(juce::Graphics& g) override;
 
 private:
     juce::Viewport viewport; // Der Viewport für das Scrollen
@@ -79,6 +90,18 @@ private:
     // Arrays, um Slider und Checkboxen zu speichern
     juce::OwnedArray<CustomSliderWithLabel> sliders;
     juce::OwnedArray<CustomCheckbox> checkboxes;
+
+    //Audioparameter
+    ChainSettingsEQ &chainSettings;
+    juce::dsp::Gain<float> &gain;
+    juce::dsp::Compressor<float> &compressorAll;
+    bool &compAllMute;
+    bool &compAllBypassed;
+    CompressorBand &lowBandComp;
+    CompressorBand &midBandComp;
+    CompressorBand &highBandComp;
+    float &lowMidCrossover;
+    float &midHighCrossover;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigComponent)
 };

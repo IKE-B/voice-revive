@@ -3,62 +3,10 @@
 #include <JuceHeader.h>
 #include "StartComponent.h"
 #include "ConfigComponent.h"
-
-enum SlopeEQ
-{
-    SlopeEQ_12,
-    SlopeEQ_24,
-    SlopeEQ_36,
-    SlopeEQ_48
-};
-
-struct ChainSettingsEQ
-{
-    float peakFreq {0}, peakGainInDecibels {0}, peakQuality {1.f};
-    float lowCutFreq {0}, highCutFreq {0};
-    SlopeEQ lowCutSlope {SlopeEQ::SlopeEQ_12}, highCutSlope {SlopeEQ::SlopeEQ_12};
-};
+#include "HelperStructs.h"
 
 ChainSettingsEQ getChainSettingsEQ(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
                                    float peakGainInDecibelsNew, float peakQualityNew, SlopeEQ lowCutSlopeNew, SlopeEQ highCutSlopeNew);
-//==============================================================================
-
-struct CompressorBand
-{
-    float threshold = 0.0f;
-    float attack = 40.0f;
-    float release = 40.0f;
-    float ratio = 3.0f;
-    bool bypassed = false;
-    bool mute = false;
-    bool solo = false;
-
-    void prepare(const juce::dsp::ProcessSpec& spec)
-    {
-        compressor.prepare(spec);
-    }
-
-    void updateCompressorSettings()
-    {
-        // prepare the compressor with the values from our GUI
-        compressor.setAttack(attack);
-        compressor.setRelease(release);
-        compressor.setThreshold(threshold);
-        compressor.setRatio(ratio);
-    }
-
-    void process(juce::AudioBuffer<float>& buffer)
-    {
-        auto block = juce::dsp::AudioBlock<float>(buffer);
-        auto context = juce::dsp::ProcessContextReplacing<float>(block);
-
-        context.isBypassed = bypassed;
-
-        compressor.process(context);
-    }
-private:
-    juce::dsp::Compressor<float> compressor;
-};
 
 //==============================================================================
 /*
@@ -93,6 +41,8 @@ private:
     using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
 
     MonoChain leftChain, rightChain;
+
+    ChainSettingsEQ chainSettingsMember;
 
     enum ChainPositions
     {
@@ -202,8 +152,8 @@ private:
     // Your private member variables go here...
     
     juce::TabbedComponent tabs;
-    Component::SafePointer<StartComponent> startTab;
-    Component::SafePointer<ConfigComponent> configTab;
+    StartComponent startTab;
+    ConfigComponent configTab;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

@@ -2,11 +2,22 @@
 
 //==============================================================================
 MainComponent::MainComponent()
-    : startTab(new StartComponent(deviceManager)), configTab(new ConfigComponent()), tabs(juce::TabbedButtonBar::TabsAtTop)
+    : startTab {deviceManager},
+    configTab {chainSettingsMember,
+              gain,
+              compressorAll,
+              compAllMute,
+              compAllBypassed,
+              lowBandComp,
+              midBandComp,
+              highBandComp,
+              lowMidCrossover,
+              midHighCrossover},
+    tabs {juce::TabbedButtonBar::TabsAtTop}
 {
     tabs.addTab("Startseite",
                 juce::Colours::lightgrey,
-                startTab,
+                &startTab,
                 true);
     tabs.addTab("Audiogeraet", 
                 juce::Colours::grey,
@@ -22,7 +33,7 @@ MainComponent::MainComponent()
                 true);
     tabs.addTab("Konfiguration",
                 juce::Colours::lightgrey,
-                configTab,
+                &configTab,
                 true);
 
     addAndMakeVisible(tabs);
@@ -299,7 +310,7 @@ ChainSettingsEQ getChainSettingsEQ(float lowCutFreqNew, float highCutFreqNew, fl
 
     // TODO
     // lowCutFreq und highCutFreq aktuell noch vertauscht!!
-    settings.lowCutFreq = lowCutFreqNew;
+    settings.lowCutFreq = 
     settings.highCutFreq = highCutFreqNew;
     settings.peakFreq = peakFreqNew;
     settings.peakGainInDecibels = peakGainInDecibelsNew;

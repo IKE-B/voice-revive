@@ -3,7 +3,26 @@
 
 //==============================================================================
 // Konstruktor
-ConfigComponent::ConfigComponent()
+ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
+                                 juce::dsp::Gain<float> &gain,
+                                 juce::dsp::Compressor<float> &compressorAll,
+                                 bool &compAllMute,
+                                 bool &compAllBypassed,
+                                 CompressorBand &lowBandComp,
+                                 CompressorBand &midBandComp,
+                                 CompressorBand &highBandComp,
+                                 float &lowMidCrossover,
+                                 float &midHighCrossover)
+    : chainSettings {chSe},
+    gain {gain},
+    compressorAll {compressorAll},
+    compAllMute {compAllMute},
+    compAllBypassed {compAllBypassed},
+    lowBandComp {lowBandComp},
+    midBandComp {midBandComp},
+    highBandComp {highBandComp},
+    lowMidCrossover {lowMidCrossover},
+    midHighCrossover {midHighCrossover}
 {
     // Initialisiere den Container f�r Slider und Labels
     componentContainer = std::make_unique<juce::Component>();
@@ -19,6 +38,7 @@ ConfigComponent::ConfigComponent()
     {
         auto* sliderWithLabel = new CustomSliderWithLabel(stringArray[i]);
         sliders.add(sliderWithLabel);
+        //sliderWithLabel->slider.addListener(this);
         componentContainer->addAndMakeVisible(sliderWithLabel);
     }
 
@@ -36,6 +56,7 @@ ConfigComponent::ConfigComponent()
     {
         auto* sliderWithLabel = new CustomSliderWithLabel(stringArray2[i]);
         sliders.add(sliderWithLabel);
+        //sliderWithLabel->slider.addListener(this);
         componentContainer->addAndMakeVisible(sliderWithLabel);
     }
 
@@ -57,6 +78,7 @@ ConfigComponent::ConfigComponent()
     {
         auto* sliderWithLabel = new CustomSliderWithLabel(stringArray3[i]);
         sliders.add(sliderWithLabel);
+        //sliderWithLabel->slider.addListener(this);
         componentContainer->addAndMakeVisible(sliderWithLabel);
     }
 
@@ -78,6 +100,7 @@ ConfigComponent::ConfigComponent()
     {
         auto* sliderWithLabel = new CustomSliderWithLabel(stringArray4[i]);
         sliders.add(sliderWithLabel);
+        //sliderWithLabel->slider.addListener(this);
         componentContainer->addAndMakeVisible(sliderWithLabel);
     }
 
@@ -99,6 +122,7 @@ ConfigComponent::ConfigComponent()
     {
         auto* sliderWithLabel = new CustomSliderWithLabel(stringArray5[i]);
         sliders.add(sliderWithLabel);
+        //sliderWithLabel->slider.addListener(this);
         componentContainer->addAndMakeVisible(sliderWithLabel);
     }
 
@@ -225,10 +249,4 @@ void ConfigComponent::resized()
         sliders[i]->setBounds(10, yOffset, availableWidth - 20, boxHeight);
         yOffset += boxHeight + padding;
     }
-}
-
-
-void ConfigComponent::paintOverChildren(juce::Graphics& g)
-{
-    // Dies zeichnet die R�nder um die Kinderkomponenten
 }
