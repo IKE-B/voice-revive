@@ -21,6 +21,44 @@ struct ChainSettingsEQ
 
 ChainSettingsEQ getChainSettingsEQ(float lowCutFreqNew, float highCutFreqNew, float peakFreqNew,
                                    float peakGainInDecibelsNew, float peakQualityNew, SlopeEQ lowCutSlopeNew, SlopeEQ highCutSlopeNew);
+//==============================================================================
+
+struct CompressorBand
+{
+    float threshold = 0.0f;
+    float attack = 40.0f;
+    float release = 40.0f;
+    float ratio = 3.0f;
+    bool bypassed = false;
+    bool mute = false;
+    bool solo = false;
+
+    void prepare(const juce::dsp::ProcessSpec& spec)
+    {
+        compressor.prepare(spec);
+    }
+
+    void updateCompressorSettings()
+    {
+        // prepare the compressor with the values from our GUI
+        compressor.setAttack(attack);
+        compressor.setRelease(release);
+        compressor.setThreshold(threshold);
+        compressor.setRatio(ratio);
+    }
+
+    void process(juce::AudioBuffer<float>& buffer)
+    {
+        auto block = juce::dsp::AudioBlock<float>(buffer);
+        auto context = juce::dsp::ProcessContextReplacing<float>(block);
+
+        context.isBypassed = bypassed;
+
+        compressor.process(context);
+    }
+private:
+    juce::dsp::Compressor<float> compressor;
+};
 
 //==============================================================================
 /*
@@ -44,6 +82,8 @@ public:
     void resized() override;
 
 private:
+    // update all values with the UI values    
+    void updateState();
 
     //EQ
     using Filter = juce::dsp::IIR::Filter<float>;
@@ -60,6 +100,8 @@ private:
         Peak,
         HighCut
     };
+
+    void prepareEQ(int samplesPerBlock, double sampleRate);
 
     void updatePeakFilter(const ChainSettingsEQ &chainSettings);
     using Coefficients = Filter::CoefficientsPtr;
@@ -107,6 +149,55 @@ private:
 
     void updateFilters();
 
+    //==============================================================================
+
+    //Gain
+    juce::dsp::Gain<float> gain;
+
+    void prepareGain(int samplesPerBlock, double sampleRate);
+
+    template<typename T, typename U>
+    void applyGain(T& buffer, U& gain)
+    {
+        auto block = juce::dsp::AudioBlock<float>(buffer);
+        auto ctx = juce::dsp::ProcessContextReplacing<float>(block);
+        gain.process(ctx);
+    }
+
+    //==============================================================================
+
+    //CompressorAll
+    juce::dsp::Compressor<float> compressorAll;
+    bool compAllMute = false;
+    bool compAllBypassed = false;
+
+    void prepareCompAll(int samplesPerBlock, double sampleRate);
+
+    //==============================================================================
+
+    //MultCompressor
+    std::array<CompressorBand, 3> compressors;
+    CompressorBand& lowBandComp = compressors[0];
+    CompressorBand& midBandComp = compressors[1];
+    CompressorBand& highBandComp = compressors[2];
+
+    void prepareCompMult(int samplesPerBlock, double sampleRate);
+    void splitBands(const juce::AudioBuffer<float>& inputBuffer);
+
+    using FilterComp = juce::dsp::LinkwitzRileyFilter<float>;
+    FilterComp LP1, AP2,
+        HP1, LP2,
+        HP2;
+
+    float lowMidCrossover = 400.0f;
+    float midHighCrossover = 2000.0f;
+
+    std::array<juce::AudioBuffer<float>, 3> filterBuffers;
+
+    //==============================================================================
+
+    //UI
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     //==============================================================================
     // Your private member variables go here...
     
