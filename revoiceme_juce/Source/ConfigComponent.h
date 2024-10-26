@@ -84,12 +84,23 @@ public:
     //void paintOverChildren(juce::Graphics& g) override;
 
 private:
+    void createAndAddCustomSlider(float minRange,
+                                  float maxRange,
+                                  float stepSize,
+                                  float startValue,
+                                  const juce::String suffix,
+                                  int decimalPlaces,
+                                  std::function<void()> lambda,
+                                  const juce::String labelText);
+
     juce::Viewport viewport; // Der Viewport für das Scrollen
     std::unique_ptr<juce::Component> componentContainer; // Container für die Slider und Labels
 
     // Arrays, um Slider und Checkboxen zu speichern
-    juce::OwnedArray<CustomSliderWithLabel> sliders;
+    //juce::OwnedArray<CustomSliderWithLabel> sliders;
     juce::OwnedArray<CustomCheckbox> checkboxes;
+
+    juce::OwnedArray<juce::Slider> sliders;
 
     //Audioparameter
     ChainSettingsEQ &chainSettings;
