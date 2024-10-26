@@ -336,7 +336,7 @@ void MainComponent::updateHighCutFilters(const ChainSettingsEQ &chainSettings)
 {
     auto *device = deviceManager.getCurrentAudioDevice();
 
-    auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(
+    auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRLowpassHighOrderButterworthMethod(
         chainSettings.highCutFreq, device->getCurrentSampleRate(),
         2 * (chainSettings.highCutSlope + 1));
 

@@ -25,7 +25,7 @@ enum SlopeEQ
 struct ChainSettingsEQ
 {
     float peakFreq {0}, peakGainInDecibels {0}, peakQuality {1.f};
-    float lowCutFreq {0}, highCutFreq {0};
+    float lowCutFreq {200}, highCutFreq {20000};
     SlopeEQ lowCutSlope {SlopeEQ::SlopeEQ_12}, highCutSlope {SlopeEQ::SlopeEQ_12};
 };
 
