@@ -93,14 +93,18 @@ private:
                                   std::function<void()> lambda,
                                   const juce::String labelText);
 
+    void createAndAddCustomCheckbox(std::function<void()> lambda,
+                                    const juce::String labelText);
+
     juce::Viewport viewport; // Der Viewport für das Scrollen
     std::unique_ptr<juce::Component> componentContainer; // Container für die Slider und Labels
 
     // Arrays, um Slider und Checkboxen zu speichern
     //juce::OwnedArray<CustomSliderWithLabel> sliders;
-    juce::OwnedArray<CustomCheckbox> checkboxes;
+    //juce::OwnedArray<CustomCheckbox> checkboxes;
 
     juce::OwnedArray<juce::Slider> sliders;
+    juce::OwnedArray<juce::ToggleButton> checkboxes;
 
     //Audioparameter
     ChainSettingsEQ &chainSettings;

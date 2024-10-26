@@ -94,6 +94,14 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                              [this, &compressorAll] { compressorAll.setRatio(static_cast<float>(sliders[4]->getValue())); },
                              "CompAllRatio");
     // ========================================================================================================================== //
+    // CompAllBypassed
+    createAndAddCustomCheckbox([this, &compAllBypassed] { compAllBypassed = checkboxes[0]->getToggleState(); },
+        "CompAllBypassed");
+    // ========================================================================================================================== //
+    // CompAllMute
+    createAndAddCustomCheckbox([this, &compAllMute] { compAllMute = checkboxes[1]->getToggleState(); },
+        "CompAllMute");
+    // ========================================================================================================================== //
     // ---------------------------------------------------- LOW COMP ------------------------------------------------------------ //
     // CompLowAttack
     createAndAddCustomSlider(5.0f,
@@ -134,6 +142,18 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                              1,
                              [this, &lowBandComp] { lowBandComp.compressor.setRatio(static_cast<float>(sliders[8]->getValue())); },
                              "CompLowRatio");
+    // ========================================================================================================================== //
+    // CompLowBypassed
+    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.bypassed = checkboxes[2]->getToggleState(); },
+        "CompLowBypassed");
+    // ========================================================================================================================== //
+    // CompLowMute
+    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.mute = checkboxes[3]->getToggleState(); },
+        "CompLowMute");
+    // // ========================================================================================================================== //
+    // CompLowSolo
+    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.solo = checkboxes[4]->getToggleState(); },
+        "CompLowSolo");
     // ========================================================================================================================== //
     // ---------------------------------------------------- MID COMP ------------------------------------------------------------ //
     // CompMidAttack
@@ -176,6 +196,18 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                              [this, &midBandComp] { midBandComp.compressor.setRatio(static_cast<float>(sliders[12]->getValue())); },
                              "CompMidRatio");
     // ========================================================================================================================== //
+    // CompMidBypassed
+    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.bypassed = checkboxes[5]->getToggleState(); },
+        "CompMidBypassed");
+    // ========================================================================================================================== //
+    // CompMidMute
+    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.mute = checkboxes[6]->getToggleState(); },
+        "CompMidMute");
+    // // ========================================================================================================================== //
+    // CompMidSolo
+    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.solo = checkboxes[7]->getToggleState(); },
+        "CompMidSolo");
+    // ========================================================================================================================== //
     // ---------------------------------------------------- HIGH COMP ----------------------------------------------------------- //
     // CompHighAttack
     createAndAddCustomSlider(5.0f,
@@ -216,6 +248,18 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                              1,
                              [this, &highBandComp] { highBandComp.compressor.setRatio(static_cast<float>(sliders[16]->getValue())); },
                              "CompHighRatio");
+    // ========================================================================================================================== //
+    // CompHighBypassed
+    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.bypassed = checkboxes[8]->getToggleState(); },
+        "CompHighBypassed");
+    // ========================================================================================================================== //
+    // CompHighMute
+    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.mute = checkboxes[9]->getToggleState(); },
+        "CompHighMute");
+    // // ========================================================================================================================== //
+    // CompHighSolo
+    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.solo = checkboxes[10]->getToggleState(); },
+        "CompHighSolo");
     // ========================================================================================================================== //
     // ---------------------------------------------------- CROSSOVERS ---------------------------------------------------------- //
     // lowmidcrossover
@@ -452,6 +496,12 @@ void ConfigComponent::resized()
         yOffset += compHeight*2 + 10;
     }
 
+    for (auto* button : checkboxes)
+    {
+        button->setBounds(20, yOffset, sliderRect.getWidth(), compHeight);
+        yOffset += compHeight * 2 + 10;
+    }
+
     //viewport.setBounds(getLocalBounds());
 //    viewport.setBounds(getLocalBounds());
 //
@@ -573,4 +623,17 @@ void ConfigComponent::createAndAddCustomSlider(float minRange, float maxRange, f
     label->setColour(juce::Label::textColourId, juce::Colours::black);
     label->setFont(juce::Font(fontSize, juce::Font::bold));
     label->attachToComponent(slider, false);
+}
+
+void ConfigComponent::createAndAddCustomCheckbox(std::function<void()> lambda, const juce::String labelText)
+{
+    //float fontSize = 20.0f;
+
+    // Button
+    auto* button = new juce::ToggleButton(labelText);
+    button->onClick = lambda;
+    button->setColour(juce::ToggleButton::textColourId, juce::Colours::black);
+    button->setColour(juce::ToggleButton::tickColourId, juce::Colours::black);
+    checkboxes.add(button);
+    componentContainer->addAndMakeVisible(button);
 }
