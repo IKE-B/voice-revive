@@ -69,7 +69,6 @@ public:
     ConfigComponent(ChainSettingsEQ &chSe,
                     juce::dsp::Gain<float> &gain,
                     juce::dsp::Compressor<float> &compressorAll,
-                    bool &compAllMute,
                     bool &compAllBypassed,
                     CompressorBand &lowBandComp,
                     CompressorBand &midBandComp,
@@ -110,7 +109,6 @@ private:
     ChainSettingsEQ &chainSettings;
     juce::dsp::Gain<float> &gain;
     juce::dsp::Compressor<float> &compressorAll;
-    bool &compAllMute;
     bool &compAllBypassed;
     CompressorBand &lowBandComp;
     CompressorBand &midBandComp;

@@ -6,7 +6,6 @@ MainComponent::MainComponent()
     configTab {chainSettingsMember,
               gain,
               compressorAll,
-              compAllMute,
               compAllBypassed,
               lowBandComp,
               midBandComp,
@@ -144,15 +143,12 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     }
 
     //CompressorAll
-    if (!compAllMute)
-    {
-        auto block = juce::dsp::AudioBlock<float>(tempBuffer);
-        auto context = juce::dsp::ProcessContextReplacing<float>(block);
+    auto blockCompAll = juce::dsp::AudioBlock<float>(tempBuffer);
+    auto contextCompAll = juce::dsp::ProcessContextReplacing<float>(blockCompAll);
 
-        context.isBypassed = compAllMute;
+    contextCompAll.isBypassed = compAllBypassed;
 
-        compressorAll.process(context);
-    }
+    compressorAll.process(contextCompAll);
 
     //Multiband Compressor
     splitBands(tempBuffer);

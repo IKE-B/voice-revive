@@ -6,7 +6,6 @@
 ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                                  juce::dsp::Gain<float> &gain,
                                  juce::dsp::Compressor<float> &compressorAll,
-                                 bool &compAllMute,
                                  bool &compAllBypassed,
                                  CompressorBand &lowBandComp,
                                  CompressorBand &midBandComp,
@@ -16,7 +15,6 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
     : chainSettings {chSe},
     gain {gain},
     compressorAll {compressorAll},
-    compAllMute {compAllMute},
     compAllBypassed {compAllBypassed},
     lowBandComp {lowBandComp},
     midBandComp {midBandComp},
@@ -98,10 +96,6 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
     createAndAddCustomCheckbox([this, &compAllBypassed] { compAllBypassed = checkboxes[0]->getToggleState(); },
         "CompAllBypassed");
     // ========================================================================================================================== //
-    // CompAllMute
-    createAndAddCustomCheckbox([this, &compAllMute] { compAllMute = checkboxes[1]->getToggleState(); },
-        "CompAllMute");
-    // ========================================================================================================================== //
     // ---------------------------------------------------- LOW COMP ------------------------------------------------------------ //
     // CompLowAttack
     createAndAddCustomSlider(5.0f,
@@ -144,15 +138,15 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                              "CompLowRatio");
     // ========================================================================================================================== //
     // CompLowBypassed
-    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.bypassed = checkboxes[2]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.bypassed = checkboxes[1]->getToggleState(); },
         "CompLowBypassed");
     // ========================================================================================================================== //
     // CompLowMute
-    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.mute = checkboxes[3]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.mute = checkboxes[2]->getToggleState(); },
         "CompLowMute");
     // // ========================================================================================================================== //
     // CompLowSolo
-    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.solo = checkboxes[4]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &lowBandComp] { lowBandComp.solo = checkboxes[3]->getToggleState(); },
         "CompLowSolo");
     // ========================================================================================================================== //
     // ---------------------------------------------------- MID COMP ------------------------------------------------------------ //
@@ -197,15 +191,15 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                              "CompMidRatio");
     // ========================================================================================================================== //
     // CompMidBypassed
-    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.bypassed = checkboxes[5]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.bypassed = checkboxes[4]->getToggleState(); },
         "CompMidBypassed");
     // ========================================================================================================================== //
     // CompMidMute
-    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.mute = checkboxes[6]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.mute = checkboxes[5]->getToggleState(); },
         "CompMidMute");
     // // ========================================================================================================================== //
     // CompMidSolo
-    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.solo = checkboxes[7]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &midBandComp] { midBandComp.solo = checkboxes[6]->getToggleState(); },
         "CompMidSolo");
     // ========================================================================================================================== //
     // ---------------------------------------------------- HIGH COMP ----------------------------------------------------------- //
@@ -250,15 +244,15 @@ ConfigComponent::ConfigComponent(ChainSettingsEQ &chSe,
                              "CompHighRatio");
     // ========================================================================================================================== //
     // CompHighBypassed
-    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.bypassed = checkboxes[8]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.bypassed = checkboxes[7]->getToggleState(); },
         "CompHighBypassed");
     // ========================================================================================================================== //
     // CompHighMute
-    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.mute = checkboxes[9]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.mute = checkboxes[8]->getToggleState(); },
         "CompHighMute");
     // // ========================================================================================================================== //
     // CompHighSolo
-    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.solo = checkboxes[10]->getToggleState(); },
+    createAndAddCustomCheckbox([this, &highBandComp] { highBandComp.solo = checkboxes[9]->getToggleState(); },
         "CompHighSolo");
     // ========================================================================================================================== //
     // ---------------------------------------------------- CROSSOVERS ---------------------------------------------------------- //

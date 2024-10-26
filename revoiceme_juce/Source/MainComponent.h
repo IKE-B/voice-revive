@@ -115,7 +115,6 @@ private:
 
     //CompressorAll
     juce::dsp::Compressor<float> compressorAll;
-    bool compAllMute = false;
     bool compAllBypassed = false;
 
     void prepareCompAll(int samplesPerBlock, double sampleRate);
