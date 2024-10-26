@@ -457,16 +457,16 @@ void MainComponent::resized()
     //diagnosticsBox.setBounds(rect);
 }
 
-static juce::String getListOfActiveBits(const juce::BigInteger &b)
-{
-    juce::StringArray bits;
-
-    for (auto i = 0; i <= b.getHighestBit(); ++i)
-        if (b[i])
-            bits.add(juce::String(i));
-
-    return bits.joinIntoString(", ");
-}
+//static juce::String getListOfActiveBits(const juce::BigInteger &b)
+//{
+//    juce::StringArray bits;
+//
+//    for (auto i = 0; i <= b.getHighestBit(); ++i)
+//        if (b[i])
+//            bits.add(juce::String(i));
+//
+//    return bits.joinIntoString(", ");
+//}
 
 juce::AudioProcessorValueTreeState::ParameterLayout MainComponent::createParameterLayout()
 {
