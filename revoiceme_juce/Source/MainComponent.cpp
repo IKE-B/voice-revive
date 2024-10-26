@@ -336,7 +336,7 @@ void MainComponent::updateHighCutFilters(const ChainSettingsEQ &chainSettings)
 {
     auto *device = deviceManager.getCurrentAudioDevice();
 
-    auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(
+    auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRLowpassHighOrderButterworthMethod(
         chainSettings.highCutFreq, device->getCurrentSampleRate(),
         2 * (chainSettings.highCutSlope + 1));
 
@@ -457,16 +457,16 @@ void MainComponent::resized()
     //diagnosticsBox.setBounds(rect);
 }
 
-static juce::String getListOfActiveBits(const juce::BigInteger &b)
-{
-    juce::StringArray bits;
-
-    for (auto i = 0; i <= b.getHighestBit(); ++i)
-        if (b[i])
-            bits.add(juce::String(i));
-
-    return bits.joinIntoString(", ");
-}
+//static juce::String getListOfActiveBits(const juce::BigInteger &b)
+//{
+//    juce::StringArray bits;
+//
+//    for (auto i = 0; i <= b.getHighestBit(); ++i)
+//        if (b[i])
+//            bits.add(juce::String(i));
+//
+//    return bits.joinIntoString(", ");
+//}
 
 juce::AudioProcessorValueTreeState::ParameterLayout MainComponent::createParameterLayout()
 {
