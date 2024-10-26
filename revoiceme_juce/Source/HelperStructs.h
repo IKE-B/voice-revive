@@ -25,7 +25,7 @@ enum SlopeEQ
 struct ChainSettingsEQ
 {
     float peakFreq {0}, peakGainInDecibels {0}, peakQuality {1.f};
-    float lowCutFreq {0}, highCutFreq {0};
+    float lowCutFreq {20.f}, highCutFreq {2000.f};
     SlopeEQ lowCutSlope {SlopeEQ::SlopeEQ_12}, highCutSlope {SlopeEQ::SlopeEQ_12};
 };
 
@@ -38,6 +38,8 @@ struct CompressorBand
     bool bypassed = false;
     bool mute = false;
     bool solo = false;
+
+    juce::dsp::Compressor<float> compressor;
 
     void prepare(const juce::dsp::ProcessSpec &spec)
     {
@@ -54,6 +56,6 @@ struct CompressorBand
         compressor.process(context);
     }
 private:
-    juce::dsp::Compressor<float> compressor;
+    
 };
 
