@@ -67,11 +67,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     // This function will be called when the audio device is started, or when
     // its settings (i.e. sample rate, block size, etc) are changed.
 
-    // You can use this function to initialise any resources you might need,
-    // but be careful - it will be called on the audio thread, not the GUI thread.
-
-    // For more details, see the help for AudioProcessor::prepareToPlay()
-
+    //EQ
     prepareEQ(samplesPerBlockExpected, sampleRate);
 
     //Gain
@@ -88,7 +84,6 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
 {
     // Your audio-processing code goes here!
 
-    // For more details, see the help for AudioProcessor::getNextAudioBlock() 
     auto *device = deviceManager.getCurrentAudioDevice();
     auto activeInputChannels = device->getActiveInputChannels();
     auto activeOutputChannels = device->getActiveOutputChannels();
@@ -113,20 +108,7 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
         }
     }
 
-    //EQ-processBlock logic:
-    /*juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels = device->getActiveInputChannels().getHighestBit() + 1;
-    auto totalNumOutputChannels = device->getActiveOutputChannels().getHighestBit() + 1;
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        tempBuffer.clear(i, 0, tempBuffer.getNumSamples());*/
-
+    //EQ processing
     updateFilters();
 
     juce::dsp::AudioBlock<float> block(tempBuffer);
@@ -236,31 +218,6 @@ void MainComponent::releaseResources()
 {
     // This will be called when the audio device stops, or when it is being
     // restarted due to a setting change.
-
-    // For more details, see the help for AudioProcessor::releaseResources()
-}
-
-// update all values with the UI values
-void MainComponent::updateState() 
-{
-    gain.setGainDecibels(5.f);
-
-    // Solo, Mute and Bypass also needs to be set for compressors
-    compressorAll.setAttack(50.0f);
-    compressorAll.setRelease(50.0f);
-    compressorAll.setThreshold(0.0f);
-    compressorAll.setRatio(3.0f);
-
-    //update MultBandCompressor
-
-    lowMidCrossover = 400.0f;
-    LP1.setCutoffFrequency(lowMidCrossover);
-    HP1.setCutoffFrequency(lowMidCrossover);
-
-    midHighCrossover = 2000.0f;
-    AP2.setCutoffFrequency(midHighCrossover);
-    LP2.setCutoffFrequency(midHighCrossover);
-    HP2.setCutoffFrequency(midHighCrossover);
 }
 
 //==============================================================================
@@ -271,7 +228,6 @@ void MainComponent::prepareGain(int samplesPerBlock, double sampleRate)
     auto* device = deviceManager.getCurrentAudioDevice();
     juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock);
-    //Attention: includes also inactive output channels, maybe has to be adjusted to 1
     spec.numChannels = static_cast<juce::uint32>(device->getActiveOutputChannels().countNumberOfSetBits());
     spec.sampleRate = sampleRate;
 
@@ -288,7 +244,6 @@ void MainComponent::prepareEQ(int samplesPerBlock, double sampleRate)
     juce::dsp::ProcessSpec spec;
 
     spec.maximumBlockSize = samplesPerBlock;
-    //maybe adjust to be dynamically
     spec.numChannels = 1;
     spec.sampleRate = sampleRate;
 
@@ -429,8 +384,6 @@ void MainComponent::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    // You can add your drawing code here!
 }
 
 void MainComponent::resized()
@@ -439,92 +392,4 @@ void MainComponent::resized()
     // If you add any child components, this is where you should
     // update their positions.
     tabs.setBounds(getLocalBounds());
-
-    //auto rect = getLocalBounds();
-
-    /*audioSetupComp.setBounds(rect.removeFromLeft(proportionOfWidth(0.6f)));
-    rect.reduce(10, 10);*/
-
-    /*auto topLine(rect.removeFromTop(20));
-    cpuUsageLabel.setBounds(topLine.removeFromLeft(topLine.getWidth() / 2));
-    cpuUsageText.setBounds(topLine);
-    rect.removeFromTop(20);*/
-
-    //diagnosticsBox.setBounds(rect);
-}
-
-//static juce::String getListOfActiveBits(const juce::BigInteger &b)
-//{
-//    juce::StringArray bits;
-//
-//    for (auto i = 0; i <= b.getHighestBit(); ++i)
-//        if (b[i])
-//            bits.add(juce::String(i));
-//
-//    return bits.joinIntoString(", ");
-//}
-
-juce::AudioProcessorValueTreeState::ParameterLayout MainComponent::createParameterLayout()
-{
-    juce::AudioProcessorValueTreeState::ParameterLayout layout;
-
-    using namespace juce;
-
-    // define GUI Layout for Gain, minValue is -24 and maxValue is +24
-    auto gainRange = NormalisableRange<float>(-24.f, 24.f, 0.5f, 1.f);
-    layout.add(std::make_unique<AudioParameterFloat>("Gain", "Gain", gainRange, 0));
-
-    // define GUI Layout for Threshold, minValue is -60 maxValue is 12 and it's linear with steps of 1, defaultValue is 0
-    auto thresholdRange = NormalisableRange<float>(-60, 12, 1, 1);
-    layout.add(std::make_unique<AudioParameterFloat>("Threshold Low Band", "Threshold Low Band", thresholdRange, 0));
-    layout.add(std::make_unique<AudioParameterFloat>("Threshold Mid Band", "Threshold Mid Band", thresholdRange, 0));
-    layout.add(std::make_unique<AudioParameterFloat>("Threshold High Band", "Threshold High Band", thresholdRange, 0));
-    layout.add(std::make_unique<AudioParameterFloat>("Threshold All", "Threshold All", thresholdRange, 0));
-
-    // define GUI Layout for Attack, minValue is 5, maxValue is 500 and it's linear with steps of 1, defaultValue is 50
-    auto attackReleaseRange = NormalisableRange<float>(5, 500, 1, 1);
-    layout.add(std::make_unique<AudioParameterFloat>("Attack Low Band", "Attack Low Band", attackReleaseRange, 50));
-    layout.add(std::make_unique<AudioParameterFloat>("Attack Mid Band", "Attack Mid Band", attackReleaseRange, 50));
-    layout.add(std::make_unique<AudioParameterFloat>("Attack High Band", "Attack High Band", attackReleaseRange, 50));
-    layout.add(std::make_unique<AudioParameterFloat>("Attack All", "Attack All", attackReleaseRange, 50));
-
-    // define GUI Layout for Release with same values as for Attack
-    layout.add(std::make_unique<AudioParameterFloat>("Release Low Band", "Release Low Band", attackReleaseRange, 250));
-    layout.add(std::make_unique<AudioParameterFloat>("Release Mid Band", "Release Mid Band", attackReleaseRange, 250));
-    layout.add(std::make_unique<AudioParameterFloat>("Release High Band", "Release High Band", attackReleaseRange, 250));
-    layout.add(std::make_unique<AudioParameterFloat>("Release All", "Release All", attackReleaseRange, 250));
-
-    // define GUI Layout for Ratio
-    auto choices = std::vector<double>{ 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 15, 20, 50, 100 };
-    juce::StringArray sa;
-    for (auto choice : choices)
-    {
-        sa.add(juce::String(choice, 1));
-    }
-    layout.add(std::make_unique<AudioParameterChoice>("Ratio Low Band", "Ratio Low Band", sa, 3));
-    layout.add(std::make_unique<AudioParameterChoice>("Ratio Mid Band", "Ratio Mid Band", sa, 3));
-    layout.add(std::make_unique<AudioParameterChoice>("Ratio High Band", "Ratio High Band", sa, 3));
-    layout.add(std::make_unique<AudioParameterChoice>("Ratio All", "Ratio All", sa, 3));
-
-    // add Bypass
-    layout.add(std::make_unique<AudioParameterBool>("Bypassed Low Band", "Bypassed Low Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Bypassed Mid Band", "Bypassed Mid Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Bypassed High Band", "Bypassed High Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Bypassed All", "Bypassed All", false));
-
-    // add Solo
-    layout.add(std::make_unique<AudioParameterBool>("Solo Low Band", "Solo Low Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Solo Mid Band", "Solo Mid Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Solo High Band", "Solo High Band", false));
-
-    // add Mute
-    layout.add(std::make_unique<AudioParameterBool>("Mute Low Band", "Mute Low Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Mute Mid Band", "Mute Mid Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Mute High Band", "Mute High Band", false));
-    layout.add(std::make_unique<AudioParameterBool>("Mute All", "Mute All", false));
-
-    layout.add(std::make_unique<AudioParameterFloat>("Low Mid Crossover Freq", "Low Mid Crossover Freq", NormalisableRange<float>(20, 999, 1, 1), 400));
-    layout.add(std::make_unique<AudioParameterFloat>("Mid High Crossover Freq", "Mid High Crossover Freq", NormalisableRange<float>(1000, 20000, 1, 1), 2000));
-
-    return layout;
 }
