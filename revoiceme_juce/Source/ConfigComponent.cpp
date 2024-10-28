@@ -351,6 +351,8 @@ void ConfigComponent::paint(juce::Graphics& g)
     g.drawRect (getLocalBounds(), 4);   // draw an outline around the component
 }
 
+
+/*
 void ConfigComponent::resized()
 {
     auto rect = getLocalBounds();
@@ -365,7 +367,7 @@ void ConfigComponent::resized()
 
     for (auto *slider : sliders)
     {
-        slider->setBounds(20, yOffset, sliderRect.getWidth(), compHeight);
+        slider->setBounds(20, yOffset, sliderRect.getWidth()-30, compHeight);
         yOffset += compHeight*2 + 10;
     }
 
@@ -375,6 +377,39 @@ void ConfigComponent::resized()
         yOffset += compHeight * 2 + 10;
     }
 }
+
+*/
+
+
+void ConfigComponent::resized()
+{
+    auto rect = getLocalBounds();
+    rect.removeFromTop(10);
+    viewport.setBounds(rect);
+    rect.removeFromRight(viewport.getScrollBarThickness() + 40);
+
+    int compHeight = 20;
+    int yOffset = 30;
+
+
+    for (auto* slider : sliders)
+    {
+        slider->setBounds(20, yOffset, rect.getWidth() - 30, compHeight);
+        yOffset += compHeight * 2 + 10;
+    }
+
+   
+    for (auto* button : checkboxes)
+    {
+        button->setBounds(20, yOffset, rect.getWidth() - 30, compHeight);
+        yOffset += compHeight * 2 + 10;
+    }
+
+   
+    componentContainer->setSize(rect.getWidth(), yOffset + 20); 
+}
+
+
 
 void ConfigComponent::createAndAddCustomSlider(float minRange, float maxRange, float stepSize, float startValue, const juce::String suffix, int decimalPlaces, std::function<void()> lambda, const juce::String labelText)
 {
@@ -389,6 +424,7 @@ void ConfigComponent::createAndAddCustomSlider(float minRange, float maxRange, f
     slider->setTextBoxStyle(juce::Slider::TextBoxLeft, false, slider->getTextBoxWidth(), slider->getTextBoxHeight());
     slider->setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
     slider->setNumDecimalPlacesToDisplay(decimalPlaces);
+    slider->setScrollWheelEnabled(false);
     sliders.add(slider);
     slider->onValueChange = lambda;
     componentContainer->addAndMakeVisible(slider);
