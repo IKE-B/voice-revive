@@ -1,1 +1,0 @@
-C:\Users\maxig\projectVoice\voice-revive\juce\SimpleEQ\Builds\VisualStudio2022\x64\Debug\VST3\SimpleEQ.dll
