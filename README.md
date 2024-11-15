@@ -97,3 +97,17 @@ Every other smartphone, directional microphone, speaker, and 2-to-1 (AUX) adapte
 ## Acknowledgements
 
 We express our gratitude to the [Vogel Stiftung Dr. Eckernkamp](https://www.vogel-stiftung.de/) as well as the [ImDS](https://www.ukw.de/interdisziplinaere-einrichtungen/institut-fuer-medizinische-datenwissenschaften/startseite/#) for their support. Without their support, this project would not have been possible.
+
+## Project-Onboarding
+
+For general information about the work flow and Hardware-Setup read [CONTRIBUTING](./CONTRIBUTING.md) or [Hardware-Setup](#hardware-setup).
+
+This section is devided into two parts. One for the Backend developement and use of JUCE and one for the Frontend developement and Flutter.
+
+### JUCE
+
+For the Audioprocessing in the Backend we use the framework [JUCE](https://juce.com/). The current version of the app is also made using this framework. It has a very good documentation and tutorials of its own. The whole Github-Project is also found in the [juce folder](./juce-8.0.0-windows/) of this Repro. To install it and set it up you can just follow one of the following YouTube-Videos. As an IDE for the AudioPlugins we used Visual Studio 2022 and for the app Android Studio.
+
+For our Audio-Plugins we followed 2 YouTube-Tutorials about an [Equalizer](https://www.youtube.com/watch?v=i_Iq4_Kd7Rc) and a [Compressor](https://www.youtube.com/watch?v=H1IvfOfBsVQ&t=143s). Every necessary concept is explained. It is important to mention, that we just followed them until the UI Design started.
+
+### Flutter
