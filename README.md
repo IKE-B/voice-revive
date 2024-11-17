@@ -7,8 +7,9 @@ This project aims to **improve the speech quality of laryngectomy patients** by 
 - [Overview](#overview)
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
-- [Hardware-Setup](#hardware-setup)
-- [Contributing](#contributing)
+  - [Developer Documentation](#developer-documentation)
+  - [User Documentation](#user-documentation)
+  - [Hardware-Setup](#hardware-setup)
 - [Acknowledgements](#acknowledgements)
 
 ## Overview
@@ -49,8 +50,10 @@ The two biggest challenges are implementing audio transformations that can achie
 to avoid jamming the speech of the users themselves.
 Additionally, the app must be developed with special care for **usability and accessibility**, as the target group consists of elderly people in most parts.
 
-The app is developed in [Flutter](https://flutter.dev/), so it can be deployed on both **Android and iOS** devices.
+The app frontend is developed in [Flutter](https://flutter.dev/), so it can be deployed on both **Android and iOS** devices.
 Audio processing is done in [JUCE](https://juce.com/), a *C++* framework for audio applications, which makes a real-time audio processing possible.
+
+**Disclaimer: Due to complications in connecting the app frontend to the audio processing backend, the currently actual-in-use UI is a prototype entirely written in JUCE/C++!**
 
 ## Project Structure
 
@@ -60,11 +63,29 @@ Audio processing is done in [JUCE](https://juce.com/), a *C++* framework for aud
 
 `docs` contains documentation related files of the project. Do not consult the contents of this folder directly, but rather use the [human readable online documentation](https://ike-b.github.io/voice-revive/).
 
-`revoiceme` contains the source code of the app.
+`juce-8.0.0-windows/JUCE` contains a complete clone of the JUCE framework and a setup tutorial to ease setting up the audio processing development environment. Consult [CONTRIBUTING.md](CONTRIBUTING.md#juce-development-environment) for further information. 
+
+`revoiceme` contains the source code of the app frontend written in Flutter/Dart. [CONTRIBUTING.md](CONTRIBUTING.md#project-structure) explains its contents in more detail. 
+
+`revoiceme_juce` contains the source code for the app backend, written in JUCE/C++ - as well as a prototype UI.
+
+`CONTRIBUTING.md` holds developer documentation, like opening issues, **setting up the development environment**, integrating changes into the main codebase, etc.
 
 ## Documentation
 
-An up-to-date **code documentation** (of the app frontend written in Dart/Flutter) of this project is available online at: [ike-b.github.io/voice-revive](https://ike-b.github.io/voice-revive/).
+### Developer Documentation
+
+An up-to-date **code documentation** (of the app frontend) of this project is available online at: [ike-b.github.io/voice-revive](https://ike-b.github.io/voice-revive/).
+
+Consult the [CONTRIBUTING.md](CONTRIBUTING.md) for all further information about the complete development cycle of this project:
+
+- from how to opening issues
+- to **setting up the development environment**
+- to eventually integrating changes into the main codebase.
+
+### User Documentation
+
+This section describes how to use the **JUCE/C++ UI prototype**.
 
 The usage itself is quite intuitive.
 After opening the app, the "Start/Stop" button can be used to toggle the voice changing.
@@ -76,11 +97,15 @@ Because of its pure experimental nature, the app currently does not store config
 Stopping the voice changing via the button causes the app to select the default devices again (instead of the last user selected devices).
 So changing the periphery must be done while voice changing is active.
 
-## Contributing
+**While the usage itself is intuitive, finding a good configuration is not. This is something a professional needs to do.**
 
-Consult the [CONTRIBUTING.md](CONTRIBUTING.md) for all necessary information about the complete development cycle of this project: from how to opening issues, to setting up the development environment, to eventually integrating changes into the main codebase.
+Here is a **quick start guide** to avoid infinite feedback loops:
 
-## Hardware-Setup
+1. Set your device volume to 0.
+2. Set the *LowCutFreq* to a value between 2000 to 5000.
+3. Set your device volume to your desired level.
+
+### Hardware-Setup
 
 To run the app succesfully on a smartphone, an **externally** connected **directional** mircophone and an **external** speaker are needed.
 Additionally, to connect both at the same time, a 2-to-1 (AUX) adapter is needed as well.
@@ -97,17 +122,3 @@ Every other smartphone, directional microphone, speaker, and 2-to-1 (AUX) adapte
 ## Acknowledgements
 
 We express our gratitude to the [Vogel Stiftung Dr. Eckernkamp](https://www.vogel-stiftung.de/) as well as the [ImDS](https://www.ukw.de/interdisziplinaere-einrichtungen/institut-fuer-medizinische-datenwissenschaften/startseite/#) for their support. Without their support, this project would not have been possible.
-
-## Project-Onboarding
-
-For general information about the work flow and Hardware-Setup read [CONTRIBUTING](./CONTRIBUTING.md) or [Hardware-Setup](#hardware-setup).
-
-This section is devided into two parts. One for the Backend developement and use of JUCE and one for the Frontend developement and Flutter.
-
-### JUCE
-
-For the Audioprocessing in the Backend we use the framework [JUCE](https://juce.com/). The current version of the app is also made using this framework. It has a very good documentation and tutorials of its own. The whole Github-Project is also found in the [juce folder](./juce-8.0.0-windows/) of this Repro. To install it and set it up you can just follow one of the following YouTube-Videos. As an IDE for the AudioPlugins we used Visual Studio 2022 and for the app Android Studio.
-
-For our Audio-Plugins we followed 2 YouTube-Tutorials about an [Equalizer](https://www.youtube.com/watch?v=i_Iq4_Kd7Rc) and a [Compressor](https://www.youtube.com/watch?v=H1IvfOfBsVQ&t=143s). Every necessary concept is explained. It is important to mention, that we just followed them until the UI Design started.
-
-### Flutter
