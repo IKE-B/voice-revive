@@ -2,6 +2,25 @@
 
 A guide on how to contribute to 'voice-revive'.
 
+## Table of Contents
+
+- [Branching](#branching)
+    - [Main](#main)
+    - [Dev](#dev)
+    - [Feature Branches](#feature-branches)
+- [Commits](#commits)
+- [Issue Tracking](#issue-tracking)
+    - [Issue States](#issue-states)
+    - [Issue Creation](#issue-creation)
+    - [Priority & Size](#priority--size)
+- [JUCE Development Environment](#juce-development-environment)
+- [Flutter Development Environment](#flutter-development-environment)
+    - [Formatting](#formatting)
+    - [Linting](#linting)
+    - [Flutter Project Structure](#project-structure)
+- [CI/CD](#cicd)
+    - [Documentation](#documentation)
+
 ## Branching
 
 ### Main
@@ -120,9 +139,15 @@ Each issue needs a **size estimation**. There are four different values availabl
 - `Large`: The issue can probably be dealt with within a single month of concentrated work by the team.
 - `Longterm`: The issue probably needs at least a month of concentrated work by the team.
 
-## Development Environment
+## JUCE Development Environment
 
-The project is developed in Visual Studio Code (VSCode).  
+For the Audioprocessing in the Backend we use the framework [JUCE](https://juce.com/). The current version of the app is also made using this framework. It has a very good documentation and tutorials of its own. The whole Github-Project is also found in the [juce folder](./juce-8.0.0-windows/) of this Repro. To install it and set it up you can just follow one of the following YouTube-Videos. As an IDE for the AudioPlugins we used Visual Studio 2022 and for the app Android Studio.
+
+For our Audio-Plugins we followed 2 YouTube-Tutorials about an [Equalizer](https://www.youtube.com/watch?v=i_Iq4_Kd7Rc) and a [Compressor](https://www.youtube.com/watch?v=H1IvfOfBsVQ&t=143s). Every necessary concept is explained. It is important to mention, that we just followed them until the UI Design started.
+
+## Flutter Development Environment
+
+The app frontend is developed in Visual Studio Code (VSCode).  
 VSCode's in-built [workspace extensions and settings recommendation system](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions) is used to share and synchronize configurations of the development environment across the team.  
 These workspace extensions and settings **must** be used by all contributors to ensure a consistent development environment.
 
@@ -137,7 +162,7 @@ If done right, the virtual device should also be available in VSCode when runnin
 
 ### Formatting
 
-The project uses the [dart formatter](https://dart.dev/tools/dartfmt) to format the code.
+The project uses the pre-bundled [dart formatter](https://dart.dev/tools/dartfmt) to format the code.
 Usually, VSCode should automatically pick it after installing the [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter) extension.
 A good practice is to format often, especially before committing.
 Therefore, the formatter should be set to format on save.
@@ -151,10 +176,6 @@ It is not in the workspace recommendations, as it is unfortunately archived (amo
 By itself, it can only be run manually on a single file via the command palette (`Ctrl+Shift+P`): `Flutter Stylizer`.
 Be careful while using it, because it can produce big git diffs.
 
-## CI/CD
-
-The project uses GitHub Actions for CI/CD.
-
 ### Linting
 
 The project uses the [dart analyzer](https://pub.dev/packages/analyzer) to check for linting issues.
@@ -167,9 +188,25 @@ Applying the [formatter](#formatting) can already resolve many linting issues.
 Many issues are also automatically fixable by running the command `dart fix --apply` in the terminal.
 To only preview the changes, use `dart fix --dry-run`.
 
+### Project Structure
+
+This section discusses the contents of the `lib` directory, the conventional folder that holds a Flutter project's source code.
+
+ - `core` holds the individual components, like widgets, reusable functions, styles, etc. that can be (re-)used to build a screen in the app.
+   - `routers` holds the global routing logic, i.e. which path (with which display text and icon) leads to which screen.
+   - `utils` holds constants and reusable components to reduce code duplicates.
+     - `styles` holds styling information; `default_theme.dart` inside it overrides Flutter's default styles, basically setting our own 'default', and defines some style constants.
+     - `widgets` holds the main building blocks of the app frontend, each widget gets its own directory; the directory hierarchy below could be flattened in the future and, retrospectively, was admittetly over-engineered.
+- `screens` holds the screens that are composed out of smaller components; the directory hierarchy below could be flattened in the future and, retrospectively, was admittetly over-engineered.
+- `main.dart` is the entry point of the app.
+
+## CI/CD
+
+The project uses GitHub Actions for CI/CD.
+
 ### Documentation
 
-This project uses [dart doc](https://dart.dev/tools/dart-doc) to generate the app documentation.
+This project uses [dart doc](https://dart.dev/tools/dart-doc) to generate the app frontend documentation.
 It scans the source code for **documentation comments** and generates HTML files into `docs`.
 **Do not** delete the contents of `docs/categories` as they are manually created rather than generated.
 The configuration for `dart doc` resides in `dartdoc_options.yaml`.
