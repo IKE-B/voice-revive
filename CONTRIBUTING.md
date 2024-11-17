@@ -49,7 +49,7 @@ This project uses the [Conventional Commits](https://marketplace.visualstudio.co
 
 ## Issue Tracking
 
-**GitHub Projects** is used for issue tracking and creation (and implicitly for branch creation).
+**GitHub Projects** is used for issue tracking and creation (and implicitly for branch creation). The **issue board** of this project can be found [here](https://github.com/orgs/IKE-B/projects/6).
 
 ### Issue States
 
