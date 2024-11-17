@@ -77,6 +77,8 @@ Audio processing is done in [JUCE](https://juce.com/), a *C++* framework for aud
 
 An up-to-date **code documentation** (of the app frontend) of this project is available online at: [ike-b.github.io/voice-revive](https://ike-b.github.io/voice-revive/).
 
+The **issue board** of this project can be found [here](https://github.com/orgs/IKE-B/projects/6).
+
 Consult the [CONTRIBUTING.md](CONTRIBUTING.md) for all further information about the complete development cycle of this project:
 
 - from how to opening issues
